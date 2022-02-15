@@ -16,6 +16,11 @@ SRCS = srcs/main.c
 
 SRCS_BONUS =
 
+LIBFT_LDIR	= $(shell pwd)/Libft
+FT_LIBFT 	= $(LIBFT_LDIR)/libft.a
+LIBFT_NAME	= ft
+LIBFT_LIB	= -L$(LIBFT_LDIR) -l$(LIBFT_NAME)
+
 HEADER = include
 OBJECTS = $(SRCS:.c = .o)
 OBJECTS_BONUS = $(SRCS_BONUS:.c = .o)
@@ -30,22 +35,26 @@ endif
 
 .PHONY: all clean fclean re bonus
 
+%.o: %.c
+	$(CC) $(CFLAGS) -c $^ -o $@ -I $(HEADER) $(LIBFT_LIB)
+
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@
+$(FT_LIBFT):
+	make -C $(LIBFT_LDIR)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $^ -o $@ -I $(HEADER)
+$(NAME): $(OBJS) $(FT_LIBFT)
+	$(CC) $(CFLAGS) $^ -o $@
 
 bonus:
 	make WITH_BONUS=1 all
 
 clean:
+	make -C $(LIBFT_LDIR) clean
 	rm -rf $(OBJECTS) $(OBJECTS_BONUS)
 
 fclean:
+	make -C $(LIBFT_LDIR) fclean
 	rm -rf minishell minishell_bonus $(OBJECTS) $(OBJECTS_BONUS)
 
 re: fclean all
-
