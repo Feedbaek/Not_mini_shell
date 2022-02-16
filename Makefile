@@ -22,8 +22,8 @@ LIBFT_NAME	= ft
 LIBFT_LIB	= -L$(LIBFT_LDIR) -l$(LIBFT_NAME)
 
 HEADER = include
-OBJECTS = $(SRCS:.c = .o)
-OBJECTS_BONUS = $(SRCS_BONUS:.c = .o)
+OBJECTS = $(SRCS:.c=.o)
+OBJECTS_BONUS = $(SRCS_BONUS:.c=.o)
 
 ifdef WITH_BONUS
 	NAME = minishell_bonus
@@ -44,7 +44,7 @@ $(FT_LIBFT):
 	make -C $(LIBFT_LDIR)
 
 $(NAME): $(OBJS) $(FT_LIBFT)
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@ $(LIBFT_LIB)
 
 bonus:
 	make WITH_BONUS=1 all
