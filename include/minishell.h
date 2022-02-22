@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/22 15:18:24 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/02/22 16:21:17 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+# include <pipex.h>
 
 # include "../Libft/libft.h"
 
