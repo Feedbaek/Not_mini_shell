@@ -1,34 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/22 16:52:35 by minskim2         ###   ########.fr       */
+/*   Created: 2022/02/22 16:47:24 by minskim2          #+#    #+#             */
+/*   Updated: 2022/02/22 16:52:51 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include <minishell.h>
 
-# include <unistd.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+void	redirect_in(const char *file)
+{
+	int	fd;
 
-# include <pipex.h>
+	fd = open(file, O_RDWR);
+	if (fd < 0)
+	{
+		perror(file);
+		exit (1);
+	}
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+}
 
-# include "../Libft/libft.h"
+void	redirect_out(const char *file)
+{
+	int	fd;
 
-void	print_prompt(char **env);
-void	ft_echo(char *s);
-void	ft_cd(char *s);
-void	ft_pwd(void);
-void	ft_env(char **env);
-void	ft_exit(void);
-
-#endif
+	fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		perror(file);
+		exit (1);
+	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+}

@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/22 16:52:35 by minskim2         ###   ########.fr       */
+/*   Created: 2022/02/22 16:47:05 by minskim2          #+#    #+#             */
+/*   Updated: 2022/02/22 16:47:48 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include <minishell.h>
 
-# include <unistd.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
 
-# include <pipex.h>
-
-# include "../Libft/libft.h"
-
-void	print_prompt(char **env);
-void	ft_echo(char *s);
-void	ft_cd(char *s);
-void	ft_pwd(void);
-void	ft_env(char **env);
-void	ft_exit(void);
-
-#endif
+	i = 0;
+	while (s1[i] && s2[i] && i < n)
+	{
+		if (((unsigned char *)s1)[i] != ((unsigned char *)s2)[i])
+			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+		i++;
+	}
+	if (i == n)
+		i--;
+	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+}
