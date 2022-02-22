@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/22 00:03:27 by sungmcho         ###   ########.fr       */
+/*   Created: 2021/06/02 21:12:02 by sungmcho          #+#    #+#             */
+/*   Updated: 2021/06/16 16:15:54 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+char	*ft_strdup(const char *s1)
+{
+	size_t	idx;
+	char	*temp;
 
-# include "../Libft/libft.h"
-
-void	print_prompt(char **env);
-void	ft_echo(char *s);
-void	ft_cd(char *s);
-void	ft_pwd(void);
-void	ft_env(char **env);
-
-#endif
+	idx = 0;
+	temp = (char *)malloc(ft_strlen(s1) + 1);
+	if (!temp)
+		return (NULL);
+	while (s1[idx])
+	{
+		temp[idx] = s1[idx];
+		idx++;
+	}
+	temp[idx] = '\0';
+	return (temp);
+}

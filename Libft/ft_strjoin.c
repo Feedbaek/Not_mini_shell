@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/22 00:03:27 by sungmcho         ###   ########.fr       */
+/*   Created: 2021/06/03 15:08:45 by sungmcho          #+#    #+#             */
+/*   Updated: 2021/06/13 18:21:07 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*rslt;
+	size_t	s1_len;
+	size_t	s2_len;
 
-# include "../Libft/libft.h"
-
-void	print_prompt(char **env);
-void	ft_echo(char *s);
-void	ft_cd(char *s);
-void	ft_pwd(void);
-void	ft_env(char **env);
-
-#endif
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	rslt = (char *)malloc(s1_len + s2_len + 1);
+	if (!rslt)
+		return (NULL);
+	ft_strlcpy(rslt, s1, s1_len + 1);
+	ft_strlcat(rslt, s2, s1_len + s2_len + 1);
+	return (rslt);
+}

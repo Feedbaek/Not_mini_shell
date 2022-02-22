@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/22 00:03:27 by sungmcho         ###   ########.fr       */
+/*   Created: 2021/06/02 17:34:30 by sungmcho          #+#    #+#             */
+/*   Updated: 2021/06/13 18:20:11 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	idx;
+	char	*s1_temp;
+	char	*s2_temp;
 
-# include "../Libft/libft.h"
-
-void	print_prompt(char **env);
-void	ft_echo(char *s);
-void	ft_cd(char *s);
-void	ft_pwd(void);
-void	ft_env(char **env);
-
-#endif
+	idx = 0;
+	s1_temp = (char *)s1;
+	s2_temp = (char *)s2;
+	if (n == 0)
+		return (0);
+	while (s1_temp[idx] && s2_temp[idx] && idx < (n - 1))
+	{
+		if (s1_temp[idx] != s2_temp[idx])
+			break ;
+		idx++;
+	}
+	return ((unsigned char)s1_temp[idx] - (unsigned char)s2_temp[idx]);
+}

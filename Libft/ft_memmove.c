@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/22 00:03:27 by sungmcho         ###   ########.fr       */
+/*   Created: 2021/06/01 18:02:39 by sungmcho          #+#    #+#             */
+/*   Updated: 2021/06/17 11:26:26 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+void	*ft_memmove(void *dst, const void *src, size_t len)
+{
+	size_t			idx;
+	unsigned char	*src_temp;
+	unsigned char	*dst_temp;
 
-# include "../Libft/libft.h"
-
-void	print_prompt(char **env);
-void	ft_echo(char *s);
-void	ft_cd(char *s);
-void	ft_pwd(void);
-void	ft_env(char **env);
-
-#endif
+	idx = -1;
+	src_temp = (unsigned char *)src;
+	dst_temp = (unsigned char *)dst;
+	if (dst > src)
+		while (++idx < len)
+			dst_temp[len - idx - 1] = src_temp[len - idx - 1];
+	else
+		while (++idx < len)
+			dst_temp[idx] = src_temp[idx];
+	return (dst);
+}
