@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:50:35 by minskim2          #+#    #+#              #
-#    Updated: 2022/02/22 00:01:50 by sungmcho         ###   ########.fr        #
+#    Updated: 2022/02/22 15:25:23 by minskim2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ SRCS = srcs/main.c \
 		srcs/builtins/ft_echo.c \
 		srcs/builtins/ft_cd.c \
 		srcs/builtins/ft_pwd.c \
-		srcs/builtins/ft_env.c
+		srcs/builtins/ft_env.c \
+		srcs/builtins/ft_exit.c
 
 SRCS_BONUS =
 
@@ -41,7 +42,7 @@ endif
 .PHONY: all clean fclean re bonus
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $^ -o $@ -I$(HEADER)
+	$(CC) $(CFLAGS) -c $^ -o $@ -I$(HEADER) -lreadline
 
 all: $(NAME)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/22 00:03:27 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:18:24 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ void	ft_echo(char *s);
 void	ft_cd(char *s);
 void	ft_pwd(void);
 void	ft_env(char **env);
+void	ft_exit(void);
 
 #endif
