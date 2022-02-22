@@ -3,22 +3,32 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:50:35 by minskim2          #+#    #+#              #
-#    Updated: 2022/01/06 16:10:31 by minskim2         ###   ########.fr        #
+#    Updated: 2022/02/22 00:01:50 by sungmcho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 CFLAGS = -Werror -Wextra -Wall
-SRCS = srcs/main.c
+SRCS = srcs/main.c \
+		srcs/prompts/prompt.c \
+		srcs/builtins/ft_echo.c \
+		srcs/builtins/ft_cd.c \
+		srcs/builtins/ft_pwd.c \
+		srcs/builtins/ft_env.c
 
 SRCS_BONUS =
 
-HEADER = include
-OBJECTS = $(SRCS:.c = .o)
-OBJECTS_BONUS = $(SRCS_BONUS:.c = .o)
+HEADER = $(shell pwd)/include
+OBJECTS = $(SRCS:.c=.o)
+OBJECTS_BONUS = $(SRCS_BONUS:.c=.o)
+
+LIBFT_LDIR	= $(shell pwd)/Libft
+FT_LIBFT 	= $(LIBFT_LDIR)/libft.a
+LIBFT_NAME	= ft
+LIBFT_LIB	= -L$(LIBFT_LDIR) -l$(LIBFT_NAME)
 
 ifdef WITH_BONUS
 	NAME = minishell_bonus
@@ -30,22 +40,29 @@ endif
 
 .PHONY: all clean fclean re bonus
 
+%.o: %.c
+	$(CC) $(CFLAGS) -c $^ -o $@ -I$(HEADER)
+
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@
+$(FT_LIBFT):
+	make -C $(LIBFT_LDIR)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $^ -o $@ -I $(HEADER)
+$(NAME): $(FT_LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) $^ -o $@ -lreadline $(LIBFT_LIB)
 
 bonus:
 	make WITH_BONUS=1 all
 
 clean:
+	make -C $(LIBFT_LDIR) clean
 	rm -rf $(OBJECTS) $(OBJECTS_BONUS)
 
-fclean:
-	rm -rf minishell minishell_bonus $(OBJECTS) $(OBJECTS_BONUS)
+fclean: clean
+	make -C $(LIBFT_LDIR) fclean
+	rm -rf minishell minishell_bonus
 
 re: fclean all
 
+debug:
+	$(CC) -g $(CFLAGS) $(SRCS) -o minishell -I$(HEADER) -lreadline

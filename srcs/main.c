@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 16:10:42 by minskim2          #+#    #+#             */
-/*   Updated: 2022/01/06 16:23:22 by minskim2         ###   ########.fr       */
+/*   Created: 2022/02/18 10:32:20 by sungmcho          #+#    #+#             */
+/*   Updated: 2022/02/22 00:00:36 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	main(int argc, char **argv, char **envp)
+#include "../include/minishell.h"
+
+static void	print_banner(void)
 {
+	printf("\n  _   _       _     __  __ _       ");
+	printf("_   ____  _          _ _ \n");
+	printf(" | \\ | | ___ | |_  |  \\/  (_)_ ");
+	printf("__ (_) / ___|| |__   ___| | |\n");
+	printf(" |  \\| |/ _ \\| __| | |\\/| | | ");
+	printf("'_ \\| | \\___ \\| '_ \\ / _ \\ | |\n");
+	printf(" | |\\  | (_) | |_  | |  | | ");
+	printf("| | | | |  ___) | | | |  __/ | |\n");
+	printf(" |_| \\_|\\___/ \\__| |_|  |_|_|_|");
+	printf(" |_|_| |____/|_| |_|\\___|_|_|\n\n\n");
+}
+
+int	main(int ac, char **av, char **env)
+{
+	(void)ac;
+	(void)av;
+	print_banner();
+	print_prompt(env);
 	return (0);
 }
