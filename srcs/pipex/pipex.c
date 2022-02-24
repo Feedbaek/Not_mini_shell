@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 15:43:42 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/22 16:57:46 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:26:15 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	cmd_init(const char *line, t_cmd *x, char **envp)
 {
 	char	**split;
 
-	split = ft_split(line, ' ');
+	split = minskim2_split(line, ' ');
 	if (!split)
 	{
 		perror("split error");

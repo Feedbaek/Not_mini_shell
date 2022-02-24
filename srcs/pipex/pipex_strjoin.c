@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   pipex_strjoin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 20:45:45 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/22 16:49:23 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:29:25 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-size_t	ft_strlen(const char *str)
+size_t	minskim2_strlen(const char *str)
 {
 	size_t	cnt;
 
@@ -25,13 +25,13 @@ size_t	ft_strlen(const char *str)
 	return (cnt);
 }
 
-static	size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize)
+static	size_t	minskim2_strlcpy(char *dest, const char *src, size_t dstsize)
 {
 	size_t	i;
 	size_t	len;
 
 	i = 0;
-	len = ft_strlen(src);
+	len = minskim2_strlen(src);
 	while (i < len && i + 1 < dstsize)
 	{
 		dest[i] = (unsigned char)src[i];
@@ -42,7 +42,7 @@ static	size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize)
 	return (len);
 }
 
-static	size_t	ft_strlcat(char *dest, const char *src, size_t size)
+static	size_t	minskim2_strlcat(char *dest, const char *src, size_t size)
 {
 	size_t	i;
 
@@ -69,16 +69,16 @@ static	size_t	ft_strlcat(char *dest, const char *src, size_t size)
 	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*minskim2_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
 
 	if (!s1 || !s2)
 		return (0);
-	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	str = (char *)malloc(sizeof(char) * (minskim2_strlen(s1) + minskim2_strlen(s2) + 1));
 	if (!str)
 		return (0);
-	(void)ft_strlcpy(str, s1, ft_strlen(s1) + 1);
-	(void)ft_strlcat(str, s2, ft_strlen(s1) + ft_strlen(s2) + 1);
+	(void)minskim2_strlcpy(str, s1, minskim2_strlen(s1) + 1);
+	(void)minskim2_strlcat(str, s2, minskim2_strlen(s1) + minskim2_strlen(s2) + 1);
 	return (str);
 }
