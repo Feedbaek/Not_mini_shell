@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/22 00:02:00 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/22 16:24:25 by minskim2         ###   ########.fr       */
+/*   Created: 2022/02/22 16:47:05 by minskim2          #+#    #+#             */
+/*   Updated: 2022/02/22 16:47:48 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	ft_env(char **env)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	while (*env)
+	size_t	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && i < n)
 	{
-		ft_putendl_fd(*env, 1);
-		env++;
+		if (((unsigned char *)s1)[i] != ((unsigned char *)s2)[i])
+			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+		i++;
 	}
+	if (i == n)
+		i--;
+	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
 }

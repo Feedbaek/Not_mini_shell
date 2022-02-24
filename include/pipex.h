@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/22 00:02:00 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/22 16:24:25 by minskim2         ###   ########.fr       */
+/*   Created: 2022/02/22 16:09:11 by minskim2          #+#    #+#             */
+/*   Updated: 2022/02/22 16:58:27 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#ifndef PIPEX_H
+# define  PIPEX_H
 
-void	ft_env(char **env)
+# include <minishell.h>
+
+typedef	struct	s_cmd
 {
-	while (*env)
-	{
-		ft_putendl_fd(*env, 1);
-		env++;
-	}
-}
+	int		pipe[2];
+	pid_t	pid;
+	int		status;
+	char	*cmd;
+	char	**argv;
+	char	**path;
+}				t_cmd;
+
+int	pipex(char **argv, char **envp);
+
+#endif
