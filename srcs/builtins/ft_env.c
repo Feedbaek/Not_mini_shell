@@ -6,11 +6,11 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 00:02:00 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/23 11:42:37 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/02/24 22:42:12 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include <minishell.h>
 
 void	ft_env(t_env *env)
 {

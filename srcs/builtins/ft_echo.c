@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 22:47:23 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/21 23:42:22 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/02/22 16:24:24 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include <minishell.h>
 
 static void	print_w_quote(char *s, long len)
 {

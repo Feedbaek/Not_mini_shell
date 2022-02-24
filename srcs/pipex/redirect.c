@@ -1,23 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/21 22:53:09 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/22 16:24:26 by minskim2         ###   ########.fr       */
+/*   Created: 2022/02/22 16:47:24 by minskim2          #+#    #+#             */
+/*   Updated: 2022/02/22 16:52:51 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	ft_pwd(void)
+void	redirect_in(const char *file)
 {
-	char	*pwd;
+	int	fd;
 
-	pwd = NULL;
-	pwd = getcwd(pwd, 1);
-	ft_putendl_fd(pwd, 1);
-	free(pwd);
+	fd = open(file, O_RDWR);
+	if (fd < 0)
+	{
+		perror(file);
+		exit (1);
+	}
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+}
+
+void	redirect_out(const char *file)
+{
+	int	fd;
+
+	fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		perror(file);
+		exit (1);
+	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
 }

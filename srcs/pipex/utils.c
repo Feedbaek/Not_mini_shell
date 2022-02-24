@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/21 22:53:09 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/22 16:24:26 by minskim2         ###   ########.fr       */
+/*   Created: 2022/02/22 16:47:05 by minskim2          #+#    #+#             */
+/*   Updated: 2022/02/24 17:34:41 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	ft_pwd(void)
+int	minskim2_strncmp(const char *s1, const char *s2, size_t n)
 {
-	char	*pwd;
+	size_t	i;
 
-	pwd = NULL;
-	pwd = getcwd(pwd, 1);
-	ft_putendl_fd(pwd, 1);
-	free(pwd);
+	i = 0;
+	while (s1[i] && s2[i] && i < n)
+	{
+		if (((unsigned char *)s1)[i] != ((unsigned char *)s2)[i])
+			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+		i++;
+	}
+	if (i == n)
+		i--;
+	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
 }

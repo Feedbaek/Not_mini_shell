@@ -6,11 +6,11 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 22:48:56 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/22 10:55:41 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/02/24 22:42:18 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include <minishell.h>
 
 void	ft_cd(char *s)
 {

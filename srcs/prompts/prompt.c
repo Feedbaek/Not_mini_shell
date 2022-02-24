@@ -6,11 +6,11 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 22:47:43 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/23 14:31:22 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/02/24 22:42:04 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include <minishell.h>
 
 // static char	*find_path(char *cmd)
 // {

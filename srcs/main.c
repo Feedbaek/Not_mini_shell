@@ -6,11 +6,11 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 10:32:20 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/23 02:40:10 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/02/24 22:42:00 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include <minishell.h>
 
 static void	print_banner(void)
 {

@@ -6,7 +6,7 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/23 14:30:45 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/02/24 22:40:47 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <string.h>
 # include <sys/errno.h>
+
+# include <pipex.h>
 
 # include "../Libft/libft.h"
 
