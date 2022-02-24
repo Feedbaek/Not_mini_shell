@@ -1,32 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/21 22:48:56 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/22 10:55:41 by sungmcho         ###   ########.fr       */
+/*   Created: 2022/02/23 11:25:35 by sungmcho          #+#    #+#             */
+/*   Updated: 2022/02/23 14:37:25 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_cd(char *s)
+static void	del_env_lst(t_env *env, t_env *prev)
 {
-	int	i;
+	prev->next = env->next;
+	free(env->key);
+	free(env->value);
+	free(env);
+}
 
-	i = 0;
-	while (s[i] == ' ')
-		i++;
-	if (!ft_strncmp(s + i, "..", ft_strlen(s) - i) && ft_strlen(s) - i == 2)
+void	ft_unset(t_env *env, char *s)
+{
+	t_env	*prev;
+	t_env	*start;
+
+	start = env;
+	while (*s == ' ')
+		s++;
+	while (env)
 	{
-		if (chdir("..") == -1)
-			printf("cd: %s: %s\n", s + i, strerror(errno));
+		prev = env;
+		if (!ft_strncmp(env->key, s, ft_strlen(env->key)))
+		{
+			del_env_lst(env, prev);
+			break ;
+		}
+		env = env->next;
 	}
-	else
-	{
-		if (chdir(s + i) == -1)
-			printf("cd: %s: %s\n", s + i, strerror(errno));
-	}
+	env = start;
 }
