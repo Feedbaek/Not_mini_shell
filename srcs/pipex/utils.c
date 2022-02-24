@@ -6,13 +6,13 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:47:05 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/22 16:47:48 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:34:41 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	minskim2_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
 

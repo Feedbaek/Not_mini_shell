@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   pipex_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 20:52:14 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/22 16:49:16 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:29:36 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	cnt_word(char const *s, char c)
 	return (word);
 }
 
-char	**ft_split(char const *s, char c)
+char	**minskim2_split(char const *s, char c)
 {
 	char	**ret;
 	char	*str;
@@ -88,7 +88,7 @@ char	**ft_split(char const *s, char c)
 		ret[i] = insert_word(str, c);
 		if (!ret[i])
 			return (mem_free(ret, i));
-		str += ft_strlen(ret[i++]);
+		str += minskim2_strlen(ret[i++]);
 	}
 	ret[i] = 0;
 	return (ret);
