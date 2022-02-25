@@ -1,31 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/22 00:02:00 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/24 22:42:12 by sungmcho         ###   ########.fr       */
+/*   Created: 2022/02/23 11:25:35 by sungmcho          #+#    #+#             */
+/*   Updated: 2022/02/23 14:37:25 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "../../include/minishell.h"
 
-void	ft_env(t_env *env)
+static void	del_env_lst(t_env *env, t_env *prev)
 {
-	t_env	*temp;
+	prev->next = env->next;
+	free(env->key);
+	free(env->value);
+	free(env);
+}
 
-	temp = env;
+void	ft_unset(t_env *env, char *s)
+{
+	t_env	*prev;
+	t_env	*start;
+
+	start = env;
+	while (*s == ' ')
+		s++;
 	while (env)
 	{
-		ft_putstr_fd(env->key, 1);
-		ft_putchar_fd('=', 1);
-		if (env->value)
-			ft_putendl_fd(env->value, 1);
-		else
-			ft_putchar_fd('\n', 1);
+		prev = env;
+		if (!ft_strncmp(env->key, s, ft_strlen(env->key)))
+		{
+			del_env_lst(env, prev);
+			break ;
+		}
 		env = env->next;
 	}
-	env = temp;
+	env = start;
 }

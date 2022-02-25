@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 22:48:56 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/22 16:24:24 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/02/24 22:42:18 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,13 @@ void	ft_cd(char *s)
 	while (s[i] == ' ')
 		i++;
 	if (!ft_strncmp(s + i, "..", ft_strlen(s) - i) && ft_strlen(s) - i == 2)
-		chdir("..");
+	{
+		if (chdir("..") == -1)
+			printf("cd: %s: %s\n", s + i, strerror(errno));
+	}
 	else
-		chdir(s + i);
+	{
+		if (chdir(s + i) == -1)
+			printf("cd: %s: %s\n", s + i, strerror(errno));
+	}
 }

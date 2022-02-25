@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 10:32:20 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/22 16:20:26 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/02/24 22:42:00 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,12 @@ static void	print_banner(void)
 
 int	main(int ac, char **av, char **env)
 {
+	t_env	*envp;
+
 	(void)ac;
 	(void)av;
+	envp = cpy_env(env);
 	print_banner();
-	print_prompt(env);
+	print_prompt(envp);
 	return (0);
 }

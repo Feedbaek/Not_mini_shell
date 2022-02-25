@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:50:35 by minskim2          #+#    #+#              #
-#    Updated: 2022/02/24 17:35:35 by minskim2         ###   ########.fr        #
+#    Updated: 2022/02/24 22:41:55 by sungmcho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ SRCS = srcs/main.c \
 		srcs/builtins/ft_echo.c \
 		srcs/builtins/ft_cd.c \
 		srcs/builtins/ft_pwd.c \
+		srcs/builtins/ft_export.c \
+		srcs/builtins/ft_unset.c \
 		srcs/builtins/ft_env.c \
 		srcs/builtins/ft_exit.c \
 		srcs/pipex/pipex.c \
@@ -70,6 +72,3 @@ fclean: clean
 	rm -rf minishell minishell_bonus
 
 re: fclean all
-
-debug:
-	$(CC) -g $(CFLAGS) $(SRCS) -o minishell -I$(HEADER) -lreadline

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 22:47:43 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/22 16:20:40 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/02/24 22:42:04 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 // 	return (res);
 // }
 
-static void	parser(char *s, char **env)
+static void	parser(char *s, t_env *env)
 {
 	while (*s == ' ')
 		s++;
@@ -40,6 +40,10 @@ static void	parser(char *s, char **env)
 		ft_cd(s + 2);
 	else if (!ft_strncmp(s, "pwd", 3))
 		ft_pwd();
+	else if (!ft_strncmp(s, "export", 6))
+		ft_export(env, s + 6);
+	else if (!ft_strncmp(s, "unset", 5))
+		ft_unset(env, s + 5);
 	else if (!ft_strncmp(s, "env", 3))
 		ft_env(env);
 	else if (!ft_strncmp(s, "exit", 4))
@@ -48,7 +52,7 @@ static void	parser(char *s, char **env)
 		ft_putendl_fd(s, 1);
 }
 
-void	print_prompt(char **env)
+void	print_prompt(t_env *env)
 {
 	char	*str;
 
@@ -58,10 +62,7 @@ void	print_prompt(char **env)
 		if (str)
 			parser(str, env);
 		else
-		{
-			printf("exit\n");
 			break ;
-		}
 		add_history(str);
 		free(str);
 	}
