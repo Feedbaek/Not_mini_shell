@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:50:35 by minskim2          #+#    #+#              #
-#    Updated: 2022/02/24 22:41:55 by sungmcho         ###   ########.fr        #
+#    Updated: 2022/02/26 13:31:02 by minskim2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SRCS = srcs/main.c \
 		srcs/pipex/pipex_split.c \
 		srcs/pipex/pipex_strjoin.c \
 		srcs/pipex/redirect.c \
-		srcs/pipex/utils.c
+		srcs/pipex/utils.c \
+		srcs/utils/cpy_env.c
 
 SRCS_BONUS =
 

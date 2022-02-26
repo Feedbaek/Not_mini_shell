@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 14:01:03 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/23 14:31:00 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/02/26 13:15:36 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_env	*new_env_lst(char **k_v)
 
 	new = malloc(sizeof(t_env));
 	if (!new)
-		return (NULL);
+		exit(1);
 	new->key = k_v[0];
 	new->value = k_v[1];
 	new->next = NULL;
@@ -30,6 +30,8 @@ static char	**set_k_v(char *s)
 	char	**res;
 
 	res = ft_split(s, '=');
+	if (!res)
+		exit(1);
 	if (!ft_strchr(res[1], '\'') && !ft_strchr(res[1], '"'))
 		ft_strlcpy(res[1], res[1], ft_strchr(res[1], ' ') - res[1]);
 	else if (ft_strchr(res[1], '\''))
