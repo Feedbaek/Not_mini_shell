@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 22:47:23 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/22 16:24:24 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/02/26 13:13:22 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	ft_echo(char *s)
 	quote = ft_strchr(s, '\'');
 	dquote = ft_strchr(s, '\"');
 	comp = ft_split(s, ' ');
+	if (!comp)
+		exit(1);
 	n = ft_strncmp(comp[0], "-n", 2);
 	if (quote)
 		print_w_quote(quote + 1, ft_strrchr(s, '\'') - quote - 1);
