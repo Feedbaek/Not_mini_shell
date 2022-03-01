@@ -6,11 +6,13 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 10:32:20 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/24 22:42:00 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/01 19:20:46 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+t_state	g_state;
 
 static void	print_banner(void)
 {
@@ -28,12 +30,10 @@ static void	print_banner(void)
 
 int	main(int ac, char **av, char **env)
 {
-	t_env	*envp;
-
 	(void)ac;
 	(void)av;
-	envp = cpy_env(env);
+	cpy_env(env);
 	print_banner();
-	print_prompt(envp);
+	print_prompt();
 	return (0);
 }

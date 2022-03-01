@@ -6,48 +6,32 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 14:30:20 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/23 12:38:17 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/01 19:21:29 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include <minishell.h>
 
-static t_env	*new_lst(char *s)
+int	two_ptr_counter(char **env)
 {
-	t_env	*new;
-	char	**k_v;
-
-	new = malloc(sizeof(t_env));
-	if (!new)
-		return (NULL);
-	k_v = ft_split(s, '=');
-	new->key = k_v[0];
-	new->value = k_v[1];
-	new->next = NULL;
-	free(k_v);
-	return (new);
-}
-
-static void	add_last_lst(t_env *lst, char *s)
-{
-	while (lst->next)
-		lst = lst->next;
-	lst->next = new_lst(s);
-}
-
-t_env	*cpy_env(char **env)
-{
-	int		i;
-	t_env	*temp;
+	int	i;
 
 	i = 0;
 	while (env[i])
+		i++;
+	return (i);
+}
+
+void	cpy_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	g_state.envp = (char **)malloc(sizeof(char *) * (two_ptr_counter(env) + 1));
+	while (env[i])
 	{
-		if (i == 0)
-			temp = new_lst(env[i]);
-		else
-			add_last_lst(temp, env[i]);
+		g_state.envp[i] = ft_strdup(env[i]);
 		i++;
 	}
-	return (temp);
+	g_state.envp[i] = NULL;
 }
