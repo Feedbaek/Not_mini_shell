@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:09:11 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/27 15:48:48 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/01 19:05:01 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ typedef	struct	s_cmd
 	char	*cmd;
 	char	**argv;
 	char	**path;
+	char	**envp;
+	struct s_cmd	*next;
 }				t_cmd;
 
 int		pipex(char **argv, char **envp);

@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 15:43:42 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/27 15:49:11 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/01 18:00:20 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,3 @@ int	pipex(char **argv, char **envp)
 		child_proc(argv, envp, &cmd_arg);
 	return (0);
 }
-
-//int	pipex(char **argv, char **envp)
-//{
-//	t_cmd	cmd_arg;
-
-//	pipe(cmd_arg.pipe);
-//	cmd_arg.pid = fork();
-//	if (cmd_arg.pid > 0)
-//		parent_proc(argv, envp, &cmd_arg);
-//	else
-//		child_proc(argv, envp, &cmd_arg);
-//	return (0);
-//}
