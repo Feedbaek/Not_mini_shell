@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 15:43:42 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/24 17:26:15 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/02/27 15:49:11 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ static void	cmd_init(const char *line, t_cmd *x, char **envp)
 	split = minskim2_split(line, ' ');
 	if (!split)
 	{
-		perror("split error");
+		printf("split error: %s\n", strerror(errno));
 		exit(1);
 	}
 	if (!path_finder(envp, x, split[0]))
 	{
-		perror("init error");
+		printf("init error: %s\n", strerror(errno));
 		exit(1);
 	}
 	x->argv = split;
@@ -45,7 +45,7 @@ static void	parent_proc(char **argv, char **envp, t_cmd *cmd_arg)
 	waitpid(cmd_arg->pid, &(cmd_arg->status), WNOWAIT);
 	if (execve(cmd_arg->cmd, cmd_arg->argv, envp) == -1)
 	{
-		perror("parent error");
+		printf("parent error: %s\n", strerror(errno));
 		exit(1);
 	}
 }
@@ -57,7 +57,7 @@ static void	child_proc(char **argv, char **envp, t_cmd *cmd_arg)
 	cmd_init(argv[2], cmd_arg, envp);
 	if (execve(cmd_arg->cmd, cmd_arg->argv, envp) == -1)
 	{
-		perror("child error");
+		printf("child error: %s\n", strerror(errno));
 		exit(1);
 	}
 }
@@ -74,3 +74,16 @@ int	pipex(char **argv, char **envp)
 		child_proc(argv, envp, &cmd_arg);
 	return (0);
 }
+
+//int	pipex(char **argv, char **envp)
+//{
+//	t_cmd	cmd_arg;
+
+//	pipe(cmd_arg.pipe);
+//	cmd_arg.pid = fork();
+//	if (cmd_arg.pid > 0)
+//		parent_proc(argv, envp, &cmd_arg);
+//	else
+//		child_proc(argv, envp, &cmd_arg);
+//	return (0);
+//}

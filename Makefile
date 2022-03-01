@@ -6,7 +6,7 @@
 #    By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:50:35 by minskim2          #+#    #+#              #
-#    Updated: 2022/02/26 13:31:02 by minskim2         ###   ########.fr        #
+#    Updated: 2022/02/27 16:38:48 by minskim2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,19 @@ SRCS = srcs/main.c \
 		srcs/pipex/utils.c \
 		srcs/utils/cpy_env.c
 
+TEST_SRCS = \
+		srcs/pipex/path_finder.c \
+		srcs/pipex/pipex_split.c \
+		srcs/pipex/pipex_strjoin.c \
+		srcs/pipex/redirect.c \
+		srcs/pipex/utils.c \
+		srcs/pipex/test.c
+
 SRCS_BONUS =
 
 HEADER = $(shell pwd)/include
 OBJECTS = $(SRCS:.c=.o)
+OBJECTS_TEST = $(TEST_SRCS:.c=.o)
 OBJECTS_BONUS = $(SRCS_BONUS:.c=.o)
 
 LIBFT_LDIR	= $(shell pwd)/Libft
@@ -44,16 +53,27 @@ ifdef WITH_BONUS
 	NAME = minishell_bonus
 	OBJS = $(OBJECTS_BONUS)
 else
-	NAME = minishell
-	OBJS = $(OBJECTS)
+	ifdef WITH_TEST
+		NAME = minishell_test
+		OBJS = $(OBJECTS_TEST)
+	else
+		NAME = minishell
+		OBJS = $(OBJECTS)
+	endif
 endif
 
-.PHONY: all clean fclean re bonus
+all: $(NAME)
+
+test:
+	make WITH_TEST=1 all
+
+bonus:
+	make WITH_BONUS=1 all
+
+.PHONY: all clean fclean re bonus test
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $^ -o $@ -I$(HEADER)
-
-all: $(NAME)
 
 $(FT_LIBFT):
 	make -C $(LIBFT_LDIR)
@@ -61,15 +81,12 @@ $(FT_LIBFT):
 $(NAME): $(FT_LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $@ -lreadline $(LIBFT_LIB)
 
-bonus:
-	make WITH_BONUS=1 all
-
 clean:
 	make -C $(LIBFT_LDIR) clean
-	rm -rf $(OBJECTS) $(OBJECTS_BONUS)
+	rm -rf $(OBJECTS) $(OBJECTS_BONUS) $(OBJECTS_TEST)
 
 fclean: clean
 	make -C $(LIBFT_LDIR) fclean
-	rm -rf minishell minishell_bonus
+	rm -rf minishell minishell_bonus minishell_test
 
 re: fclean all

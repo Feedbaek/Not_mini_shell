@@ -1,5 +1,9 @@
 a.out
+in
+out
 minishell
+*test
+*test.c
 .DS_Store
 *.o
 *.a
