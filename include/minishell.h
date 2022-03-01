@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/26 13:29:35 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/01 19:18:55 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,22 @@
 
 # include "../Libft/libft.h"
 
-typedef struct s_env
+typedef struct s_state
 {
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
+	char	**envp;
+}	t_state;
 
-t_env	*cpy_env(char **env);
-void	print_prompt(t_env *env);
+extern t_state	g_state;
+
+void	cpy_env(char **env);
+int		two_ptr_counter(char **env);
+void	print_prompt(void);
 void	ft_echo(char *s);
 void	ft_cd(char *s);
 void	ft_pwd(void);
-void	ft_export(t_env *env, char *s);
-void	ft_unset(t_env *env, char *s);
-void	ft_env(t_env *env);
+void	ft_export(char *s);
+void	ft_unset(char *s);
+void	ft_env(void);
 void	ft_exit(void);
 
 #endif

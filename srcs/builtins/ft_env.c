@@ -6,26 +6,17 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 00:02:00 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/24 22:42:12 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/01 18:00:34 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	ft_env(t_env *env)
+void	ft_env(void)
 {
-	t_env	*temp;
+	int	i;
 
-	temp = env;
-	while (env)
-	{
-		ft_putstr_fd(env->key, 1);
-		ft_putchar_fd('=', 1);
-		if (env->value)
-			ft_putendl_fd(env->value, 1);
-		else
-			ft_putchar_fd('\n', 1);
-		env = env->next;
-	}
-	env = temp;
+	i = -1;
+	while (g_state.envp[++i])
+		ft_putendl_fd(g_state.envp[i], 1);
 }
