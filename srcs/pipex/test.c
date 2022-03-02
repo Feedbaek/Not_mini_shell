@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:53:38 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/01 21:55:16 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/02 18:15:57 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,11 @@ static void	set_pipex(char **argv, t_cmd **head, char **envp)
 			*head = cmd_arg;
 			prev_cmd = cmd_arg;
 		}
-		pipe(cmd_arg->pipe);
+		//pipe(cmd_arg->pipe);
 		prev_cmd->next = cmd_arg;
 		prev_cmd = cmd_arg;
 		cmd_init(argv[i], cmd_arg, envp);
+		cmd_arg->idx = i;
 		i++;
 	}
 }
@@ -97,6 +98,8 @@ void	test_pipex(t_cmd **head, int input_fd, int output_fd)
 {
 	t_cmd	*parser;
 	t_cmd	*prev;
+	int		pipe_a[2];
+	int		pipe_b[2];
 
 	parser = *head;
 	while (parser)
