@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:53:38 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/02 18:15:57 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/03 17:19:05 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,34 +94,71 @@ void	run_execve(t_cmd *cmd_arg, int prev_fd)
 	}
 }
 
+void	cmd_process(t_cmd *cmd_arg, int pipe_read, int pipe_write)
+{
+	dup2(pipe_read, STDIN_FILENO);
+	dup2(pipe_write, STDOUT_FILENO);
+	if (execve(cmd_arg->cmd, cmd_arg->argv, cmd_arg->envp) == -1)
+	{
+		printf("run_execve error: %s\n", strerror(errno));
+		exit(1);
+	}
+}
+
+//void	reconnect_pipe(t_cmd *cmd_arg)
+//{
+
+//}
+
 void	test_pipex(t_cmd **head, int input_fd, int output_fd)
 {
 	t_cmd	*parser;
-	t_cmd	*prev;
 	int		pipe_a[2];
 	int		pipe_b[2];
+	int		read_fd;
+	int		write_fd;
 
 	parser = *head;
 	while (parser)
 	{
+		if (parser->idx % 2 == 0)	// 인덱스 짝수의 경우
+		{
+			pipe(pipe_a);
+			if (parser->idx != 0)
+				close(pipe_b[1]);
+			if (parser->next == 0)
+				close(pipe_a[1]);
+		}
+		else
+		{
+			pipe(pipe_b);
+			close(pipe_a[1]);
+			if (parser->next == 0)
+				close(pipe_b[1]);
+		}
 		parser->pid = fork();
 		if (!parser->pid)
 		{
-			if (!parser->next)
+			if (parser->idx % 2 == 0)
 			{
-				dup2(parser->pipe[0], output_fd);
-				close(parser->pipe[0]);
+				read_fd = pipe_b[0];
+				write_fd = pipe_a[1];
 			}
-			if (parser == *head)
-				run_execve(parser, input_fd);
 			else
-				run_execve(parser, prev->pipe[0]);
+			{
+				read_fd = pipe_a[0];
+				write_fd = pipe_b[1];
+			}
+			if (parser->idx == 0)
+				read_fd = input_fd;
+			else if (parser->next == 0)
+				write_fd = output_fd;
+			cmd_process(parser, read_fd, write_fd);
 		}
-		else
-			waitpid(parser->pid, &(parser->status), WNOWAIT);
-		prev = parser;
+		waitpid(parser->pid, &(parser->status), WNOWAIT);
 		parser = parser->next;
 	}
+	waitpid((*head)->pid, &((*head)->status),0);
 }
 
 
