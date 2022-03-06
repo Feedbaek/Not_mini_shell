@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:47:24 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/27 16:22:54 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/06 20:02:29 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	redirect_in(const char *file)
 	if (fd < 0)
 	{
 		printf("redirect_in error: %s\n", strerror(errno));
-		exit (1);
+		exit(1);
 	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
@@ -34,7 +34,7 @@ void	redirect_out(const char *file)
 	if (fd < 0)
 	{
 		printf("redirect_out error: %s\n", strerror(errno));
-		exit (1);
+		exit(1);
 	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
