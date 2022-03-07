@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:53:38 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/03 17:19:05 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/04 13:45:21 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,6 @@ void	cmd_process(t_cmd *cmd_arg, int pipe_read, int pipe_write)
 	}
 }
 
-//void	reconnect_pipe(t_cmd *cmd_arg)
-//{
-
-//}
-
 void	test_pipex(t_cmd **head, int input_fd, int output_fd)
 {
 	t_cmd	*parser;
@@ -127,14 +122,20 @@ void	test_pipex(t_cmd **head, int input_fd, int output_fd)
 			if (parser->idx != 0)
 				close(pipe_b[1]);
 			if (parser->next == 0)
+			{
+				close(pipe_a[0]);
 				close(pipe_a[1]);
+			}
 		}
 		else
 		{
 			pipe(pipe_b);
 			close(pipe_a[1]);
 			if (parser->next == 0)
+			{
+				close(pipe_b[0]);
 				close(pipe_b[1]);
+			}
 		}
 		parser->pid = fork();
 		if (!parser->pid)
