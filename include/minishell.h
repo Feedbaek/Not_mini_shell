@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/01 21:02:43 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/06 19:45:07 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/wait.h>
 
 # include <pipex.h>
+# include <get_next_line.h>
 
 # include "../Libft/libft.h"
 
