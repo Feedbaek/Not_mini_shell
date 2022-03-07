@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:18:54 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/06 22:33:14 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/07 16:57:42 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int read_tmp(void)
 void	here_doc(char *limiter, int input_fd, int output_fd)
 {
 	int		fd;
-	int		fd2;
 	int		status;
 	char	*str;
 
@@ -68,28 +67,29 @@ void	here_doc(char *limiter, int input_fd, int output_fd)
 	}
 	close(fd);
 	// 이전 명령어로부터 받은 input_fd로 새로 파일 만들어야함
-	fd = create_tmp("tmp2");
+	// 이 아래는 자식 프로세스로 빼야할 듯
+	//fd = create_tmp("tmp2");
 	status = get_next_line(input_fd, &str);
 	while(status > 0)
 	{
-		if (write(fd, str, ft_strlen(str)) < 0 || write(fd, "\n", 1) < 0)
+		if (write(STDIN_FILENO, str, ft_strlen(str)) < 0 || write(STDIN_FILENO, "\n", 1) < 0)
 			exit(1);
 		status = get_next_line(input_fd, &str);
 	}
-	if (write(fd, str, ft_strlen(str)) < 0)
+	if (write(STDIN_FILENO, str, ft_strlen(str)) < 0)
 		exit(1);
 	// heredoc 저장한 파일을 읽어서 쓰기
-	input_fd = read_tmp();
-	status = get_next_line(input_fd, &str);
+	fd = read_tmp();
+	status = get_next_line(fd, &str);
 	while(status > 0)
 	{
-		if (write(fd, str, ft_strlen(str)) < 0 || write(fd, "\n", 1) < 0)
+		if (write(STDIN_FILENO, str, ft_strlen(str)) < 0 || write(STDIN_FILENO, "\n", 1) < 0)
 			exit(1);
-		status = get_next_line(input_fd, &str);
+		status = get_next_line(fd, &str);
 	}
 	if (write(fd, str, ft_strlen(str)) < 0)
 		exit(1);
-	close(input_fd);
+	close(fd);
 
 	dup2(fd, STDIN_FILENO);
 	close(fd);
