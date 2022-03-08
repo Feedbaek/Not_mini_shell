@@ -27,9 +27,17 @@
 
 # include "../Libft/libft.h"
 
+# define PIPE_FLAGS 0
+# define REDIR_LEFT 1
+# define REDIR_RIGHT 2
+# define REDIR_APPEN_LEFT 3
+# define REDIR_APPEN_RIGHT 4
+
 typedef struct s_state
 {
 	char	**envp;
+	int		in_fd;
+	int		out_fd;
 }	t_state;
 
 extern t_state	g_state;
@@ -37,6 +45,7 @@ extern t_state	g_state;
 void	cpy_env(char **env);
 int		two_ptr_counter(char **env);
 void	print_prompt(void);
+void	parser(char *s);
 void	ft_echo(char *s);
 void	ft_cd(char *s);
 void	ft_pwd(void);

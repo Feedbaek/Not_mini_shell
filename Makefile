@@ -14,6 +14,7 @@ CC = gcc
 CFLAGS = -Werror -Wextra -Wall
 SRCS = srcs/main.c \
 		srcs/prompts/prompt.c \
+		srcs/prompts/parser.c \
 		srcs/builtins/ft_echo.c \
 		srcs/builtins/ft_cd.c \
 		srcs/builtins/ft_pwd.c \
@@ -90,3 +91,6 @@ fclean: clean
 	rm -rf minishell minishell_bonus minishell_test
 
 re: fclean all
+
+debug: $(FT_LIBFT)
+	$(CC) $(CFLAGS) -g $(SRCS) -o $(NAME) -lreadline $(LIBFT_LIB) -I$(HEADER)
