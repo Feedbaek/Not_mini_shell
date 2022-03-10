@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_double_pointer.c                              :+:      :+:    :+:   */
+/*   malloc_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/09 13:01:22 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/10 16:36:40 by sungmcho         ###   ########.fr       */
+/*   Created: 2022/03/10 16:23:01 by sungmcho          #+#    #+#             */
+/*   Updated: 2022/03/10 16:34:32 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	free_double_pointer(char ***tab)
+char	*one_ret_null(char **s)
 {
-	int		i;
+	free(*s);
+	return (NULL);
+}
+
+char	**d_ret_null(char ***s)
+{
 	char	**tmp;
 
-	i = 0;
-	tmp = *tab;
-	while (tmp[i])
+	tmp = *s;
+	while (*tmp)
 	{
-		free(tmp[i]);
-		i++;
+		free(*tmp);
+		tmp++;
 	}
 	free(tmp);
+	return (NULL);
 }

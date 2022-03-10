@@ -6,7 +6,7 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 12:59:34 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/10 14:14:54 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/10 16:37:02 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*find_env_var(char *s)
 			free(temp);
 			return (res);
 		}
-		free_double_pointer(temp);
+		free_double_pointer(&temp);
 	}
 	return (ft_strdup(""));
 }
@@ -53,7 +53,7 @@ static char	*join_env_value(char *s, char *s_c_addr)
 	env_k = (char *)malloc(i);
 	if (!env_k)
 		return (NULL);
-	ft_strlcpy(env_k, s_c_addr, i);
+	ft_strlcpy(env_k, s_c_addr, i + 1);
 	env_v = find_env_var(env_k);
 	if (!env_v)
 		return (NULL);

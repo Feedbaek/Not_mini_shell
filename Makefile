@@ -6,7 +6,7 @@
 #    By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:50:35 by minskim2          #+#    #+#              #
-#    Updated: 2022/03/10 12:06:45 by sungmcho         ###   ########.fr        #
+#    Updated: 2022/03/10 17:34:37 by sungmcho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ SRCS = srcs/main.c \
 		srcs/prompts/parser.c \
 		srcs/prompts/process_env_var.c \
 		srcs/utils/cpy_env.c \
-		srcs/utils/free_double_pointer.c
+		srcs/utils/free_double_pointer.c \
+		srcs/utils/malloc_error.c
 
 TEST_SRCS = \
 		srcs/pipex/path_finder.c \

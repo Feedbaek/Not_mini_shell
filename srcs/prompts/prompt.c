@@ -6,7 +6,7 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 22:47:43 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/01 19:49:50 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/10 17:40:50 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void	print_prompt(void)
 		str = readline("bash $ ");
 		if (str)
 		{
-			if (!checker_back_col(str) && !checker_quote(str))
+			if (!checker_back_col(str) && !checker_quote(str) && \
+			ft_strncmp(str, "\n", ft_strlen(str)))
 				parser(str);
 		}
 		else

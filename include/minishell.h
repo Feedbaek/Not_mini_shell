@@ -6,7 +6,7 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/09 15:17:52 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/10 16:36:53 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ void	cpy_env(char **env);
 int		two_ptr_counter(char **env);
 void	print_prompt(void);
 void	parser(char *s);
-void	free_double_pointer(char **tab);
+void	free_double_pointer(char ***tab);
+char	*one_ret_null(char **s);
+char	**d_ret_null(char ***s);
 char	*process_env_var(char *s);
 
 #endif
