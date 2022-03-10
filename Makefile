@@ -6,15 +6,13 @@
 #    By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:50:35 by minskim2          #+#    #+#              #
-#    Updated: 2022/03/06 21:01:29 by minskim2         ###   ########.fr        #
+#    Updated: 2022/03/10 20:31:06 by minskim2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 CFLAGS = -Werror -Wextra -Wall
 SRCS = srcs/main.c \
-		srcs/prompts/prompt.c \
-		srcs/prompts/parser.c \
 		srcs/builtins/ft_echo.c \
 		srcs/builtins/ft_cd.c \
 		srcs/builtins/ft_pwd.c \
@@ -28,7 +26,12 @@ SRCS = srcs/main.c \
 		srcs/pipex/pipex_strjoin.c \
 		srcs/pipex/redirect.c \
 		srcs/pipex/utils.c \
-		srcs/utils/cpy_env.c
+		srcs/prompts/prompt.c \
+		srcs/prompts/parser.c \
+		srcs/prompts/process_env_var.c \
+		srcs/utils/cpy_env.c \
+		srcs/utils/free_double_pointer.c \
+		srcs/utils/malloc_error.c
 
 TEST_SRCS = \
 		srcs/pipex/gnl/get_next_line_utils.c \
