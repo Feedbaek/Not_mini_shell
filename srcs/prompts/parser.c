@@ -6,7 +6,7 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 18:10:14 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/09 15:09:55 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/10 14:07:16 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	set_dlm(char prev, char *de, int word_in)
 	return (1);
 }
 
-static int	count_var(char *s)
+static int	count_chunk(char *s)
 {
 	int		counts;
 	int		word_in;
@@ -51,61 +51,73 @@ static int	count_var(char *s)
 	return (counts);
 }
 
-static int	count_vbar(char *s)
+static char	*str_processer(char *s, char *b_p, char delimiter)
 {
-	int	cnt;
+	char	*res;
+	char	*temp;
 
-	cnt = 0;
+	res = (char *)malloc(s - b_p + 1);
+	if (!res)
+		return (NULL);
+	ft_strlcpy(res, b_p, (size_t)(s - b_p + 1));
+	if (delimiter != '\'')
+	{
+		temp = process_env_var(res);
+		free(res);
+		res = temp;
+	}
+	return (res);
+}
+
+static char	**cmd_spliter(char *s)
+{
+	int		i;
+	char	**res;
+	char	delimiter;
+	char	*b_p;
+
+	i = 0;
+	res = (char **)malloc((count_chunk(s) + 1) * sizeof(char *));
+	if (!res)
+		return (NULL);
 	while (*s)
 	{
-		if (*s == '|')
-			cnt++;
+		if (*s != '\'' && *s != '"' && *s != ' ')
+		{
+			b_p = s;
+			set_dlm(*(s - 1), &delimiter, 0);
+			while (*s && *s != delimiter)
+				++s;
+			res[i] = str_processer(s, b_p, delimiter);
+			if (!res[i++])
+				return (res);
+		}
 		s++;
 	}
-	return (cnt);
+	return (res);
 }
 
 void	parser(char *s)
 {
-	int		i;
 	char	**res;
 	char	**temp;
-	char	delimiter;
-	char	*b_p;
+	int		i;
 
+	i = -1;
 	temp = ft_split(s, '|');
 	if (temp)
 	{
-		while (*temp)
+		while (temp[++i])
 		{
-			
-			temp++;
-		} 
-	}
-	res = (char **)malloc((count_var(s) + 1) * sizeof(char *));
-	if (res)
-	{
-		while (*s)
-		{
-			if (*s != '\'' && *s != '"' && *s != ' ')
+			res = cmd_spliter(temp[i]);
+			if (two_ptr_counter(res) != count_chunk(temp[i]))
 			{
-				b_p = s;
-				if (!*(s - 1))
-					delimiter = ' ';
-				else
-					delimiter = *(s - 1);
-				while (*s && *s != delimiter)
-					++s;
-				res[i] = (char *)malloc(s - b_p + 1);
-				if (!res[i])
-				{
-					free_double_pointer(res);
-					break ;
-				}
-				ft_strlcpy(res[i++], b_p, (size_t)(s - b_p + 1));
+				free_double_pointer(res);
+				break ;
 			}
-			else
-				s++;
+			for (int j = 0; j < two_ptr_counter(res); j++)
+				ft_putendl_fd(res[j], 1);
 		}
 	}
+	free(temp);
 }

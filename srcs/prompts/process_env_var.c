@@ -6,13 +6,13 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 12:59:34 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/09 16:01:26 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/10 14:14:54 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static char	*find_env_var(char *s, int len)
+static char	*find_env_var(char *s)
 {
 	int		i;
 	int		len;
@@ -20,11 +20,10 @@ static char	*find_env_var(char *s, int len)
 	char	*res;
 
 	i = -1;
-	s[i] = '\0';
 	len = ft_strlen(s);
 	while (g_state.envp[++i])
 	{
-		temp = ft_split(g_state.envp[i], "=");
+		temp = ft_split(g_state.envp[i], '=');
 		if (!temp)
 			return (NULL);
 		if (ft_strlen(temp[0]) > ft_strlen(s))
@@ -41,32 +40,54 @@ static char	*find_env_var(char *s, int len)
 	return (ft_strdup(""));
 }
 
-char	*process_env_var(char *s)
+static char	*join_env_value(char *s, char *s_c_addr)
 {
-	char	*var_loc;
-	char	*temp;
 	char	*res;
-	char	*env_val;
+	char	*env_k;
+	char	*env_v;
 	int		i;
 
+	i = 0;
+	while (s_c_addr[i] && s_c_addr[i] != ' ')
+		i++;
+	env_k = (char *)malloc(i);
+	if (!env_k)
+		return (NULL);
+	ft_strlcpy(env_k, s_c_addr, i);
+	env_v = find_env_var(env_k);
+	if (!env_v)
+		return (NULL);
+	res = (char *)malloc(ft_strlen(s) + ft_strlen(env_v) + 1);
+	if (!res)
+		return (NULL);
+	ft_strlcpy(res, s, s_c_addr - s);
+	ft_strlcat(res, env_v, ft_strlen(res) + ft_strlen(env_v) + 1);
+	ft_strlcat(res, s_c_addr + i, ft_strlen(s) + ft_strlen(env_v) + 1);
+	free(env_k);
+	free(env_v);
+	return (res);
+}
+
+char	*process_env_var(char *s)
+{
+	char	*s_c_addr;
+	char	*res;
+	char	*temp;
+
+	res = ft_strdup(s);
 	while (1)
 	{
-		var_loc = ft_strchr(s, '$');
-		if (!var_loc)
+		s_c_addr = ft_strchr(res, '$');
+		if (s_c_addr)
+		{
+			temp = res;
+			res = join_env_value(res, s_c_addr + 1);
+			if (!res)
+				return (NULL);
+			free(temp);
+		}
+		else
 			break ;
-		temp = (char *)malloc(var_loc - s + 1);
-		if (!temp)
-			return (NULL);
-		ft_strlcpy(temp, s, var_loc - s + 1);
-		i = 0;
-		while (!s[i] && s[i] != ' ')
-			i++;
-		env_val = find_env_var(var_loc, i);
-		res = ft_strjoin(temp, env_val);
-		free(temp);
-		if (env_val)
-			free(env_val);
-		s = var_loc + i;
 	}
 	return (res);
 }

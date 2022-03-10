@@ -6,25 +6,23 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 12:00:37 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/09 13:05:35 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/10 12:06:17 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 static void	set_fd(char *s, int token)
-{	
-	char	*file;
-
+{
 	if (token == O_RDONLY)
 	{
-		g_state.in_fd = open(file, token);
+		g_state.in_fd = open(s, token);
 		if (g_state.in_fd < 0)
 			ft_putendl_fd("Errors on opening a file.\n", 2);
 	}
 	else
 	{
-		g_state.out_fd = open(file, token);
+		g_state.out_fd = open(s, token);
 		if (g_state.out_fd < 0)
 			ft_putendl_fd("Errors on opening a file.\n", 2);
 	}
