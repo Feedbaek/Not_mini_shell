@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:53:38 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/03 17:19:05 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/07 11:16:52 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	cmd_process(t_cmd *cmd_arg, int pipe_read, int pipe_write)
 
 //}
 
-void	test_pipex(t_cmd **head, int input_fd, int output_fd)
+void	test_pipex(t_cmd *head, int input_fd, int output_fd)
 {
 	t_cmd	*parser;
 	int		pipe_a[2];
@@ -118,7 +118,7 @@ void	test_pipex(t_cmd **head, int input_fd, int output_fd)
 	int		read_fd;
 	int		write_fd;
 
-	parser = *head;
+	parser = head;
 	while (parser)
 	{
 		if (parser->idx % 2 == 0)	// 인덱스 짝수의 경우
@@ -127,14 +127,20 @@ void	test_pipex(t_cmd **head, int input_fd, int output_fd)
 			if (parser->idx != 0)
 				close(pipe_b[1]);
 			if (parser->next == 0)
+			{
+				close(pipe_a[0]);
 				close(pipe_a[1]);
+			}
 		}
 		else
 		{
 			pipe(pipe_b);
 			close(pipe_a[1]);
 			if (parser->next == 0)
+			{
+				close(pipe_b[0]);
 				close(pipe_b[1]);
+			}
 		}
 		parser->pid = fork();
 		if (!parser->pid)
@@ -158,7 +164,7 @@ void	test_pipex(t_cmd **head, int input_fd, int output_fd)
 		waitpid(parser->pid, &(parser->status), WNOWAIT);
 		parser = parser->next;
 	}
-	waitpid((*head)->pid, &((*head)->status),0);
+	waitpid(head->pid, &(head->status),0);
 }
 
 
@@ -171,9 +177,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	input_fd = 0;
 	output_fd = 1;
-	//printf("%s\n", *(argv+1));
+
 	set_pipex(argv+1, &head, envp);
-	//printf("%s\n", head->cmd);
-	test_pipex(&head, input_fd, output_fd);
+	test_pipex(head, input_fd, output_fd);
+	//here_doc("eof", 0, 1);
 	return (0);
 }

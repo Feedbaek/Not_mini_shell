@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:50:35 by minskim2          #+#    #+#              #
-#    Updated: 2022/03/10 17:34:37 by sungmcho         ###   ########.fr        #
+#    Updated: 2022/03/10 20:31:06 by minskim2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,11 +34,15 @@ SRCS = srcs/main.c \
 		srcs/utils/malloc_error.c
 
 TEST_SRCS = \
+		srcs/pipex/gnl/get_next_line_utils.c \
+		srcs/pipex/gnl/get_next_line_utils2.c \
+		srcs/pipex/gnl/get_next_line.c \
 		srcs/pipex/path_finder.c \
 		srcs/pipex/pipex_split.c \
 		srcs/pipex/pipex_strjoin.c \
 		srcs/pipex/redirect.c \
 		srcs/pipex/utils.c \
+		srcs/pipex/here_doc.c \
 		srcs/pipex/test.c
 
 SRCS_BONUS =
@@ -77,7 +81,7 @@ bonus:
 .PHONY: all clean fclean re bonus test
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $^ -o $@ -I$(HEADER)
+	$(CC) -c $^ -o $@ -I$(HEADER)
 
 $(FT_LIBFT):
 	make -C $(LIBFT_LDIR)
