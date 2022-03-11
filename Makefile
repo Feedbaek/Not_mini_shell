@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:50:35 by minskim2          #+#    #+#              #
 #    Updated: 2022/03/11 12:23:01 by sungmcho         ###   ########.fr        #
@@ -35,11 +35,15 @@ SRCS = srcs/main.c \
 		srcs/signal/signal.c
 
 TEST_SRCS = \
+		srcs/pipex/gnl/get_next_line_utils.c \
+		srcs/pipex/gnl/get_next_line_utils2.c \
+		srcs/pipex/gnl/get_next_line.c \
 		srcs/pipex/path_finder.c \
 		srcs/pipex/pipex_split.c \
 		srcs/pipex/pipex_strjoin.c \
 		srcs/pipex/redirect.c \
 		srcs/pipex/utils.c \
+		srcs/pipex/here_doc.c \
 		srcs/pipex/test.c
 
 SRCS_BONUS =
@@ -84,7 +88,7 @@ bonus:
 .PHONY: all clean fclean re bonus test
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $^ -o $@ -I$(HEADER) $(RL_COMPILE)
+	$(CC) -c $^ -o $@ -I$(HEADER)
 
 $(FT_LIBFT):
 	make -C $(LIBFT_LDIR)
