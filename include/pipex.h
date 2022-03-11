@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:09:11 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/06 21:05:53 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/11 18:05:49 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ typedef	struct	s_cmd
 
 int		minskim2_strncmp(const char *s1, const char *s2, size_t n);
 size_t	minskim2_strlen(const char *str);
-void	redirect_in(const char *file);
-void	redirect_out(const char *file);
+void	redirect_in(const char *file, int input_fd);
+void	redirect_out(const char *file, int output_fd);
 int		path_finder(char **envp, t_cmd *x, char*split);
 char	*minskim2_strjoin(char const *s1, char const *s2);
 char	**minskim2_split(char const *s, char c);
 
 int		pipex(char **argv, char **envp);
-void	here_doc(char *limiter, int input_fd, int output_fd);
+void	here_doc(char *limiter, int write_fd);
 
 #endif
