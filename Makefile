@@ -6,7 +6,7 @@
 #    By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:50:35 by minskim2          #+#    #+#              #
-#    Updated: 2022/03/10 20:31:06 by minskim2         ###   ########.fr        #
+#    Updated: 2022/03/11 12:23:01 by sungmcho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ SRCS = srcs/main.c \
 		srcs/prompts/process_env_var.c \
 		srcs/utils/cpy_env.c \
 		srcs/utils/free_double_pointer.c \
-		srcs/utils/malloc_error.c
+		srcs/utils/malloc_error.c \
+		srcs/signal/signal.c
 
 TEST_SRCS = \
 		srcs/pipex/gnl/get_next_line_utils.c \
@@ -56,6 +57,12 @@ LIBFT_LDIR	= $(shell pwd)/Libft
 FT_LIBFT 	= $(LIBFT_LDIR)/libft.a
 LIBFT_NAME	= ft
 LIBFT_LIB	= -L$(LIBFT_LDIR) -l$(LIBFT_NAME)
+
+# RL_LINKING = -lreadline -L${HOME}/.brew/opt/readline/lib
+# RL_COMPILE = -I${HOME}/.brew/opt/readline/include
+
+RL_LINKING = -lreadline -L/usr/local/opt/readline/lib
+RL_COMPILE = -I/usr/local/opt/readline/include
 
 ifdef WITH_BONUS
 	NAME = minishell_bonus
@@ -87,7 +94,7 @@ $(FT_LIBFT):
 	make -C $(LIBFT_LDIR)
 
 $(NAME): $(FT_LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@ -lreadline $(LIBFT_LIB)
+	$(CC) $(CFLAGS) $^ -o $@ $(RL_LINKING) $(LIBFT_LIB)
 
 clean:
 	make -C $(LIBFT_LDIR) clean
@@ -100,4 +107,4 @@ fclean: clean
 re: fclean all
 
 debug: $(FT_LIBFT)
-	$(CC) $(CFLAGS) -g $(SRCS) -o $(NAME) -lreadline $(LIBFT_LIB) -I$(HEADER)
+	$(CC) $(CFLAGS) -g $(SRCS) -o $(NAME) $(RL_COMPILE) $(RL_LINKING) $(LIBFT_LIB) -I$(HEADER)

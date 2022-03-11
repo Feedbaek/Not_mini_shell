@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/10 20:31:18 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/11 16:02:12 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@
 typedef struct s_state
 {
 	char	**envp;
-	int		in_fd;
-	int		out_fd;
+	int		exit_status;
 }	t_state;
 
 extern t_state	g_state;
@@ -51,6 +50,8 @@ void	ft_unset(char *s);
 void	ft_env(void);
 void	ft_exit(void);
 void	cpy_env(char **env);
+void	handle_signal(int signo);
+void	handle_signal2(int signo);
 int		two_ptr_counter(char **env);
 void	print_prompt(void);
 void	parser(char *s);
