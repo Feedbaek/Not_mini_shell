@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:18:54 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/07 16:57:42 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/11 16:51:29 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,38 +22,64 @@
 	6.	임시 파일 닫기
 */
 
-int	create_tmp(char **name)
+int	create_tmp(char *name)
 {
 	int	fd;
 
-	fd = open(name, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		printf("create_tmp error: %s\n", strerror(errno));
 		exit(1);
 	}
+	free(name);
 	return (fd);
 }
 
-int read_tmp(void)
+int	read_tmp(void)
 {
 	int	fd;
 
-	fd = open("tmp", O_RDWR);
-	if (fd < 0)
+	fd = open("tmp", O_RDONLY);
+	if (fd > 0)
 	{
+		close(fd);
 		printf("read_tmp error: %s\n", strerror(errno));
 		exit(1);
 	}
 }
 
-void	here_doc(char *limiter, int input_fd, int output_fd)
+char	*tmp_naming(void)
+{
+	int	fd;
+	char	*name;
+	char	*new_name;
+
+	name = (char *)malloc(sizeof(char) * 5);
+	ft_strlcpy(name, "_tmp", 5);
+	fd = open(name, O_RDONLY);
+	while (fd > 0)
+	{
+		close(fd);
+		new_name = ft_strjoin(name, "_tmp");
+		free(name);
+		name = new_name;
+		fd = open(name, O_RDONLY);
+	}
+	if (errno != ENOENT)	// 없는 파일의 경우가 아니면
+		exit(1);
+	return (name);
+}
+
+void	here_doc(char *limiter, int write_fd)
 {
 	int		fd;
 	int		status;
 	char	*str;
+	char	*file_name;
 
-	fd = create_tmp("tmp");
+	file_name = tmp_naming();
+	fd = create_tmp(file_name);
 	status = get_next_line(0, &str);
 	if (status < 0)
 		exit(1);
@@ -65,41 +91,6 @@ void	here_doc(char *limiter, int input_fd, int output_fd)
 		if (status < 0)
 			exit(1);
 	}
+	dup2(fd, write_fd);
 	close(fd);
-	// 이전 명령어로부터 받은 input_fd로 새로 파일 만들어야함
-	// 이 아래는 자식 프로세스로 빼야할 듯
-	//fd = create_tmp("tmp2");
-	status = get_next_line(input_fd, &str);
-	while(status > 0)
-	{
-		if (write(STDIN_FILENO, str, ft_strlen(str)) < 0 || write(STDIN_FILENO, "\n", 1) < 0)
-			exit(1);
-		status = get_next_line(input_fd, &str);
-	}
-	if (write(STDIN_FILENO, str, ft_strlen(str)) < 0)
-		exit(1);
-	// heredoc 저장한 파일을 읽어서 쓰기
-	fd = read_tmp();
-	status = get_next_line(fd, &str);
-	while(status > 0)
-	{
-		if (write(STDIN_FILENO, str, ft_strlen(str)) < 0 || write(STDIN_FILENO, "\n", 1) < 0)
-			exit(1);
-		status = get_next_line(fd, &str);
-	}
-	if (write(fd, str, ft_strlen(str)) < 0)
-		exit(1);
-	close(fd);
-
-	dup2(fd, STDIN_FILENO);
-	close(fd);
-	//fd = read_tmp();
-	//status = get_next_line(STDIN_FILENO, &str);
-	//while (status > 0)
-	//{
-	//	write(output_fd, str, ft_strlen(str));
-	//	status = get_next_line(STDIN_FILENO, &str);
-	//}
-	//write(output_fd, str, ft_strlen(str));
-	//close(fd);
 }
