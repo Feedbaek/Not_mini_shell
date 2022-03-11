@@ -6,7 +6,7 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 22:47:43 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/10 17:40:50 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/11 15:27:40 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,18 @@ void	print_prompt(void)
 
 	while (1)
 	{
+		ft_putendl_fd("start bash on prompt func\n", 1);
 		str = readline("bash $ ");
 		if (str)
 		{
 			if (!checker_back_col(str) && !checker_quote(str) && \
 			ft_strncmp(str, "\n", ft_strlen(str)))
 				parser(str);
+			if (ft_strncmp(str, "\n", ft_strlen(str)))
+				add_history(str);
+			free(str);
 		}
 		else
 			break ;
-		if (ft_strncmp(str, "\n", ft_strlen(str)))
-			add_history(str);
-		free(str);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 10:32:20 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/01 19:20:46 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/11 11:35:48 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	cpy_env(env);
+	signal(SIGINT, (void *)handle_signal);
+	signal(SIGQUIT, (void *)handle_signal2);
 	print_banner();
 	print_prompt();
 	return (0);
