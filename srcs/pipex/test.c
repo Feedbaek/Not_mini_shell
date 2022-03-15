@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:53:38 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/11 18:32:25 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/12 19:05:35 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void	connect_redirect(t_cmd *cmd_arg, int *pipe_a, int *pipe_b)
 	}
 }
 
-void	chile_process(t_cmd *cmd_arg, int *pipe_a, int *pipe_b)
+void	child_process(t_cmd *cmd_arg, int *pipe_a, int *pipe_b)
 {
 	int	read_fd;
 	int	write_fd;
@@ -168,7 +168,7 @@ void	test_pipex(t_cmd *head, int input_fd, int output_fd)
 		connect_redirect(parser, pipe_a, pipe_b);	// 파이프를 리다이렉트 시켜줌
 		parser->pid = fork();
 		if (!parser->pid)
-			chile_process(parser, pipe_a, pipe_b);	// 자식 프로세스에서 명령어 실행
+			child_process(parser, pipe_a, pipe_b);	// 자식 프로세스에서 명령어 실행
 		waitpid(parser->pid, &(parser->status), WNOWAIT);	// 비동기 형식으로 진행, 좀비 프로세스를 방지
 		parser = parser->next;
 	}
