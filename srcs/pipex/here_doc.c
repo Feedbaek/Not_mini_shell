@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:18:54 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/15 21:28:09 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/15 22:35:12 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	create_tmp(char *name)
 		printf("create_tmp error: %s\n", strerror(errno));
 		exit(1);
 	}
-	free(name);
 	return (fd);
 }
 
@@ -58,7 +57,7 @@ char	*tmp_naming(void)
 	return (name);
 }
 
-void	here_doc(char *limiter, int read_fd)
+void	here_doc(t_cmd *cmd_arg, char *limiter, int read_fd)
 {
 	int		fd;
 	int		status;
@@ -67,6 +66,7 @@ void	here_doc(char *limiter, int read_fd)
 
 	file_name = tmp_naming();
 	fd = create_tmp(file_name);
+	cmd_arg->tmp = file_name;
 	status = get_next_line(0, &str);
 	if (status < 0)
 		exit(1);
