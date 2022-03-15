@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:18:54 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/11 16:51:29 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/15 20:38:41 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,6 @@ int	create_tmp(char *name)
 	}
 	free(name);
 	return (fd);
-}
-
-int	read_tmp(void)
-{
-	int	fd;
-
-	fd = open("tmp", O_RDONLY);
-	if (fd > 0)
-	{
-		close(fd);
-		printf("read_tmp error: %s\n", strerror(errno));
-		exit(1);
-	}
 }
 
 char	*tmp_naming(void)

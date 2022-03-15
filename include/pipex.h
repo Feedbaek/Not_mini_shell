@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:09:11 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/11 18:05:49 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/15 20:56:58 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,17 @@
 typedef	struct	s_cmd
 {
 	int		idx;
-	int		pipe[2];
 	pid_t	pid;
 	int		status;
 	char	*cmd;
 	char	**argv;
 	char	**path;
 	char	**envp;
+	char	**limiter;
+	char	**file;
+	char	**redirect_in;
+	char	**redirect_out;
+	char	**redirect_out_add;
 	struct s_cmd	*next;
 }				t_cmd;
 
