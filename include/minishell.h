@@ -20,6 +20,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <string.h>
+# include <termios.h>
 # include <sys/errno.h>
 # include <sys/wait.h>
 
@@ -28,17 +29,18 @@
 
 # include "../Libft/libft.h"
 
-# define PIPE_FLAGS 0
-# define REDIR_LEFT 1
-# define REDIR_RIGHT 2
-# define REDIR_APPEN_LEFT 3
-# define REDIR_APPEN_RIGHT 4
-
 typedef struct s_state
 {
 	char	**envp;
+	char	**path;
 	int		exit_status;
 }	t_state;
+
+typedef struct s_parsed
+{
+	char	de;
+	char	*token;
+}	t_parsed;
 
 extern t_state	g_state;
 
@@ -49,15 +51,25 @@ void	ft_export(char *s);
 void	ft_unset(char *s);
 void	ft_env(void);
 void	ft_exit(void);
+
 void	cpy_env(char **env);
 void	handle_signal(int signo);
 void	handle_signal2(int signo);
+
 int		two_ptr_counter(char **env);
-void	print_prompt(void);
-void	parser(char *s);
 void	free_double_pointer(char ***tab);
 char	*one_ret_null(char **s);
 char	**d_ret_null(char ***s);
+void	malloc_error(void);
+
+void	echoctl_on(void);
+void	echoctl_off(void);
+
+void	print_prompt(void);
+void	parser(char *s,  t_cmd **head);
 char	*process_env_var(char *s);
+void	tokenize_line(char **split, t_parsed **parsed);
+int		set_fd(int mode, char **src, char **dst, char **t_f);
+char	**add_arg(char **av, char **arg);
 
 #endif

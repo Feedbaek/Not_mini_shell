@@ -6,11 +6,12 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 22:47:43 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/11 15:27:40 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/15 09:47:48 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+#include <pipex.h>
 
 // static void	execute_func(char *s)
 // {
@@ -31,6 +32,34 @@
 // 	else
 // 		ft_putendl_fd(s, 1);
 // }
+
+static void	free_cmds(t_cmd *tab)
+{
+	t_cmd	*temp;
+
+	while (tab)
+	{
+		if (tab->cmd)
+			free(tab->cmd);
+		if (tab->argv)
+			free_double_pointer(&tab->argv);
+		if (tab->path)
+			free_double_pointer(&tab->path);
+		if (tab->limiter)
+			free(tab->limiter);
+		if (tab->file)
+			free(tab->file);
+		if (tab->redirect_in)
+			free(tab->redirect_in);
+		if (tab->redirect_out)
+			free(tab->redirect_out);
+		if (tab->redirect_out_add)
+			free(tab->redirect_out_add);
+		temp = tab;
+		free(tab);
+		tab = temp->next;
+	}
+}
 
 static int	checker_back_col(char *s)
 {
@@ -71,20 +100,43 @@ static int	checker_quote(char *s)
 
 void	print_prompt(void)
 {
-	char		*str;
+	char	*str;
+	t_cmd	*head;
 
 	while (1)
 	{
-		ft_putendl_fd("start bash on prompt func\n", 1);
 		str = readline("bash $ ");
 		if (str)
 		{
 			if (!checker_back_col(str) && !checker_quote(str) && \
 			ft_strncmp(str, "\n", ft_strlen(str)))
-				parser(str);
+			{
+				parser(str, &head);
+				while (head)
+				{
+					if (head->redirect_in)
+						ft_putendl_fd(head->redirect_in, 1);
+					if (head->redirect_out)
+						ft_putendl_fd(head->redirect_out, 1);
+					if (head->redirect_out_add)
+						ft_putendl_fd(head->redirect_out_add, 1);
+					if (head->limiter)
+						ft_putendl_fd(head->limiter, 1);
+					while (*(head->argv))
+					{
+						ft_putstr_fd(*(head->argv), 1);
+						ft_putchar_fd(' ', 1);
+						(head->argv)++;
+					}
+					ft_putchar_fd('\n', 1);
+					head = head->next;
+				}
+				free_cmds(head);
+			}
 			if (ft_strncmp(str, "\n", ft_strlen(str)))
 				add_history(str);
 			free(str);
+			str = NULL;
 		}
 		else
 			break ;

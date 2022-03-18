@@ -12,44 +12,36 @@
 
 #include <minishell.h>
 
-static void	set_fd(char *s, int token)
+int	set_fd(int mode, char **src, char **dst, char **t_f)
 {
-	if (token == O_RDONLY)
+	int	fd;
+
+	if (mode == 2 || mode == 4)
 	{
-		g_state.in_fd = open(s, token);
-		if (g_state.in_fd < 0)
-			ft_putendl_fd("Errors on opening a file.\n", 2);
+		fd = open(*dst, O_CREAT, 755);
+		close(fd);
 	}
-	else
-	{
-		g_state.out_fd = open(s, token);
-		if (g_state.out_fd < 0)
-			ft_putendl_fd("Errors on opening a file.\n", 2);
-	}
+	if (*src)
+		free(*src);
+	*src = *dst;
+	free(*t_f);
+	return (1);
 }
 
-	// 	if (s[i] == '<' && s[i + 1] != '<')
-	// 	{
-	// 		j = set_fd(s[++i], O_RDONLY);
-	// 		if (j == -1)
-	// 			break ;
-	// 		i += j;
-	// 		continue ;
-	// 	}
-	// 	if (s[i] == '>' && s[i + 1] != '>')
-	// 	{
-	// 		j = set_fd(s[++i], O_WRONLY);
-	// 		if (j == -1)
-	// 			break ;
-	// 		i += j;
-	// 		continue ;
-	// 	}
-	// 	if (s[i] == '>' && s[i + 1] == '>')
-	// 	{
-	// 		j = set_fd(s[i + 2], O_APPEND);
-	// 		if (j == -1)
-	// 			break ;
-	// 		i = i + j + 2;
-	// 		continue ;
-	// 	}
-	// }
+char	**add_arg(char **av, char **arg)
+{
+	int		i;
+	int		len;
+	char	**res;
+
+	i = -1;
+	len = two_ptr_counter(av);
+	res = (char **)malloc(sizeof(char *) * (len + 2));
+	if (!res)
+		malloc_error();
+	while (++i < len)
+		res[i] = av[i];
+	res[i++] = *arg;
+	res[i] = NULL;
+	return (res);
+}

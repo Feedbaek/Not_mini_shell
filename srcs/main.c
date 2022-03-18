@@ -35,7 +35,10 @@ int	main(int ac, char **av, char **env)
 	cpy_env(env);
 	signal(SIGINT, (void *)handle_signal);
 	signal(SIGQUIT, (void *)handle_signal2);
+	echoctl_off();
 	print_banner();
 	print_prompt();
+	free_double_pointer(&g_state.envp);
+	free_double_pointer(&g_state.path);
 	return (0);
 }

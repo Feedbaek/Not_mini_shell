@@ -15,6 +15,7 @@
 static char	*find_env_var(char *s)
 {
 	int		i;
+	// int		j;
 	int		len;
 	char	**temp;
 	char	*res;
@@ -23,6 +24,11 @@ static char	*find_env_var(char *s)
 	len = ft_strlen(s);
 	while (g_state.envp[++i])
 	{
+		// j = 0;
+		// while (g_state.envp[i][j] != '=')
+		// 	j++;
+		// if (ft_strncmp(g_state.envp[i], s, ++j) == '=')
+		// 	return (ft_strdup(g_state.envp[i] + j));
 		temp = ft_split(g_state.envp[i], '=');
 		if (!temp)
 			return (NULL);

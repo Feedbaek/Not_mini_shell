@@ -12,25 +12,27 @@
 
 #include <minishell.h>
 
-int	two_ptr_counter(char **env)
+int	two_ptr_counter(char **av)
 {
 	int	i;
 
 	i = 0;
-	while (env[i])
+	while (av[i])
 		i++;
 	return (i);
 }
 
 void	cpy_env(char **env)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	g_state.envp = (char **)malloc(sizeof(char *) * (two_ptr_counter(env) + 1));
 	while (env[i])
 	{
 		g_state.envp[i] = ft_strdup(env[i]);
+		if (!ft_strncmp("PATH=", env[i], 5))
+			g_state.path = ft_split(env[i] + 5, ':');
 		i++;
 	}
 	g_state.envp[i] = NULL;
