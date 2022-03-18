@@ -128,4 +128,5 @@ void	parser(char *s, t_cmd **head)
 	while (++i < len)
 		free(tokenized[i]);
 	free(tokenized);
+    free_double_pointer(&splited_w_vb);
 }

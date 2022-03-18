@@ -63,9 +63,6 @@ static void	free_cmds(t_cmd *tab)
 
 static int	checker_back_col(char *s)
 {
-	int	back;
-
-	back = 0;
 	while (*s)
 	{
 		if (*s == '\\' || *s == ';')

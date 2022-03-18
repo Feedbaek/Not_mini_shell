@@ -70,7 +70,10 @@ static void	cmd_spliter(char *s, t_parsed *var)
 		if (*s != '\'' && *s != '"' && *s != ' ')
 		{
 			b_p = s;
-			set_dlm(*(s - 1), &delimiter, 0);
+            if (i)
+                delimiter = *(s - 1);
+            else
+                delimiter = ' ';
 			while (*s && *s != delimiter)
 				++s;
 			str_processer(s, b_p, delimiter, &var[i]);
