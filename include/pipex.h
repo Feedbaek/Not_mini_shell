@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:09:11 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/15 21:47:23 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/15 22:31:15 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef	struct	s_cmd
 	char	*redirect_in;
 	char	*redirect_out;
 	char	*redirect_out_add;
+	char	*tmp;
 	struct s_cmd	*next;
 }				t_cmd;
 
@@ -41,6 +42,6 @@ char	*minskim2_strjoin(char const *s1, char const *s2);
 char	**minskim2_split(char const *s, char c);
 
 int		pipex(char **argv, char **envp);
-void	here_doc(char *limiter, int read_fd);
+void	here_doc(t_cmd *cmd_arg, char *limiter, int read_fd);
 
 #endif
