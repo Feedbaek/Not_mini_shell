@@ -15,27 +15,18 @@
 static char	*find_env_var(char *s)
 {
 	int		i;
+	int		j;
 	int		len;
-	char	**temp;
-	char	*res;
 
 	i = -1;
 	len = ft_strlen(s);
 	while (g_state.envp[++i])
 	{
-		temp = ft_split(g_state.envp[i], '=');
-		if (!temp)
-			return (NULL);
-		if (ft_strlen(temp[0]) > ft_strlen(s))
-			len = ft_strlen(temp[0]);
-		if (!ft_strncmp(temp[0], s, len))
-		{
-			res = temp[1];
-			free(temp[0]);
-			free(temp);
-			return (res);
-		}
-		free_double_pointer(&temp);
+		j = 0;
+		while (g_state.envp[i][j] != '=')
+			j++;
+		if (ft_strncmp(g_state.envp[i], s, ++j) == '=')
+			return (ft_strdup(g_state.envp[i] + j));
 	}
 	return (ft_strdup(""));
 }

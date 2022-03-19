@@ -29,9 +29,12 @@ SRCS = srcs/main.c \
 		srcs/prompts/prompt.c \
 		srcs/prompts/parser.c \
 		srcs/prompts/process_env_var.c \
+		srcs/prompts/tokenize.c \
+		srcs/prompts/parse_utils.c \
 		srcs/utils/cpy_env.c \
 		srcs/utils/free_double_pointer.c \
 		srcs/utils/malloc_error.c \
+		srcs/utils/termios.c \
 		srcs/signal/signal.c
 
 TEST_SRCS = \
@@ -58,11 +61,8 @@ FT_LIBFT 	= $(LIBFT_LDIR)/libft.a
 LIBFT_NAME	= ft
 LIBFT_LIB	= -L$(LIBFT_LDIR) -l$(LIBFT_NAME)
 
-# RL_LINKING = -lreadline -L${HOME}/.brew/opt/readline/lib
-# RL_COMPILE = -I${HOME}/.brew/opt/readline/include
-
-RL_LINKING = -lreadline -L/usr/local/opt/readline/lib
-RL_COMPILE = -I/usr/local/opt/readline/include
+RL_LINKING = -lreadline -L${HOME}/.brew/opt/readline/lib
+RL_COMPILE = -I${HOME}/.brew/opt/readline/include
 
 ifdef WITH_BONUS
 	NAME = minishell_bonus
@@ -88,7 +88,7 @@ bonus:
 .PHONY: all clean fclean re bonus test
 
 %.o: %.c
-	$(CC) -c $^ -o $@ -I$(HEADER)
+	$(CC) -c $^ -o $@ -I$(HEADER) $(RL_COMPILE)
 
 $(FT_LIBFT):
 	make -C $(LIBFT_LDIR)
@@ -107,4 +107,4 @@ fclean: clean
 re: fclean all
 
 debug: $(FT_LIBFT)
-	$(CC) $(CFLAGS) -g $(SRCS) -o $(NAME) $(RL_COMPILE) $(RL_LINKING) $(LIBFT_LIB) -I$(HEADER)
+	$(CC) $(CFLAGS) -g $(SRCS) -o $(NAME) -L/Users/vmosx/.brew/opt/readline/lib -lreadline -I/Users/vmosx/.brew/opt/readline/include $(LIBFT_LIB) -I$(HEADER)

@@ -31,3 +31,9 @@ char	**d_ret_null(char ***s)
 	free(tmp);
 	return (NULL);
 }
+
+void	malloc_error(void)
+{
+	printf("malloc error");
+	// exit(1);
+}

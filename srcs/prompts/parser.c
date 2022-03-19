@@ -6,125 +6,121 @@
 /*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 18:10:14 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/11 16:08:26 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/15 15:14:06 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	cmd_init(char **av, t_cmd *x, char **envp);
-static void	set_pipex(char ***cmds, t_cmd **head, char **envp, int len);
-void	run_execve(t_cmd *cmd_arg, int prev_fd);
-void	cmd_process(t_cmd *cmd_arg, int pipe_read, int pipe_write);
-void	test_pipex(t_cmd **head, int input_fd, int output_fd);
-
-static int	set_dlm(char prev, char *de, int word_in)
+static int	check_token(char *s1, char *s2, char de, t_cmd *x)
 {
-	if (!word_in)
+	if (ft_strlen(s1) == 1 && de == ' ')
 	{
-		if (!prev)
-			*de = ' ';
-		else
-			*de = prev;
+		if (*s1 == '<')
+			return (set_fd(1, &(x->redirect_in), &s2, &s1));
+		if (*s1 == '>')
+			return (set_fd(2, &(x->redirect_out), &s2, &s1));
 	}
-	return (1);
+	if (ft_strlen(s1) == 2 && de == ' ')
+	{
+		if (!ft_strncmp(s1, "<<", 2))
+			return (set_fd(3, &(x->limiter), &s2, &s1));
+		if (!ft_strncmp(s1, ">>", 2))
+			return (set_fd(4, &(x->redirect_out_add), &s2, &s1));
+	}
+	return (0);
 }
 
-static int	count_chunk(char *s)
+void	add_cmd(t_cmd *x, char **s)
 {
-	int		counts;
-	int		word_in;
-	char	delimiter;
-
-	counts = 0;
-	word_in = 0;
-	while (*s)
-	{
-		if (*s == '\'' || *s == '"' || *s == ' ')
-		{
-			if ((*s == delimiter) && word_in)
-			{
-				word_in = 0;
-				counts++;
-			}
-		}
-		else
-			word_in = set_dlm(*(s - 1), &delimiter, word_in);
-		s++;
-	}
-	if (word_in)
-		counts++;
-	return (counts);
-}
-
-static char	*str_processer(char *s, char *b_p, char delimiter)
-{
-	char	*res;
-	char	*temp;
-
-	res = (char *)malloc(s - b_p + 1);
-	if (!res)
-		return (NULL);
-	ft_strlcpy(res, b_p, (size_t)(s - b_p + 1));
-	if (delimiter != '\'')
-	{
-		temp = process_env_var(res);
-		free(res);
-		res = temp;
-	}
-	return (res);
-}
-
-static char	**cmd_spliter(char *s)
-{
-	int		i;
-	char	**res;
-	char	delimiter;
-	char	*b_p;
-
-	i = 0;
-	res = (char **)malloc((count_chunk(s) + 1) * sizeof(char *));
-	if (!res)
-		return (NULL);
-	while (*s)
-	{
-		if (*s != '\'' && *s != '"' && *s != ' ')
-		{
-			b_p = s;
-			set_dlm(*(s - 1), &delimiter, 0);
-			while (*s && *s != delimiter)
-				++s;
-			res[i] = str_processer(s, b_p, delimiter);
-			if (!res[i++])
-				return (d_ret_null(&res));
-		}
-		s++;
-	}
-	res[i] = NULL;
-	return (res);
-}
-
-void	parser(char *s)
-{
-	char	**res;
 	char	**temp;
-	char	***cmds;
-	int		i;
-	t_cmd	*head;
+
+	if (x->argv)
+	{
+		temp = x->argv;
+		x->argv = add_arg(x->argv, s);
+		free(temp);
+	}
+	else
+	{
+		x->argv = (char **)malloc(sizeof(char *) * 2);
+		if (!x->argv)
+			malloc_error();
+		x->argv[0] = *s;
+		x->argv[1] = NULL;
+		x->cmd = get_cmd(*s);
+	}
+}
+
+static void	cmd_init(t_parsed *parsed, t_cmd *x)
+{
+	int	i;
+	int	ret;
 
 	i = -1;
-	temp = ft_split(s, '|');
-	cmds = (char ***)malloc(sizeof(char **) * (two_ptr_counter(temp) + 1));
-	if (temp && cmds)
+	while (parsed[++i].token)
 	{
-		while (temp[++i])
+		ret = check_token(parsed[i].token, parsed[i + 1].token, \
+						parsed[i].de, x);
+		if (ret > 0)
 		{
-			res = cmd_spliter(temp[i]);
-			if (!res)
-				break ;
-			cmds[i] = res;
+			i += ret;
+			continue ;
 		}
-		set_pipex(cmds, &head, g_state.envp, two_ptr_counter(temp));
-		test_pipex(&head, 0, 1);
+		else
+			add_cmd(x, &parsed[i].token);
 	}
+}
+
+static void	set_cmds(t_parsed **tokenized, int len, t_cmd **head)
+{
+	int		i;
+	t_cmd	*cmd_arg;
+	t_cmd	*prev_cmd;
+
+	i = 0;
+	while (i < len)
+	{
+		cmd_arg = malloc(sizeof(t_cmd));
+		if (!cmd_arg)
+			exit(1);
+		init_struct(&cmd_arg);
+		if (i == 0)
+		{
+			*head = cmd_arg;
+			prev_cmd = cmd_arg;
+		}
+		else
+		{
+			prev_cmd->next = cmd_arg;
+			prev_cmd = cmd_arg;
+		}
+		cmd_init(tokenized[i], cmd_arg);
+		cmd_arg->idx = i;
+		i++;
+	}
+}
+
+void	parser(char *s, t_cmd **head)
+{
+	int			i;
+	int			len;
+	char		**splited_w_vb;
+	t_parsed	**tokenized;
+
+	splited_w_vb = ft_split(s, '|');
+	if (!splited_w_vb)
+		malloc_error();
+	len = two_ptr_counter(splited_w_vb);
+	tokenized = (t_parsed **)malloc(sizeof(t_parsed *) * (len + 1));
+	if (!tokenized)
+		malloc_error();
+	tokenized[len] = NULL;
+	tokenize_line(splited_w_vb, tokenized);
+	set_cmds(tokenized, len, head);
+	i = -1;
+	while (++i < len)
+		free(tokenized[i]);
+	free(tokenized);
+	free_double_pointer(&splited_w_vb);
 }
