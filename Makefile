@@ -107,4 +107,4 @@ fclean: clean
 re: fclean all
 
 debug: $(FT_LIBFT)
-	$(CC) $(CFLAGS) -g $(SRCS) -o $(NAME) $(RL_COMPILE) $(RL_LINKING) $(LIBFT_LIB) -I$(HEADER)
+	$(CC) $(CFLAGS) -g $(SRCS) -o $(NAME) -L/Users/vmosx/.brew/opt/readline/lib -lreadline -I/Users/vmosx/.brew/opt/readline/include $(LIBFT_LIB) -I$(HEADER)

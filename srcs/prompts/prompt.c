@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <minishell.h>
-#include <pipex.h>
 
 // static void	execute_func(char *s)
 // {
@@ -109,26 +108,29 @@ void	print_prompt(void)
 			ft_strncmp(str, "\n", ft_strlen(str)))
 			{
 				parser(str, &head);
-//				while (head)
-//				{
-//					if (head->redirect_in)
-//						ft_putendl_fd(head->redirect_in, 1);
-//					if (head->redirect_out)
-//						ft_putendl_fd(head->redirect_out, 1);
-//					if (head->redirect_out_add)
-//						ft_putendl_fd(head->redirect_out_add, 1);
-//					if (head->limiter)
-//						ft_putendl_fd(head->limiter, 1);
-//					while (*(head->argv))
-//					{
-//						ft_putstr_fd(*(head->argv), 1);
-//						ft_putchar_fd(' ', 1);
-//						(head->argv)++;
-//					}
-//					ft_putchar_fd('\n', 1);
-//					head = head->next;
-//				}
-				free_cmds(head);
+				t_cmd *tmp = head;
+				while (tmp)
+				{
+					if (tmp->cmd)
+						ft_putendl_fd(tmp->cmd, 1);
+					if (tmp->redirect_in)
+						ft_putendl_fd(tmp->redirect_in, 1);
+					if (tmp->redirect_out)
+						ft_putendl_fd(tmp->redirect_out, 1);
+					if (tmp->redirect_out_add)
+						ft_putendl_fd(tmp->redirect_out_add, 1);
+					if (tmp->limiter)
+						ft_putendl_fd(tmp->limiter, 1);
+					while (*(tmp->argv))
+					{
+						ft_putstr_fd(*(tmp->argv), 1);
+						ft_putchar_fd(' ', 1);
+						(tmp->argv)++;
+					}
+					ft_putchar_fd('\n', 1);
+					tmp = tmp->next;
+				}
+				free_cmds(tmp);
 			}
 			if (ft_strncmp(str, "\n", ft_strlen(str)))
 				add_history(str);

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <minishell.h>
-#include <pipex.h>
 
 static int	check_token(char *s1, char *s2, char de, t_cmd *x)
 {
@@ -49,7 +48,7 @@ void	add_cmd(t_cmd *x, char **s)
 			malloc_error();
 		x->argv[0] = *s;
 		x->argv[1] = NULL;
-		x->cmd = *s;
+		x->cmd = get_cmd(*s);
 	}
 }
 
@@ -59,11 +58,6 @@ static void	cmd_init(t_parsed *parsed, t_cmd *x)
 	int	ret;
 
 	i = -1;
-	x->limiter = NULL;
-	x->redirect_in = NULL;
-	x->redirect_out = NULL;
-	x->redirect_out_add = NULL;
-	x->argv = NULL;
 	while (parsed[++i].token)
 	{
 		ret = check_token(parsed[i].token, parsed[i + 1].token, \
@@ -76,7 +70,6 @@ static void	cmd_init(t_parsed *parsed, t_cmd *x)
 		else
 			add_cmd(x, &parsed[i].token);
 	}
-	x->next = 0;
 }
 
 static void	set_cmds(t_parsed **tokenized, int len, t_cmd **head)
@@ -91,6 +84,7 @@ static void	set_cmds(t_parsed **tokenized, int len, t_cmd **head)
 		cmd_arg = malloc(sizeof(t_cmd));
 		if (!cmd_arg)
 			exit(1);
+		init_struct(&cmd_arg);
 		if (i == 0)
 		{
 			*head = cmd_arg;
@@ -128,5 +122,5 @@ void	parser(char *s, t_cmd **head)
 	while (++i < len)
 		free(tokenized[i]);
 	free(tokenized);
-    free_double_pointer(&splited_w_vb);
+	free_double_pointer(&splited_w_vb);
 }

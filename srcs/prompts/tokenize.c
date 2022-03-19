@@ -20,6 +20,7 @@ static int	count_chunk(char *s)
 
 	counts = 0;
 	word_in = 0;
+	delimiter = ' ';
 	while (*s)
 	{
 		if (*s == '\'' || *s == '"' || *s == ' ')
@@ -65,15 +66,14 @@ static void	cmd_spliter(char *s, t_parsed *var)
 	char	*b_p;
 
 	i = 0;
+	delimiter = ' ';
 	while (*s)
 	{
 		if (*s != '\'' && *s != '"' && *s != ' ')
 		{
 			b_p = s;
-            if (i)
-                delimiter = *(s - 1);
-            else
-                delimiter = ' ';
+			if (i)
+				delimiter = *(s - 1);
 			while (*s && *s != delimiter)
 				++s;
 			str_processer(s, b_p, delimiter, &var[i]);
