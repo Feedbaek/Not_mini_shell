@@ -109,25 +109,25 @@ void	print_prompt(void)
 			ft_strncmp(str, "\n", ft_strlen(str)))
 			{
 				parser(str, &head);
-				while (head)
-				{
-					if (head->redirect_in)
-						ft_putendl_fd(head->redirect_in, 1);
-					if (head->redirect_out)
-						ft_putendl_fd(head->redirect_out, 1);
-					if (head->redirect_out_add)
-						ft_putendl_fd(head->redirect_out_add, 1);
-					if (head->limiter)
-						ft_putendl_fd(head->limiter, 1);
-					while (*(head->argv))
-					{
-						ft_putstr_fd(*(head->argv), 1);
-						ft_putchar_fd(' ', 1);
-						(head->argv)++;
-					}
-					ft_putchar_fd('\n', 1);
-					head = head->next;
-				}
+//				while (head)
+//				{
+//					if (head->redirect_in)
+//						ft_putendl_fd(head->redirect_in, 1);
+//					if (head->redirect_out)
+//						ft_putendl_fd(head->redirect_out, 1);
+//					if (head->redirect_out_add)
+//						ft_putendl_fd(head->redirect_out_add, 1);
+//					if (head->limiter)
+//						ft_putendl_fd(head->limiter, 1);
+//					while (*(head->argv))
+//					{
+//						ft_putstr_fd(*(head->argv), 1);
+//						ft_putchar_fd(' ', 1);
+//						(head->argv)++;
+//					}
+//					ft_putchar_fd('\n', 1);
+//					head = head->next;
+//				}
 				free_cmds(head);
 			}
 			if (ft_strncmp(str, "\n", ft_strlen(str)))
