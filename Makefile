@@ -6,7 +6,7 @@
 #    By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:50:35 by minskim2          #+#    #+#              #
-#    Updated: 2022/03/11 12:23:01 by sungmcho         ###   ########.fr        #
+#    Updated: 2022/03/24 16:20:12 by minskim2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,6 @@ SRCS = srcs/main.c \
 		srcs/builtins/ft_unset.c \
 		srcs/builtins/ft_env.c \
 		srcs/builtins/ft_exit.c \
-		srcs/pipex/pipex.c \
-		srcs/pipex/path_finder.c \
-		srcs/pipex/pipex_split.c \
-		srcs/pipex/pipex_strjoin.c \
-		srcs/pipex/redirect.c \
-		srcs/pipex/utils.c \
 		srcs/prompts/prompt.c \
 		srcs/prompts/parser.c \
 		srcs/prompts/process_env_var.c \
@@ -35,9 +29,7 @@ SRCS = srcs/main.c \
 		srcs/utils/free_double_pointer.c \
 		srcs/utils/malloc_error.c \
 		srcs/utils/termios.c \
-		srcs/signal/signal.c
-
-TEST_SRCS = \
+		srcs/signal/signal.c \
 		srcs/pipex/gnl/get_next_line_utils.c \
 		srcs/pipex/gnl/get_next_line_utils2.c \
 		srcs/pipex/gnl/get_next_line.c \
@@ -48,6 +40,18 @@ TEST_SRCS = \
 		srcs/pipex/utils.c \
 		srcs/pipex/here_doc.c \
 		srcs/pipex/test.c
+
+#TEST_SRCS = \
+#		srcs/pipex/gnl/get_next_line_utils.c \
+#		srcs/pipex/gnl/get_next_line_utils2.c \
+#		srcs/pipex/gnl/get_next_line.c \
+#		srcs/pipex/path_finder.c \
+#		srcs/pipex/pipex_split.c \
+#		srcs/pipex/pipex_strjoin.c \
+#		srcs/pipex/redirect.c \
+#		srcs/pipex/utils.c \
+#		srcs/pipex/here_doc.c \
+#		srcs/pipex/test.c
 
 SRCS_BONUS =
 
@@ -107,4 +111,4 @@ fclean: clean
 re: fclean all
 
 debug: $(FT_LIBFT)
-	$(CC) $(CFLAGS) -g $(SRCS) -o $(NAME) -L/Users/vmosx/.brew/opt/readline/lib -lreadline -I/Users/vmosx/.brew/opt/readline/include $(LIBFT_LIB) -I$(HEADER)
+	$(CC) -g $(SRCS) -o $(NAME) $(RL_LINKING) $(RL_COMPILE) $(LIBFT_LIB) -I$(HEADER)

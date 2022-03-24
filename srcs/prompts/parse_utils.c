@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_fd.c                                           :+:      :+:    :+:   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 12:00:37 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/10 12:06:17 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/24 16:09:45 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	set_fd(int mode, char **src, char **dst, char **t_f)
 
 	if (mode == 2 || mode == 4)
 	{
-		fd = open(*dst, O_CREAT, 755);
+		fd = open(*dst, O_CREAT, 0644);
 		close(fd);
 	}
 	if (*src)
