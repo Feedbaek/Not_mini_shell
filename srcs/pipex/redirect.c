@@ -6,13 +6,13 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:47:24 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/11 18:20:20 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/24 15:24:40 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	redirect_in(const char *file, int input_fd)
+void	redirect_in(char *file, int input_fd)
 {
 	int	fd;
 
@@ -26,7 +26,7 @@ void	redirect_in(const char *file, int input_fd)
 	close(fd);
 }
 
-void	redirect_out(const char *file, int output_fd)
+void	redirect_out(char *file, int output_fd)
 {
 	int	fd;
 
@@ -40,7 +40,7 @@ void	redirect_out(const char *file, int output_fd)
 	close(fd);
 }
 
-void	redirect_out_add(const char *file, int output_fd)
+void	redirect_out_add(char *file, int output_fd)
 {
 	int	fd;
 

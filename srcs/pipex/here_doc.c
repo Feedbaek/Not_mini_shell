@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:18:54 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/15 22:35:12 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:08:25 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*tmp_naming(void)
 	return (name);
 }
 
-void	here_doc(t_cmd *cmd_arg, char *limiter, int read_fd)
+void	here_doc(t_cmd *cmd_arg, char *limiter)
 {
 	int		fd;
 	int		status;
@@ -78,6 +78,6 @@ void	here_doc(t_cmd *cmd_arg, char *limiter, int read_fd)
 		if (status < 0)
 			exit(1);
 	}
-	dup2(fd, read_fd);
+	//dup2(fd, read_fd);
 	close(fd);
 }

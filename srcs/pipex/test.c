@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:53:38 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/15 22:34:24 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:38:54 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,29 +83,37 @@ static void	set_pipex(char **argv, t_cmd **head, char **envp)
 
 void	run_execve(t_cmd *cmd_arg, int pipe_read, int pipe_write)
 {
-/*
-	if ('<'이 있다면)
-		redirect_in(file, STDIN_FILENO);
-	else
-		dup2(pipe_read, STDIN_FILENO);
-	if ('>>'이 있다면)
+	int fd;
+
+	if (cmd_arg->limiter)
 	{
+		fd = open(cmd_arg->tmp, O_RDONLY);
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+	}
+	else if (cmd_arg->redirect_in)		// < 가 있으면
+		redirect_in(cmd_arg->redirect_in, STDIN_FILENO);
+	else {		// < 가  없으면
+		if (pipe_read != STDIN_FILENO)
+			dup2(pipe_read, STDIN_FILENO);
+	}
+	if (cmd_arg->redirect_out_add)	// >> 가  있으면
+	{
+		redirect_out_add(cmd_arg->redirect_out_add, STDOUT_FILENO);
 		close(pipe_write);
-		redirect_out_add(file, STDOUT_FILENO);
+	}
+	else if (cmd_arg->redirect_out)	// > 가  있으면
+	{
+		redirect_out(cmd_arg->redirect_out, STDOUT_FILENO);
+		close(pipe_write);
 	}
 	else
 	{
-		if ('>' 이 있다면)
-		{
-			close(pipe_write);
-			redirect_out(file, STDOUT_FILENO);
-		}
-		else
+		if (pipe_write != STDOUT_FILENO)
 			dup2(pipe_write, STDOUT_FILENO);
 	}
-*/
-	dup2(pipe_read, STDIN_FILENO);
-	dup2(pipe_write, STDOUT_FILENO);
+	//dup2(pipe_read, STDIN_FILENO);
+	//dup2(pipe_write, STDOUT_FILENO);
 	if (execve(cmd_arg->cmd, cmd_arg->argv, cmd_arg->envp) == -1)
 	{
 		printf("run_execve error: %s\n", strerror(errno));
@@ -121,30 +129,36 @@ void	connect_redirect(t_cmd *cmd_arg, int *pipe_a, int *pipe_b)
 		if (cmd_arg->idx == 0)		// 처음 명령어인 경우
 		{
 			if (cmd_arg->limiter)
-				here_doc(cmd_arg, cmd_arg->limiter, 0);
+				here_doc(cmd_arg, cmd_arg->limiter);
 		}
-		else if (cmd_arg->idx != 0)	// 처음 명령어가 아닌경우 pipe_b의 쓰기를 닫아줘야함
+		if (cmd_arg->idx != 0 && cmd_arg->next != 0)	// 마지막 명령어가 아닌경우 pipe_b의 쓰기를 닫아줘야함
 		{
 			if (cmd_arg->limiter)
-				here_doc(cmd_arg, cmd_arg->limiter, pipe_b[0]);
+				here_doc(cmd_arg, cmd_arg->limiter);
 			close(pipe_b[1]);
 		}
-		else if (cmd_arg->next == 0)	// 마지막 명령어의 경우 pipe_a가 필요없음
+		if (cmd_arg->next == 0)	// 마지막 명령어의 경우 pipe_a가 필요없음
 		{
 			close(pipe_a[0]);
 			close(pipe_a[1]);
+			if (cmd_arg->idx != 0)
+				close(pipe_b[1]);
 		}
 	}
-	else	// 인덱스 홀수인 경우
+	else	// 인덱스 홀수인 경우 처음 명령어일 수는 없음
 	{
 		pipe(pipe_b);
-		if (cmd_arg->limiter)
-			here_doc(cmd_arg, cmd_arg->limiter, pipe_a[0]);
-		close(pipe_a[1]);	// pipe_a의 쓰기를 닫아줌
-		if (cmd_arg->next == 0)	// 마지막 명령어의 경우 pipe_b가 필요없음
+		if (cmd_arg->next != 0)		// 마지막 명령어가 아닌 경우
+		{
+			if (cmd_arg->limiter)
+				here_doc(cmd_arg, cmd_arg->limiter);
+			close(pipe_a[1]);
+		}
+		else if (cmd_arg->next == 0)		// 마지막 명령어의 경우
 		{
 			close(pipe_b[0]);
 			close(pipe_b[1]);
+			close(pipe_a[1]);
 		}
 	}
 }
@@ -166,20 +180,21 @@ void	child_process(t_cmd *cmd_arg, int *pipe_a, int *pipe_b)
 	}
 	if (cmd_arg->idx == 0)	// 처음 실행되는 명령어
 	{
-		read_fd = 0;
+		read_fd = STDIN_FILENO;
 	}
 	if (cmd_arg->next == 0)	// 마지막으로 실행되는 명령어
 	{
-		write_fd = 1;
+		write_fd = STDOUT_FILENO;
 	}
 	run_execve(cmd_arg, read_fd, write_fd);	// 명령어 실행
 }
 
-void	test_pipex(t_cmd *head, int input_fd, int output_fd)
+void	test_pipex(t_cmd *head)
 {
 	t_cmd	*parser;
 	int		pipe_a[2];	// (마지막이 아닌)짝수인 경우에 쓰기, 홀수인 경우에 읽기
 	int		pipe_b[2];	// (마지막이 아닌)홀수인 경우에 쓰기, (처음이 아닌)짝수인 경우에 읽기
+	int		i;
 
 	parser = head;
 	while (parser)
@@ -191,28 +206,27 @@ void	test_pipex(t_cmd *head, int input_fd, int output_fd)
 		waitpid(parser->pid, &(parser->status), WNOWAIT);	// 비동기 형식으로 진행, 좀비 프로세스를 방지
 		parser = parser->next;
 	}
+	waitpid(head->pid, &(head->status),0);
 	while (head)
 	{
 		if (head->limiter)
 			unlink(head->tmp);
 		head = head->next;
 	}
-	waitpid(head->pid, &(head->status),0);
 }
 
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_cmd	*head;
-	int	input_fd;
-	int	output_fd;
+//int	main(int argc, char **argv, char **envp)
+//{
+//	t_cmd	*head;
+//	int	input_fd;
+//	int	output_fd;
 
-	(void)argc;
-	input_fd = 0;
-	output_fd = 1;
+//	(void)argc;
+//	input_fd = 0;
+//	output_fd = 1;
 
-	set_pipex(argv+1, &head, envp);
-	test_pipex(head, input_fd, output_fd);
-	//here_doc("eof", 0, 1);
-	return (0);
-}
+//	set_pipex(argv+1, &head, envp);
+//	test_pipex(head);
+//	return (0);
+//}
