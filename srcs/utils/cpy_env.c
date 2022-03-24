@@ -33,6 +33,8 @@ void	cpy_env(char **env)
 		g_state.envp[i] = ft_strdup(env[i]);
 		if (!ft_strncmp("PATH=", env[i], 5))
 			g_state.path = ft_split(env[i] + 5, ':');
+		if (!ft_strncmp("PWD=", env[i], 4))
+			g_state.pwd_idx = i;
 		i++;
 	}
 	g_state.envp[i] = NULL;
