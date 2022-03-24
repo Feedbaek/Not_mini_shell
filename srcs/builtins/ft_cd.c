@@ -14,6 +14,16 @@
 
 void	ft_cd(char *s)
 {
+	char	*pwd;
+
+	pwd = NULL;
 	if (chdir(s) == -1)
 		printf("cd: %s: %s\n", s, strerror(errno));
+	else
+	{
+		pwd = getcwd(pwd, BUFSIZ);
+		free(g_state.envp[g_state.pwd_idx]);
+		g_state.envp[g_state.pwd_idx] = ft_strjoin("PWD=", pwd);
+		free(pwd);
+	}
 }

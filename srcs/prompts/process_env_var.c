@@ -72,6 +72,11 @@ char	*process_env_var(char *s)
 		if (s_c_addr)
 		{
 			temp = res;
+			if (!ft_strncmp(s_c_addr + 1, "?", ft_strlen(s_c_addr + 1)))
+			{
+				free(temp);
+				return (ft_strdup(ft_itoa(g_state.exit_status)));
+			}
 			res = join_env_value(res, s_c_addr + 1);
 			if (!res)
 				return (NULL);

@@ -12,25 +12,25 @@
 
 #include <minishell.h>
 
-// static void	execute_func(char *s)
-// {
-// 	if (!ft_strncmp(s, "echo", 4))
-// 		ft_echo(s + 4);
-// 	else if (!ft_strncmp(s, "cd", 2))
-// 		ft_cd(s + 2);
-// 	else if (!ft_strncmp(s, "pwd", 3))
-// 		ft_pwd();
-// 	else if (!ft_strncmp(s, "export", 6))
-// 		ft_export(s + 7);
-// 	else if (!ft_strncmp(s, "unset", 5))
-// 		ft_unset(s + 6);
-// 	else if (!ft_strncmp(s, "env", 3))
-// 		ft_env();
-// 	else if (!ft_strncmp(s, "exit", 4))
-// 		ft_exit();
-// 	else
-// 		ft_putendl_fd(s, 1);
-// }
+static void	execute_func(char *cmd, char *argv)
+{
+	if (!ft_strncmp(cmd, "echo", 4))
+		ft_echo(argv);
+	else if (!ft_strncmp(cmd, "cd", 2))
+		ft_cd(argv);
+	else if (!ft_strncmp(cmd, "pwd", 3))
+		ft_pwd();
+	else if (!ft_strncmp(cmd, "export", 6))
+		ft_export(argv);
+	else if (!ft_strncmp(cmd, "unset", 5))
+		ft_unset(argv);
+	else if (!ft_strncmp(cmd, "env", 3))
+		ft_env();
+	else if (!ft_strncmp(cmd, "exit", 4))
+		ft_exit();
+	else
+		ft_putendl_fd(cmd, 1);
+}
 
 static void	free_cmds(t_cmd *tab)
 {
@@ -108,29 +108,8 @@ void	print_prompt(void)
 			ft_strncmp(str, "\n", ft_strlen(str)))
 			{
 				parser(str, &head);
-				t_cmd *tmp = head;
-				while (tmp)
-				{
-					if (tmp->cmd)
-						ft_putendl_fd(tmp->cmd, 1);
-					if (tmp->redirect_in)
-						ft_putendl_fd(tmp->redirect_in, 1);
-					if (tmp->redirect_out)
-						ft_putendl_fd(tmp->redirect_out, 1);
-					if (tmp->redirect_out_add)
-						ft_putendl_fd(tmp->redirect_out_add, 1);
-					if (tmp->limiter)
-						ft_putendl_fd(tmp->limiter, 1);
-					while (*(tmp->argv))
-					{
-						ft_putstr_fd(*(tmp->argv), 1);
-						ft_putchar_fd(' ', 1);
-						(tmp->argv)++;
-					}
-					ft_putchar_fd('\n', 1);
-					tmp = tmp->next;
-				}
-				free_cmds(tmp);
+				execute_func(head->argv[0], head->argv[1]);
+				free_cmds(head);
 			}
 			if (ft_strncmp(str, "\n", ft_strlen(str)))
 				add_history(str);

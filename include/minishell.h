@@ -35,6 +35,7 @@ typedef struct s_state
 	char	**envp;
 	char	**path;
 	int		exit_status;
+	int		pwd_idx;
 }	t_state;
 
 typedef struct s_parsed
