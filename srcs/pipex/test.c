@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:53:38 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/15 22:34:24 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/20 16:16:51 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	connect_redirect(t_cmd *cmd_arg, int *pipe_a, int *pipe_b)
 			if (cmd_arg->limiter)
 				here_doc(cmd_arg, cmd_arg->limiter, 0);
 		}
-		else if (cmd_arg->idx != 0)	// 처음 명령어가 아닌경우 pipe_b의 쓰기를 닫아줘야함
+		else if (cmd_arg->next != 0)	// 마지막 명령어가 아닌경우 pipe_b의 쓰기를 닫아줘야함
 		{
 			if (cmd_arg->limiter)
 				here_doc(cmd_arg, cmd_arg->limiter, pipe_b[0]);
@@ -133,18 +133,23 @@ void	connect_redirect(t_cmd *cmd_arg, int *pipe_a, int *pipe_b)
 		{
 			close(pipe_a[0]);
 			close(pipe_a[1]);
+			close(pipe_b[1]);
 		}
 	}
-	else	// 인덱스 홀수인 경우
+	else	// 인덱스 홀수인 경우 처음 명령어일 수는 없음
 	{
 		pipe(pipe_b);
-		if (cmd_arg->limiter)
-			here_doc(cmd_arg, cmd_arg->limiter, pipe_a[0]);
-		close(pipe_a[1]);	// pipe_a의 쓰기를 닫아줌
-		if (cmd_arg->next == 0)	// 마지막 명령어의 경우 pipe_b가 필요없음
+		if (cmd_arg->next != 0)		// 마지막 명령어가 아닌 경우
+		{
+			if (cmd_arg->limiter)
+				here_doc(cmd_arg, cmd_arg->limiter, pipe_a[0]);
+			close(pipe_a[1]);
+		}
+		else if (cmd_arg->next == 0)		// 마지막 명령어의 경우
 		{
 			close(pipe_b[0]);
 			close(pipe_b[1]);
+			close(pipe_a[1]);
 		}
 	}
 }
