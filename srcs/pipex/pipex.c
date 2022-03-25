@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:53:38 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/25 15:51:09 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:25:14 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,10 +150,10 @@ void	child_process(t_cmd *cmd_arg, int *pipe_a, int *pipe_b)
 	run_execve(cmd_arg, read_fd, write_fd);	// 명령어 실행
 }
 
-void	connect_redirect(t_cmd *cmd_arg, int *pipe_a, int *pipe_b)
+void	disconnect_redirect(t_cmd *cmd_arg, int *pipe_a, int *pipe_b)
 {
-	if (cmd_arg->limiter)
-		here_doc(cmd_arg, cmd_arg->limiter);
+	//if (cmd_arg->limiter)
+	//	here_doc(cmd_arg, cmd_arg->limiter);
 	if (cmd_arg->idx % 2 == 0)	// 인덱스 짝수의 경우
 	{
 		pipe(pipe_a);
@@ -204,16 +204,23 @@ void	test_pipex(t_cmd *head)
 	parser = head;
 	while (parser)
 	{
-		connect_redirect(parser, pipe_a, pipe_b);	// 파이프를 리다이렉트 시켜줌
+		if (parser->limiter)
+			here_doc(parser, parser->limiter);
+		parser = parser->next;
+	}
+	parser = head;
+	while (parser)
+	{
+		disconnect_redirect(parser, pipe_a, pipe_b);	// 파이프를 리다이렉트 시켜줌
 		parser->pid = fork();
 		if (!parser->pid)
 			child_process(parser, pipe_a, pipe_b);	// 자식 프로세스에서 명령어 실행
-		waitpid(parser->pid, &(parser->status), WNOWAIT);	// 비동기 형식으로 진행, 좀비 프로세스를 방지
+		//waitpid(parser->pid, &(parser->status), WNOWAIT);	// 비동기 형식으로 진행, 좀비 프로세스를 방지
 		parser = parser->next;
 	}
-	waitpid(head->pid, &(head->status),0);
 	while (head)
 	{
+		waitpid(head->pid, &(head->status),0);	// 좀비 프로세스를 방지, 안료된 자식 프로세스의 상태 회수
 		if (head->limiter)
 			unlink(head->tmp);
 		head = head->next;
