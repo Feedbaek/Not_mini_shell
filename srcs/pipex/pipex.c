@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:53:38 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/25 16:25:14 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:53:12 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ void	test_pipex(t_cmd *head)
 	int		i;
 
 	parser = head;
-	while (parser)
+	while (parser)		// 명령어들을 실행하기 전에 한번 here_doc으로 임시파일들을 만들어줌
 	{
 		if (parser->limiter)
 			here_doc(parser, parser->limiter);
