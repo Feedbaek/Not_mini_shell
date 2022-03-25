@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:18:54 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/24 17:08:25 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:40:09 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	here_doc(t_cmd *cmd_arg, char *limiter)
 	file_name = tmp_naming();
 	fd = create_tmp(file_name);
 	cmd_arg->tmp = file_name;
+	write(1, "> ", 2);
 	status = get_next_line(0, &str);
 	if (status < 0)
 		exit(1);
@@ -74,6 +75,7 @@ void	here_doc(t_cmd *cmd_arg, char *limiter)
 	{
 		if (write(fd, str, ft_strlen(str)) < 0 || write(fd, "\n", 1) < 0)
 			exit(1);
+		write(1, "> ", 2);
 		status = get_next_line(0, &str);
 		if (status < 0)
 			exit(1);
