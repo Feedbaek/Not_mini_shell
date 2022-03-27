@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 22:47:43 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/24 15:18:58 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/28 01:59:45 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ static void	free_cmds(t_cmd *tab)
 			free_double_pointer(&tab->path);
 		if (tab->limiter)
 			free(tab->limiter);
-		if (tab->file)
-			free(tab->file);
 		if (tab->redirect_in)
 			free(tab->redirect_in);
 		if (tab->redirect_out)
