@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:18:54 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/28 18:32:21 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/28 19:55:24 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	create_tmp(char *name)
 	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
-		printf("create_tmp error: %s\n", strerror(errno));
+		printf("bash: %s: %s\n", name, strerror(errno));
 		exit(1);
 	}
 	return (fd);
@@ -42,18 +42,25 @@ static char	*tmp_naming(void)
 	char	*new_name;
 
 	name = (char *)malloc(sizeof(char) * 5);
+	if (!name)
+		print_str_error("malloc");
 	ft_strlcpy(name, "_tmp", 5);
 	fd = open(name, O_RDONLY);
 	while (fd > 0)
 	{
 		close(fd);
 		new_name = ft_strjoin(name, "_tmp");
+		if (!new_name)
+			print_str_error("ft_strjoin");
 		free(name);
 		name = new_name;
 		fd = open(name, O_RDONLY);
 	}
 	if (errno != ENOENT)
+	{
+		printf("bash: %s: %s\n", name, strerror(errno));
 		exit(1);
+	}
 	return (name);
 }
 
@@ -68,15 +75,15 @@ static void	run_here_doc(t_cmd *cmd_arg)
 	write(1, "> ", 2);
 	status = get_next_line(0, &buff);
 	if (status < 0)
-		exit(1);
+		print_str_error("get_next_line");
 	while (ft_strncmp(buff, cmd_arg->limiter, ft_strlen(buff)) != 0)
 	{
 		if (write(fd, buff, ft_strlen(buff)) < 0 || write(fd, "\n", 1) < 0)
-			exit(1);
+			print_str_error("write");
 		write(1, "> ", 2);
 		status = get_next_line(0, &buff);
 		if (status < 0)
-			exit(1);
+			print_str_error("get_next_line");
 	}
 	close(fd);
 }

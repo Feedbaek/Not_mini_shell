@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:53:38 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/28 18:33:51 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/28 19:23:04 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	child_process(t_cmd *cmd_arg, int *pipe_a, int *pipe_b)
 		write_fd = STDOUT_FILENO;
 	connect_stdin(cmd_arg, read_fd, write_fd);
 	connect_stdout(cmd_arg, read_fd, write_fd);
-	run_execve(cmd_arg, "run_execve error");
+	run_execve(cmd_arg);
 }
 
 void	disconnect_redirect(t_cmd *cmd_arg, int *pipe_a, int *pipe_b)
