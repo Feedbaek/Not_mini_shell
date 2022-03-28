@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 12:00:37 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/28 02:01:08 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/24 16:09:45 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,14 @@ char	*get_cmd(char *s)
 	struct stat	stats;
 
 	i = -1;
+	if (!ft_strncmp(s, "cd", ft_strlen(s)) \
+	|| !ft_strncmp(s, "echo", ft_strlen(s)) \
+	|| !ft_strncmp(s, "env", ft_strlen(s)) \
+	|| !ft_strncmp(s, "exit", ft_strlen(s)) \
+	|| !ft_strncmp(s, "export", ft_strlen(s)) \
+	|| !ft_strncmp(s, "pwd", ft_strlen(s)) \
+	|| !ft_strncmp(s, "unset", ft_strlen(s)))
+		return (ft_strdup(s));
 	while (g_state.path[++i])
 	{
 		res = three_strjoin(g_state.path[i], "/", s);

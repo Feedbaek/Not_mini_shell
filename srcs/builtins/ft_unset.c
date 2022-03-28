@@ -33,16 +33,15 @@ static void	del_env(char **env, int idx)
 	g_state.envp = temp;
 }
 
-void	ft_unset(char *s)
+void	ft_unset(char **s)
 {
 	int	i;
 
 	i = 0;
-	ft_strlcat(s, "=", ft_strlen(s) + 1);
-	ft_putendl_fd(s, 1);
+	ft_strlcat(s[1], "=", ft_strlen(s[1]) + 1);
 	while (g_state.envp[i])
 	{
-		if (!ft_strncmp(g_state.envp[i], s, ft_strlen(s)))
+		if (!ft_strncmp(g_state.envp[i], s[1], ft_strlen(s[1])))
 		{
 			del_env(g_state.envp, i);
 			break ;

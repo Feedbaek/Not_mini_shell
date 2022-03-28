@@ -6,31 +6,11 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 22:47:43 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/28 01:59:45 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/24 15:18:58 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-static void	execute_func(t_cmd	*head)
-{
-	if (!ft_strncmp(head->cmd, "echo", 4))
-		ft_echo(head->argv[1]);
-	else if (!ft_strncmp(head->cmd, "cd", 2))
-		ft_cd(head->argv[1]);
-	else if (!ft_strncmp(head->cmd, "pwd", 3))
-		ft_pwd();
-	else if (!ft_strncmp(head->cmd, "export", 6))
-		ft_export(head->argv[1]);
-	else if (!ft_strncmp(head->cmd, "unset", 5))
-		ft_unset(head->argv[1]);
-	else if (!ft_strncmp(head->cmd, "env", 3))
-		ft_env();
-	else if (!ft_strncmp(head->cmd, "exit", 4))
-		ft_exit();
-	else
-		test_pipex(head);
-}
 
 static void	free_cmds(t_cmd *tab)
 {
@@ -58,7 +38,7 @@ static void	free_cmds(t_cmd *tab)
 	}
 }
 
-static int	checker_back_col(char *s)
+static int	check_back_col(char *s)
 {
 	while (*s)
 	{
@@ -72,7 +52,7 @@ static int	checker_back_col(char *s)
 	return (0);
 }
 
-static int	checker_quote(char *s)
+static int	check_quote(char *s)
 {
 	int	num_quotes;
 	int	num_dquotes;
@@ -92,6 +72,12 @@ static int	checker_quote(char *s)
 	return (0);
 }
 
+static int	checker(char *str)
+{
+	return (!check_back_col(str) && !check_quote(str) \
+	&& ft_strncmp(str, "\n", ft_strlen(str)));
+}
+
 void	print_prompt(void)
 {
 	char	*str;
@@ -99,11 +85,10 @@ void	print_prompt(void)
 
 	while (1)
 	{
-		str = readline("bash $ ");
+		str = readline("bash$ ");
 		if (str)
 		{
-			if (!checker_back_col(str) && !checker_quote(str) && \
-			ft_strncmp(str, "\n", ft_strlen(str)))
+			if (checker(str))
 			{
 				parser(str, &head);
 				execute_func(head);
@@ -115,6 +100,9 @@ void	print_prompt(void)
 			str = NULL;
 		}
 		else
+		{
+			ft_putendl_fd("\033[1A\033[5C exit", 1);
 			break ;
+		}
 	}
 }

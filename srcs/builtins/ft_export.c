@@ -27,14 +27,14 @@ static char	**cpy(char **env, int len)
 	return (res);
 }
 
-void	ft_export(char *s)
+void	ft_export(char **s)
 {
 	char	**temp;
 	int		len;
 
 	len = two_ptr_counter(g_state.envp);
 	temp = cpy(g_state.envp, len);
-	temp[len] = ft_strdup(s);
+	temp[len] = ft_strdup(s[1]);
 	temp[len + 1] = NULL;
 	free(g_state.envp);
 	g_state.envp = temp;
