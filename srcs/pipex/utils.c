@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:47:05 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/28 19:53:20 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/28 20:15:21 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ int	minskim2_strncmp(const char *s1, const char *s2, size_t n)
 
 void	run_execve(t_cmd *cmd_arg)
 {
-	g_state.exit_status = execve(cmd_arg->cmd, cmd_arg->argv, g_state.envp);
-	if (g_state.exit_status == -1)
+	if (execve(cmd_arg->cmd, cmd_arg->argv, g_state.envp) == -1)
 	{
 		printf("bash: %s: %s\n", cmd_arg->cmd, "command not found");
 		exit(1);
