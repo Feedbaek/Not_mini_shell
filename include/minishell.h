@@ -46,17 +46,16 @@ typedef struct s_parsed
 
 extern t_state	g_state;
 
-void	ft_echo(char *s);
-void	ft_cd(char *s);
+void	ft_echo(char **s);
+void	ft_cd(char **s);
 void	ft_pwd(void);
-void	ft_export(char *s);
-void	ft_unset(char *s);
+void	ft_export(char **s);
+void	ft_unset(char **s);
 void	ft_env(void);
 void	ft_exit(void);
 
 void	cpy_env(char **env);
 void	handle_signal(int signo);
-void	handle_signal2(int signo);
 
 int		two_ptr_counter(char **env);
 void	free_double_pointer(char ***tab);
@@ -75,5 +74,6 @@ int		set_fd(int mode, char **src, char **dst, char **t_f);
 char	**add_arg(char **av, char **arg);
 void	init_struct(t_cmd **x);
 char	*get_cmd(char *s);
+void	execute_func(t_cmd	*head);
 
 #endif

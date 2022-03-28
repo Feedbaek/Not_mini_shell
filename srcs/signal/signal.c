@@ -14,18 +14,21 @@
 
 void	handle_signal(int signo)
 {
+	pid_t	pid;
+	int		status;
+
+	pid = waitpid(-1, &status, WNOHANG);
 	if (signo == SIGINT)
 	{
-		write(STDOUT_FILENO, "\n", 1);
-		if (rl_on_new_line() == -1)
-			exit(1);
-		rl_replace_line("", 0);
-		rl_redisplay();
+		if (pid == -1)
+		{
+			write(STDOUT_FILENO, "\n", 1);
+			if (rl_on_new_line() == -1)
+				exit(1);
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
+		else
+			write(1, "\n", 1);
 	}
-}
-
-void	handle_signal2(int signo)
-{
-	if (signo == SIGABRT)
-		g_state.exit_status = 131;
 }
