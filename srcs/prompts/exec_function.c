@@ -2,7 +2,7 @@
 
 void	execute_func(t_cmd	*head)
 {
-	if (head->cmd)
+	if (head->cmd && *head->cmd)
 	{
 		if (!ft_strncmp(head->cmd, "echo", ft_strlen(head->cmd)))
 			ft_echo(head->argv);

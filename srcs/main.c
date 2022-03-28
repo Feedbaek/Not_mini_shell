@@ -34,6 +34,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	cpy_env(env);
 	signal(SIGINT, (void *)handle_signal);
+	signal(SIGQUIT, SIG_IGN);
 	echoctl_off();
 	print_banner();
 	print_prompt();
