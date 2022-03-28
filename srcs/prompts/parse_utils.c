@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 12:00:37 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/24 16:09:45 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/28 02:01:08 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	init_struct(t_cmd **x)
 	temp->path = NULL;
 	temp->envp = NULL;
 	temp->limiter = NULL;
-	temp->file = NULL;
 	temp->redirect_in = NULL;
 	temp->redirect_out = NULL;
 	temp->redirect_out_add = NULL;

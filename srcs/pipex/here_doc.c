@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:18:54 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/24 17:08:25 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/27 17:13:54 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 	6.	임시 파일 닫기
 */
 
-int	create_tmp(char *name)
+static int	create_tmp(char *name)
 {
 	int	fd;
 
@@ -35,7 +35,7 @@ int	create_tmp(char *name)
 	return (fd);
 }
 
-char	*tmp_naming(void)
+static char	*tmp_naming(void)
 {
 	int	fd;
 	char	*name;
@@ -57,27 +57,36 @@ char	*tmp_naming(void)
 	return (name);
 }
 
-void	here_doc(t_cmd *cmd_arg, char *limiter)
+static void	run_here_doc(t_cmd *cmd_arg)
 {
 	int		fd;
 	int		status;
-	char	*str;
-	char	*file_name;
+	char	*buff;
 
-	file_name = tmp_naming();
-	fd = create_tmp(file_name);
-	cmd_arg->tmp = file_name;
-	status = get_next_line(0, &str);
+	cmd_arg->tmp = tmp_naming();
+	fd = create_tmp(cmd_arg->tmp);
+	write(1, "> ", 2);
+	status = get_next_line(0, &buff);
 	if (status < 0)
 		exit(1);
-	while (ft_strncmp(str, limiter, ft_strlen(str)) != 0)
+	while (ft_strncmp(buff, cmd_arg->limiter, ft_strlen(buff)) != 0)
 	{
-		if (write(fd, str, ft_strlen(str)) < 0 || write(fd, "\n", 1) < 0)
+		if (write(fd, buff, ft_strlen(buff)) < 0 || write(fd, "\n", 1) < 0)
 			exit(1);
-		status = get_next_line(0, &str);
+		write(1, "> ", 2);
+		status = get_next_line(0, &buff);
 		if (status < 0)
 			exit(1);
 	}
-	//dup2(fd, read_fd);
 	close(fd);
+}
+
+void	here_doc(t_cmd *cmd_arg)
+{
+	while (cmd_arg)
+	{
+		if (cmd_arg->limiter)
+			run_here_doc(cmd_arg);
+		cmd_arg = cmd_arg->next;
+	}
 }
