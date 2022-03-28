@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:18:54 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/27 17:13:54 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/28 18:32:21 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	create_tmp(char *name)
 
 static char	*tmp_naming(void)
 {
-	int	fd;
+	int		fd;
 	char	*name;
 	char	*new_name;
 
@@ -52,7 +52,7 @@ static char	*tmp_naming(void)
 		name = new_name;
 		fd = open(name, O_RDONLY);
 	}
-	if (errno != ENOENT)	// 없는 파일의 경우가 아니면
+	if (errno != ENOENT)
 		exit(1);
 	return (name);
 }
