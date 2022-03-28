@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:47:05 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/28 18:35:43 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/28 19:53:20 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ int	minskim2_strncmp(const char *s1, const char *s2, size_t n)
 	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
 }
 
-void	run_execve(t_cmd *cmd_arg, char *error_msg)
+void	run_execve(t_cmd *cmd_arg)
 {
-	if (execve(cmd_arg->cmd, cmd_arg->argv, cmd_arg->envp) == -1)
+	g_state.exit_status = execve(cmd_arg->cmd, cmd_arg->argv, g_state.envp);
+	if (g_state.exit_status == -1)
 	{
-		printf("%s: %s\n", error_msg, strerror(errno));
+		printf("bash: %s: %s\n", cmd_arg->cmd, "command not found");
 		exit(1);
 	}
 }
@@ -54,4 +55,10 @@ void	wait_pid(t_cmd *cmd_arg)
 			unlink(parser->tmp);
 		parser = parser->next;
 	}
+}
+
+void	print_str_error(char *str)
+{
+	printf("bash: %s: %s\n", str, strerror(errno));
+	exit(1);
 }

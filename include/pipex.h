@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:09:11 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/28 02:00:18 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/28 19:45:04 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ typedef	struct	s_cmd
 }				t_cmd;
 
 int		minskim2_strncmp(const char *s1, const char *s2, size_t n);
-void	run_execve(t_cmd *cmd_arg, char *error_msg);
+void	run_execve(t_cmd *cmd_arg);
 void	wait_pid(t_cmd *cmd_arg);
+void	print_str_error(char *str);
 
 size_t	minskim2_strlen(const char *str);
 void	redirect_in(char *file, int input_fd);
