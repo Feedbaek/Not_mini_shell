@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:47:05 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/27 17:16:33 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/28 18:35:43 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	wait_pid(t_cmd *cmd_arg)
 	parser = cmd_arg;
 	while (parser)
 	{
-		waitpid(parser->pid, &(parser->status),0);	// 좀비 프로세스를 방지, 안료된 자식 프로세스의 상태 회수
+		waitpid(parser->pid, &(parser->status), 0);
 		parser = parser->next;
 	}
 	parser = cmd_arg;

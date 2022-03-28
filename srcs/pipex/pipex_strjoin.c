@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 20:45:45 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/24 17:29:25 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/28 18:34:55 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,11 @@ char	*minskim2_strjoin(char const *s1, char const *s2)
 
 	if (!s1 || !s2)
 		return (0);
-	str = (char *)malloc(sizeof(char) * (minskim2_strlen(s1) + minskim2_strlen(s2) + 1));
+	str = malloc((minskim2_strlen(s1) + minskim2_strlen(s2) + 1));
 	if (!str)
 		return (0);
 	(void)minskim2_strlcpy(str, s1, minskim2_strlen(s1) + 1);
-	(void)minskim2_strlcat(str, s2, minskim2_strlen(s1) + minskim2_strlen(s2) + 1);
+	(void)minskim2_strlcat(str, s2, minskim2_strlen(s1) \
+		+ minskim2_strlen(s2) + 1);
 	return (str);
 }
