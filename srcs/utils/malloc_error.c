@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/10 16:23:01 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/10 16:34:32 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/30 17:13:33 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,5 @@ char	**d_ret_null(char ***s)
 void	malloc_error(void)
 {
 	printf("malloc error");
-	// exit(1);
+	exit(1);
 }
