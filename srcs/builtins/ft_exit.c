@@ -12,7 +12,44 @@
 
 #include <minishell.h>
 
-void	ft_exit(void)
+static int	ft_isnumeric(char *s)
 {
-	exit(EXIT_SUCCESS);
+	while (*s)
+	{
+		if ('0' > *s || *s > '9')
+			return (-1);
+		s++;
+	}
+	return (0);
+}
+
+static void	exit_w_code(int i)
+{
+	ft_putendl_fd("exit", 1);
+	exit(i);
+}
+
+void	ft_exit(char **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	if (i == 1)
+		exit_w_code(0);
+	else if (i == 2)
+	{
+		g_state.exit_status = ft_isnumeric(s[1]);
+		if (g_state.exit_status == -1)
+		{
+			ft_putstr_fd("exit: ", 1);
+			ft_putstr_fd(s[1], 1);
+			ft_putendl_fd(": numeric argument required", 1);
+			exit(0);
+		}
+		exit_w_code(ft_atoi(s[1]));
+	}
+	else
+		ft_putendl_fd("exit: too many arguments", 1);
 }

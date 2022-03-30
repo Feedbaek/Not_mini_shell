@@ -19,4 +19,5 @@ void	ft_env(void)
 	i = -1;
 	while (g_state.envp[++i])
 		ft_putendl_fd(g_state.envp[i], 1);
+	g_state.exit_status = 0;
 }

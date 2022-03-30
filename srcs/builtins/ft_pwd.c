@@ -22,4 +22,5 @@ void	ft_pwd(void)
 		exit(1);
 	ft_putendl_fd(pwd, 1);
 	free(pwd);
+	g_state.exit_status = 0;
 }
