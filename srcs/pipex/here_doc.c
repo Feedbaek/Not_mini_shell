@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:18:54 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/30 21:49:29 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/30 22:30:16 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,7 @@ static void	run_here_doc(t_cmd *cmd_arg)
 	while (!ft_strlen(buff) || ft_strncmp(buff, cmd_arg->limiter, ft_strlen(buff)) != 0)
 	{
 		if (!status)
-		{
-			write(1, "\n", 1);
 			break;
-		}
 		if (write(fd, buff, ft_strlen(buff)) < 0 || write(fd, "\n", 1) < 0)
 			print_str_error("write");
 		write(1, "> ", 2);
@@ -100,12 +97,14 @@ void	handle()
 
 void	here_doc(t_cmd *cmd_arg)
 {
-	signal(SIGINT, SIG_DFL);
+	echoctl_off();
+	signal(SIGINT, handle_heredoc);
 	while (cmd_arg)
 	{
 		if (cmd_arg->limiter)
 			run_here_doc(cmd_arg);
 		cmd_arg = cmd_arg->next;
 	}
-	exit(0);
+	signal(SIGINT, handle_signal);
+	echoctl_on();
 }

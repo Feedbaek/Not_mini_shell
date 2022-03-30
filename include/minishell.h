@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/30 21:27:10 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/30 22:26:22 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_exit(char **s);
 
 void	cpy_env(char **env);
 void	handle_signal(int signo);
-void	handler_int_heredoc(int signum);
+void	handle_heredoc(int signo);
 
 int		two_ptr_counter(char **env);
 void	free_double_pointer(char ***tab);

@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:53:38 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/30 21:58:04 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/30 22:12:14 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,24 +106,8 @@ void	test_pipex(t_cmd *head)
 	t_cmd	*parser;
 	int		pipe_a[2];
 	int		pipe_b[2];
-	int		i;
-	pid_t	here;
 
-	here = fork();
-	if (!here)
-		here_doc(head);
-	else
-	{
-		waitpid(here, &(g_state.exit_status), 0);
-		printf("%d\n", g_state.exit_status);
-		if (g_state.exit_status != 0)
-		{
-			write(1, "1\n", 2);
-			wait_pid(head);
-			return ;
-		}
-	}
-	write(1, "44\n", 3);
+	here_doc(head);
 	parser = head;
 	while (parser && parser->cmd)
 	{
