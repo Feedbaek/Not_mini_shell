@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 11:35:26 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/28 18:36:38 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/30 21:32:00 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,4 @@ void	handle_signal(int signo)
 		else
 			write(1, "\n", 1);
 	}
-}
-
-void	handler_int_heredoc(int signum)
-{
-	if (signum != SIGINT)
-		return ;
-	write(STDOUT_FILENO, "\n", 1);
-	if (rl_on_new_line() == -1)
-		exit(1);
-	rl_replace_line("", 1);
-	rl_redisplay();
 }

@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/30 15:54:13 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/30 21:27:10 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_state
 	char	**path;
 	int		exit_status;
 	int		pwd_idx;
+	int		heredoc_status;
 }	t_state;
 
 typedef struct s_parsed
