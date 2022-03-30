@@ -6,7 +6,7 @@
 #    By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:50:35 by minskim2          #+#    #+#              #
-#    Updated: 2022/03/25 15:19:05 by minskim2         ###   ########.fr        #
+#    Updated: 2022/03/30 17:09:37 by minskim2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,18 +41,6 @@ SRCS = srcs/main.c \
 		srcs/pipex/utils.c \
 		srcs/pipex/here_doc.c \
 		srcs/pipex/pipex.c
-
-#TEST_SRCS = \
-#		srcs/pipex/gnl/get_next_line_utils.c \
-#		srcs/pipex/gnl/get_next_line_utils2.c \
-#		srcs/pipex/gnl/get_next_line.c \
-#		srcs/pipex/path_finder.c \
-#		srcs/pipex/pipex_split.c \
-#		srcs/pipex/pipex_strjoin.c \
-#		srcs/pipex/redirect.c \
-#		srcs/pipex/utils.c \
-#		srcs/pipex/here_doc.c \
-#		srcs/pipex/test.c
 
 SRCS_BONUS =
 

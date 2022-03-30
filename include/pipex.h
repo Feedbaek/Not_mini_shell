@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:09:11 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/28 19:45:04 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/03/30 17:11:31 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 
 # include <minishell.h>
 
-typedef	struct	s_cmd
+typedef struct s_cmd
 {
-	int		idx;
-	pid_t	pid;
-	int		status;
-	char	*cmd;
-	char	**argv;
-	char	**path;
-	char	**envp;
-	char	*limiter;
-	char	*redirect_in;
-	char	*redirect_out;
-	char	*redirect_out_add;
-	char	*tmp;
+	int				idx;
+	pid_t			pid;
+	int				status;
+	char			*cmd;
+	char			**argv;
+	char			**path;
+	char			**envp;
+	char			*limiter;
+	char			*redirect_in;
+	char			*redirect_out;
+	char			*redirect_out_add;
+	char			*tmp;
 	struct s_cmd	*next;
 }				t_cmd;
 
