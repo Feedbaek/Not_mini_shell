@@ -32,3 +32,14 @@ void	handle_signal(int signo)
 			write(1, "\n", 1);
 	}
 }
+
+void	handler_int_heredoc(int signum)
+{
+	if (signum != SIGINT)
+		return ;
+	write(STDOUT_FILENO, "\n", 1);
+	if (rl_on_new_line() == -1)
+		exit(1);
+	rl_replace_line("", 1);
+	rl_redisplay();
+}

@@ -57,6 +57,7 @@ void	ft_exit(char **s);
 
 void	cpy_env(char **env);
 void	handle_signal(int signo);
+void	handler_int_heredoc(int signum);
 
 int		two_ptr_counter(char **env);
 void	free_double_pointer(char ***tab);
