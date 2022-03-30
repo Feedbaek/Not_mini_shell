@@ -40,5 +40,6 @@ int	main(int ac, char **av, char **env)
 	print_prompt();
 	free_double_pointer(&g_state.envp);
 	free_double_pointer(&g_state.path);
-	return (EXIT_SUCCESS);
+	g_state.exit_status = 130;
+	return (g_state.exit_status);
 }

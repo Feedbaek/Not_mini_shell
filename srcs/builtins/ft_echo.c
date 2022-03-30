@@ -43,4 +43,5 @@ void	ft_echo(char **s)
 		if (!t_opt)
 			ft_putchar_fd('\n', 1);
 	}
+	g_state.exit_status = 0;
 }

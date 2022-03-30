@@ -52,7 +52,7 @@ void	ft_pwd(void);
 void	ft_export(char **s);
 void	ft_unset(char **s);
 void	ft_env(void);
-void	ft_exit(void);
+void	ft_exit(char **s);
 
 void	cpy_env(char **env);
 void	handle_signal(int signo);

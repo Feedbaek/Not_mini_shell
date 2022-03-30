@@ -73,4 +73,5 @@ void	ft_export(char **s)
 	}
 	else
 		print_env();
+	g_state.exit_status = 0;
 }
