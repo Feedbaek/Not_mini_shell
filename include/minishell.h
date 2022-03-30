@@ -20,6 +20,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <string.h>
+# include <stdbool.h>
 # include <termios.h>
 # include <sys/errno.h>
 # include <sys/wait.h>
@@ -68,6 +69,7 @@ void	echoctl_off(void);
 
 void	print_prompt(void);
 void	parser(char *s, t_cmd **head);
+char	**parse_split(char const *s, char c);
 char	*process_env_var(char *s);
 void	tokenize_line(char **split, t_parsed **parsed);
 int		set_fd(int mode, char **src, char **dst, char **t_f);

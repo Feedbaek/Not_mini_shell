@@ -108,7 +108,7 @@ void	parser(char *s, t_cmd **head)
 	char		**splited_w_vb;
 	t_parsed	**tokenized;
 
-	splited_w_vb = ft_split(s, '|');
+	splited_w_vb = parse_split(s, '|');
 	if (!splited_w_vb)
 		malloc_error();
 	len = two_ptr_counter(splited_w_vb);
