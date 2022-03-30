@@ -38,6 +38,7 @@ void	ft_unset(char **s)
 	int	i;
 
 	i = 0;
+	g_state.exit_status = 0;
 	ft_strlcat(s[1], "=", ft_strlen(s[1]) + 1);
 	while (g_state.envp[i])
 	{

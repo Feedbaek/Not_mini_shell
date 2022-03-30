@@ -2,7 +2,7 @@
 
 void	execute_func(t_cmd	*head)
 {
-	if (head->cmd)
+	if (head->cmd && *head->cmd)
 	{
 		if (!ft_strncmp(head->cmd, "echo", ft_strlen(head->cmd)))
 			ft_echo(head->argv);
@@ -17,7 +17,7 @@ void	execute_func(t_cmd	*head)
 		else if (!ft_strncmp(head->cmd, "env", ft_strlen(head->cmd)))
 			ft_env();
 		else if (!ft_strncmp(head->cmd, "exit", ft_strlen(head->cmd)))
-			ft_exit();
+			ft_exit(head->argv);
 		else
 		{
 			echoctl_on();

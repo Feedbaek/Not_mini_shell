@@ -18,6 +18,7 @@ static void	print_cd_error(char *s, char *err)
 	ft_putstr_fd(s, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putendl_fd(err, 2);
+	g_state.exit_status = 1;
 }
 
 void	ft_cd(char **s)
@@ -25,6 +26,7 @@ void	ft_cd(char **s)
 	char	*pwd;
 
 	pwd = NULL;
+	g_state.exit_status = 0;
 	if (s[1])
 	{
 		if (chdir(s[1]) == -1)
