@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sungmcho <sungmcho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 10:32:20 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/11 11:35:48 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/03/30 15:47:09 by sungmcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	cpy_env(env);
+	g_state.exit_status = 0;
 	signal(SIGINT, (void *)handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	echoctl_off();

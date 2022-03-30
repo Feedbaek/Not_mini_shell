@@ -25,6 +25,7 @@ SRCS = srcs/main.c \
 		srcs/prompts/process_env_var.c \
 		srcs/prompts/tokenize.c \
 		srcs/prompts/parse_utils.c \
+		srcs/prompts/parse_utils2.c \
 		srcs/prompts/exec_function.c \
 		srcs/utils/cpy_env.c \
 		srcs/utils/free_double_pointer.c \

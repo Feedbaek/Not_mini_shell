@@ -68,7 +68,10 @@ static int	check_quote(char *s)
 		s++;
 	}
 	if (num_quotes % 2 != 0 || num_dquotes % 2 != 0)
+	{
+		ft_putendl_fd("We don't interrupt unclosed quotes.", STDERR_FILENO);
 		return (1);
+	}
 	return (0);
 }
 
