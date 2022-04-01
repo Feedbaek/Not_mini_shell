@@ -34,9 +34,7 @@
 typedef struct s_state
 {
 	char	**envp;
-	char	**path;
 	int		exit_status;
-	int		pwd_idx;
 	int		heredoc_status;
 }	t_state;
 
@@ -65,6 +63,7 @@ void	free_double_pointer(char ***tab);
 char	*one_ret_null(char **s);
 char	**d_ret_null(char ***s);
 void	malloc_error(void);
+int		equals(char *s1, char *s2);
 
 void	echoctl_on(void);
 void	echoctl_off(void);
@@ -72,12 +71,10 @@ void	echoctl_off(void);
 void	print_prompt(void);
 void	parser(char *s, t_cmd **head);
 char	**parse_split(char const *s, char c);
-char	*process_env_var(char *s);
-void	tokenize_line(char **split, t_parsed **parsed);
-int		set_fd(int mode, char **src, char **dst, char **t_f);
-char	**add_arg(char **av, char **arg);
-void	init_struct(t_cmd **x);
-char	*get_cmd(char *s);
+void	process_env_var(char **s);
+void	add_arg(t_cmd *x, char **arg);
+void	process_str(char *s, char **res);
+int		set_fd(int mode, char **redir, char	*filename);
 void	execute_func(t_cmd	*head);
 
 #endif

@@ -32,16 +32,14 @@ int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	cpy_env(env);
 	g_state.exit_status = 0;
-	g_state.heredoc_status = 0;
+	cpy_env(env);
 	signal(SIGINT, (void *)handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	echoctl_off();
 	print_banner();
 	print_prompt();
 	free_double_pointer(&g_state.envp);
-	free_double_pointer(&g_state.path);
 	g_state.exit_status = 130;
 	return (g_state.exit_status);
 }

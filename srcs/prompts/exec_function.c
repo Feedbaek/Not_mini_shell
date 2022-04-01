@@ -16,19 +16,21 @@ void	execute_func(t_cmd	*head)
 {
 	if (head->cmd && *head->cmd)
 	{
-		if (!ft_strncmp(head->cmd, "echo", ft_strlen(head->cmd)))
+		if (!ft_strncmp(head->cmd, "echo", 4) && ft_strlen(head->cmd) == 4)
 			ft_echo(head->argv);
-		else if (!ft_strncmp(head->cmd, "cd", ft_strlen(head->cmd)))
+		else if (!ft_strncmp(head->cmd, "cd", 2) && ft_strlen(head->cmd) == 2)
 			ft_cd(head->argv);
-		else if (!ft_strncmp(head->cmd, "pwd", ft_strlen(head->cmd)))
+		else if (!ft_strncmp(head->cmd, "pwd", 3) && ft_strlen(head->cmd) == 3)
 			ft_pwd();
-		else if (!ft_strncmp(head->cmd, "export", ft_strlen(head->cmd)))
+		else if (!ft_strncmp(head->cmd, "export", 6) \
+				&& ft_strlen(head->cmd) == 6)
 			ft_export(head->argv);
-		else if (!ft_strncmp(head->cmd, "unset", ft_strlen(head->cmd)))
+		else if (!ft_strncmp(head->cmd, "unset", 5) \
+				&& ft_strlen(head->cmd) == 5)
 			ft_unset(head->argv);
-		else if (!ft_strncmp(head->cmd, "env", ft_strlen(head->cmd)))
+		else if (!ft_strncmp(head->cmd, "env", 3) && ft_strlen(head->cmd) == 3)
 			ft_env();
-		else if (!ft_strncmp(head->cmd, "exit", ft_strlen(head->cmd)))
+		else if (!ft_strncmp(head->cmd, "exit", 4) && ft_strlen(head->cmd) == 4)
 			ft_exit(head->argv);
 		else
 		{

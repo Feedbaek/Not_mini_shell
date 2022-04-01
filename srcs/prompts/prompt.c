@@ -12,10 +12,12 @@
 
 #include <minishell.h>
 
-static void	free_cmds(t_cmd *tab)
+static void	free_cmds(t_cmd **head)
 {
 	t_cmd	*temp;
+	t_cmd	*tab;
 
+	tab = *head;
 	while (tab)
 	{
 		if (tab->cmd)
@@ -95,7 +97,7 @@ void	print_prompt(void)
 			{
 				parser(str, &head);
 				execute_func(head);
-				free_cmds(head);
+				// free_cmds(&head);
 			}
 			if (ft_strncmp(str, "\n", ft_strlen(str)))
 				add_history(str);

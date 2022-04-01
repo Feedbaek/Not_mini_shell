@@ -12,67 +12,66 @@
 
 #include <minishell.h>
 
-static int	check_token(char *s1, char *s2, char de, t_cmd *x)
+static void	init_struct(t_cmd **x)
 {
-	if (ft_strlen(s1) == 1 && de == ' ')
-	{
-		if (*s1 == '<')
-			return (set_fd(1, &(x->redirect_in), &s2, &s1));
-		if (*s1 == '>')
-			return (set_fd(2, &(x->redirect_out), &s2, &s1));
-	}
-	if (ft_strlen(s1) == 2 && de == ' ')
-	{
-		if (!ft_strncmp(s1, "<<", 2))
-			return (set_fd(3, &(x->limiter), &s2, &s1));
-		if (!ft_strncmp(s1, ">>", 2))
-			return (set_fd(4, &(x->redirect_out_add), &s2, &s1));
-	}
-	return (0);
+	t_cmd	*temp;
+
+	temp = *x;
+	temp->idx = 0;
+	temp->pid = 0;
+	temp->status = 0;
+	temp->cmd = NULL;
+	temp->argv = NULL;
+	temp->path = NULL;
+	temp->envp = NULL;
+	temp->limiter = NULL;
+	temp->redirect_in = NULL;
+	temp->redirect_out = NULL;
+	temp->redirect_out_add = NULL;
+	temp->next = NULL;
 }
 
-void	add_cmd(t_cmd *x, char **s)
+static int	check_redir(char *s1, char *s2, t_cmd *x)
 {
-	char	**temp;
-
-	if (x->argv)
-	{
-		temp = x->argv;
-		x->argv = add_arg(x->argv, s);
-		free(temp);
-	}
+	if (equals(s1, "<"))
+		return (set_fd(1, &(x->redirect_in), s2));
+	else if (equals(s1, ">"))
+		return (set_fd(2, &(x->redirect_out), s2));
+	else if (equals(s1, "<<"))
+		return ((set_fd(3, &(x->limiter), s2)));
+	else if (equals(s1, ">>"))
+		return ((set_fd(4, &(x->redirect_out_add), s2)));
 	else
-	{
-		x->argv = (char **)malloc(sizeof(char *) * 2);
-		if (!x->argv)
-			malloc_error();
-		x->argv[0] = *s;
-		x->argv[1] = NULL;
-		x->cmd = get_cmd(*s);
-	}
+		return (0);
 }
 
-static void	cmd_init(t_parsed *parsed, t_cmd *x)
+static void	cmd_init(char *s, t_cmd *x)
 {
-	int	i;
-	int	ret;
+	int		i;
+	int		fd_checker;
+	char	**temp;
+	char	*p_s;
 
+	temp = parse_split(s, ' ');
+	if (!temp)
+		malloc_error();
 	i = -1;
-	while (parsed[++i].token)
+	while (temp[++i])
 	{
-		ret = check_token(parsed[i].token, parsed[i + 1].token, \
-						parsed[i].de, x);
-		if (ret > 0)
-		{
-			i += ret;
-			continue ;
-		}
+		fd_checker = check_redir(temp[i], temp[i + 1], x);
+		if (fd_checker)
+			i += fd_checker;
 		else
-			add_cmd(x, &parsed[i].token);
+		{
+			p_s = NULL;
+			process_str(temp[i], &p_s);
+			add_arg(x, &p_s);
+		}
 	}
+	free_double_pointer(&temp);
 }
 
-static void	set_cmds(t_parsed **tokenized, int len, t_cmd **head)
+static void	set_cmds(char **splited_w_vb, int len, t_cmd **head)
 {
 	int		i;
 	t_cmd	*cmd_arg;
@@ -95,7 +94,7 @@ static void	set_cmds(t_parsed **tokenized, int len, t_cmd **head)
 			prev_cmd->next = cmd_arg;
 			prev_cmd = cmd_arg;
 		}
-		cmd_init(tokenized[i], cmd_arg);
+		cmd_init(splited_w_vb[i], cmd_arg);
 		cmd_arg->idx = i;
 		i++;
 	}
@@ -103,24 +102,13 @@ static void	set_cmds(t_parsed **tokenized, int len, t_cmd **head)
 
 void	parser(char *s, t_cmd **head)
 {
-	int			i;
 	int			len;
 	char		**splited_w_vb;
-	t_parsed	**tokenized;
 
 	splited_w_vb = parse_split(s, '|');
 	if (!splited_w_vb)
 		malloc_error();
 	len = two_ptr_counter(splited_w_vb);
-	tokenized = (t_parsed **)malloc(sizeof(t_parsed *) * (len + 1));
-	if (!tokenized)
-		malloc_error();
-	tokenized[len] = NULL;
-	tokenize_line(splited_w_vb, tokenized);
-	set_cmds(tokenized, len, head);
-	i = -1;
-	while (++i < len)
-		free(tokenized[i]);
-	free(tokenized);
+	set_cmds(splited_w_vb, len, head);
 	free_double_pointer(&splited_w_vb);
 }

@@ -27,22 +27,22 @@ void	ft_cd(char **s)
 
 	pwd = NULL;
 	g_state.exit_status = 0;
-	if (s[1])
-	{
-		if (chdir(s[1]) == -1)
-			print_cd_error(s[1], strerror(errno));
-		else
-		{
-			pwd = getcwd(pwd, BUFSIZ);
-			free(g_state.envp[g_state.pwd_idx]);
-			g_state.envp[g_state.pwd_idx] = ft_strjoin("PWD=", pwd);
-			free(pwd);
-		}
-	}
-	else
-	{
-		if (chdir(getenv("HOME")) == -1)
-			print_cd_error(s[1], strerror(errno));
-		g_state.envp[g_state.pwd_idx] = ft_strjoin("PWD=", getenv("HOME"));
-	}
+	// if (s[1])
+	// {
+	// 	if (chdir(s[1]) == -1)
+	// 		print_cd_error(s[1], strerror(errno));
+	// 	else
+	// 	{
+	// 		pwd = getcwd(pwd, BUFSIZ);
+	// 		free(g_state.envp[g_state.pwd_idx]);
+	// 		g_state.envp[g_state.pwd_idx] = ft_strjoin("PWD=", pwd);
+	// 		free(pwd);
+	// 	}
+	// }
+	// else
+	// {
+	// 	if (chdir(getenv("HOME")) == -1)
+	// 		print_cd_error(s[1], strerror(errno));
+	// 	g_state.envp[g_state.pwd_idx] = ft_strjoin("PWD=", getenv("HOME"));
+	// }
 }

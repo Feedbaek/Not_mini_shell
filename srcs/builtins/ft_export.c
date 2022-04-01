@@ -12,19 +12,6 @@
 
 #include <minishell.h>
 
-static int	lprint(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '=')
-	{
-		ft_putchar_fd(s[i], 1);
-		i++;
-	}
-	return (i);
-}
-
 static void	print_env(void)
 {
 	int	i;
@@ -34,44 +21,80 @@ static void	print_env(void)
 	while (g_state.envp[++i])
 	{
 		ft_putstr_fd("declare -x ", 1);
-		len = lprint(g_state.envp[i]);
-		ft_putchar_fd('=', 1);
-		ft_putchar_fd('\"', 1);
-		ft_putstr_fd(g_state.envp[i] + len, 1);
-		ft_putstr_fd("\"\n", 1);
+		ft_putendl_fd(g_state.envp[i], 1);
 	}
 }
 
-static char	**cpy(char **env, int len)
+static void	add_envp(char *s)
 {
-	char	**res;
+	char	**temp;
+	int		len;
 	int		i;
 
 	i = 0;
-	res = (char **)malloc(sizeof(char *) * (len + 2));
-	while (env[i])
+	len = two_ptr_counter(g_state.envp);
+	temp = (char **)malloc(len + 2);
+	if (!temp)
+		malloc_error();
+	while (g_state.envp[i])
 	{
-		res[i] = env[i];
+		temp[i] = ft_strdup(g_state.envp[i]);
 		i++;
 	}
-	return (res);
+	temp[i++] = ft_strdup(s);
+	temp[i] = NULL;
+	free_double_pointer(&g_state.envp);
+	g_state.envp = temp;
+}
+
+static int	find_env(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (g_state.envp[i])
+	{
+		if (ft_strncmp(g_state.envp[i], s, ft_strlen(s) + 1) == '=')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+static void	do_export(char *k, char *s)
+{
+	int	idx;
+
+	idx = find_env(k);
+	if (idx < 0)
+		add_envp(s);
+	else
+	{
+		free(g_state.envp[idx]);
+		g_state.envp[idx] = ft_strdup(s);
+	}
 }
 
 void	ft_export(char **s)
 {
-	char	**temp;
-	int		len;
+	char	**split;
+	int		i;
 
-	if (*(s + 1))
-	{
-		len = two_ptr_counter(g_state.envp);
-		temp = cpy(g_state.envp, len);
-		temp[len] = ft_strdup(s[1]);
-		temp[len + 1] = NULL;
-		free(g_state.envp);
-		g_state.envp = temp;
-	}
-	else
+	i = 1;
+	if (two_ptr_counter(s) == 1)
 		print_env();
+	else
+	{
+		while (s[i])
+		{
+			split = ft_split(s[i], '=');
+			if (!split)
+				malloc_error();
+			if (split[1])
+				do_export(split[0], s[i]);
+			free_double_pointer(&split);
+			i++;
+		}
+	}
 	g_state.exit_status = 0;
 }

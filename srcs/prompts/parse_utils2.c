@@ -1,6 +1,6 @@
 #include <minishell.h>
 
-size_t	count_word(char *s, char c)
+static size_t	count_word(char *s, char c)
 {
 	size_t	count;
 	int		i;
