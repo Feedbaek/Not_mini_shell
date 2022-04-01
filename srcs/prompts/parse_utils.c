@@ -77,6 +77,17 @@ void	process_str(char *s, char **res)
 		join_free(res, s, &b_p, quotes[0]);
 }
 
+static void	add_cmd(char **envp, t_cmd *x, char **s)
+{
+	if (equals(*s, "cd") || equals(*s, "echo") || \
+		equals(*s, "env") || equals(*s, "exit") || \
+		equals(*s, "export") || equals(*s, "pwd") || \
+		equals(*s, "unset"))
+		x->cmd = *s;
+	else
+		path_finder(g_state.envp, x, *s);
+}
+
 void	add_arg(t_cmd *x, char **arg)
 {
 	int		i;
@@ -102,6 +113,6 @@ void	add_arg(t_cmd *x, char **arg)
 		temp[++i] = NULL;
 	}
 	if (!len)
-		path_finder(g_state.envp, x, *arg);
+		add_cmd(g_state.envp, x, arg);
 	x->argv = temp;
 }

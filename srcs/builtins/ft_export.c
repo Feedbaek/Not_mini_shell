@@ -85,12 +85,12 @@ void	ft_export(char **s)
 	char	**split;
 	int		i;
 
-	i = 1;
+	i = 0;
 	if (two_ptr_counter(s) == 1)
 		print_env();
 	else
 	{
-		while (s[i])
+		while (s[++i])
 		{
 			split = ft_split(s[i], '=');
 			if (two_ptr_counter(split) > 1)
@@ -104,7 +104,6 @@ void	ft_export(char **s)
 					do_export(split[0], s[i]);
 				free_double_pointer(&split);
 			}
-			i++;
 		}
 	}
 	g_state.exit_status = 0;
