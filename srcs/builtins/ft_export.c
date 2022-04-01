@@ -93,14 +93,17 @@ void	ft_export(char **s)
 		while (s[i])
 		{
 			split = ft_split(s[i], '=');
-			if (!check_validity(split[0], s[i]) \
-				|| !check_validity(split[1], s[i]))
-				break ;
-			if (!split)
-				malloc_error();
-			if (split[1])
-				do_export(split[0], s[i]);
-			free_double_pointer(&split);
+			if (two_ptr_counter(split) > 1)
+			{
+				if (!check_validity(split[0], s[i]) \
+					|| !check_validity(split[1], s[i]))
+					break ;
+				if (!split)
+					malloc_error();
+				if (split[1])
+					do_export(split[0], s[i]);
+				free_double_pointer(&split);
+			}
 			i++;
 		}
 	}
