@@ -12,102 +12,96 @@
 
 #include <minishell.h>
 
-int	set_fd(int mode, char **src, char **dst, char **t_f)
+int	set_fd(int mode, char **redir, char	*filename)
 {
 	int	fd;
 
 	if (mode == 2 || mode == 4)
 	{
-		fd = open(*dst, O_CREAT, 0644);
+		fd = open(filename, O_CREAT, 0644);
 		close(fd);
 	}
-	if (*src)
-		free(*src);
-	*src = *dst;
-	free(*t_f);
+	if (*redir)
+		free(*redir);
+	*redir = ft_strdup(filename);
 	return (1);
 }
 
-char	**add_arg(char **av, char **arg)
+static void	join_free(char **src, char *s, char **b_p, bool quote)
+{
+	char	*temp;
+	char	*temp2;
+
+	temp = (char *)malloc(s - *b_p);
+	if (!temp)
+		exit(EXIT_FAILURE);
+	ft_strlcpy(temp, *b_p, s - *b_p + 1);
+	if (!quote)
+		process_env_var(&temp);
+	if (*src)
+	{
+		temp2 = ft_strjoin(*src, temp);
+		free(*src);
+		free(temp);
+		temp = temp2;
+	}
+	*src = temp;
+	*b_p = NULL;
+}
+
+void	process_str(char *s, char **res)
+{
+	bool	quotes[2];
+	char	*b_p;
+
+	quotes[0] = false;
+	quotes[1] = false;
+	b_p = NULL;
+	while (*s)
+	{
+		if (!b_p)
+			b_p = s;
+		if (*s == '\'' && !quotes[1])
+		{
+			join_free(res, s, &b_p, quotes[0]);
+			quotes[0] = !quotes[0];
+		}
+		if (*s == '"' && !quotes[0])
+		{
+			join_free(res, s, &b_p, quotes[0]);
+			quotes[1] = !quotes[1];
+		}
+		s++;
+	}
+	if (b_p)
+		join_free(res, s, &b_p, quotes[0]);
+}
+
+void	add_arg(t_cmd *x, char **arg)
 {
 	int		i;
 	int		len;
-	char	**res;
+	char	**temp;
 
 	i = -1;
-	len = two_ptr_counter(av);
-	res = (char **)malloc(sizeof(char *) * (len + 2));
-	if (!res)
+	len = two_ptr_counter(x->argv);
+	temp = (char **)malloc((len + 2) * sizeof(char *));
+	if (!temp)
 		malloc_error();
-	while (++i < len)
-		res[i] = av[i];
-	res[i++] = *arg;
-	res[i] = NULL;
-	return (res);
-}
-
-void	init_struct(t_cmd **x)
-{
-	t_cmd	*temp;
-
-	temp = *x;
-	temp->idx = 0;
-	temp->pid = 0;
-	temp->status = 0;
-	temp->cmd = NULL;
-	temp->argv = NULL;
-	temp->path = NULL;
-	temp->envp = NULL;
-	temp->limiter = NULL;
-	temp->redirect_in = NULL;
-	temp->redirect_out = NULL;
-	temp->redirect_out_add = NULL;
-	temp->next = NULL;
-}
-
-static char	*three_strjoin(char *s1, char *s2, char *s3)
-{
-	char	*rslt;
-	size_t	s1_len;
-	size_t	s2_len;
-	size_t	s3_len;
-
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	s3_len = ft_strlen(s3);
-	rslt = (char *)malloc(s1_len + s2_len + s3_len + 1);
-	if (!rslt)
-		return (NULL);
-	ft_strlcpy(rslt, s1, s1_len + 1);
-	ft_strlcat(rslt, s2, s1_len + s2_len + 1);
-	ft_strlcat(rslt, s3, s1_len + s2_len + s3_len + 1);
-	return (rslt);
-}
-
-char	*get_cmd(char *s)
-{
-	int			i;
-	char		*res;
-	struct stat	stats;
-
-	i = -1;
-	if (!ft_strncmp(s, "cd", ft_strlen(s)) \
-	|| !ft_strncmp(s, "echo", ft_strlen(s)) \
-	|| !ft_strncmp(s, "env", ft_strlen(s)) \
-	|| !ft_strncmp(s, "exit", ft_strlen(s)) \
-	|| !ft_strncmp(s, "export", ft_strlen(s)) \
-	|| !ft_strncmp(s, "pwd", ft_strlen(s)) \
-	|| !ft_strncmp(s, "unset", ft_strlen(s)))
-		return (ft_strdup(s));
-	while (g_state.path[++i])
+	if (x->argv)
 	{
-		res = three_strjoin(g_state.path[i], "/", s);
-		if (!res)
-			malloc_error();
-		if (stat(res, &stats) == 0)
-			return (res);
-		else
-			free(res);
+		while ((x->argv)[++i])
+			temp[i] = (x->argv)[i];
+		temp[i++] = *arg;
+		temp[i] = NULL;
+		free(x->argv);
 	}
-	return (ft_strdup(s));
+	else
+	{
+		temp[++i] = *arg;
+		temp[++i] = NULL;
+	}
+	if (!len)
+		path_finder(g_state.envp, x, *arg);
+	x->argv = temp;
 }

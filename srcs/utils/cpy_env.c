@@ -17,6 +17,8 @@ int	two_ptr_counter(char **av)
 	int	i;
 
 	i = 0;
+	if (!av)
+		return (0);
 	while (av[i])
 		i++;
 	return (i);
@@ -29,12 +31,10 @@ void	cpy_env(char **env)
 
 	i = 0;
 	g_state.envp = (char **)malloc(sizeof(char *) * (two_ptr_counter(env) + 1));
+	if (!g_state.envp)
+		malloc_error();
 	while (env[i])
 	{
-		if (!ft_strncmp("PATH=", env[i], 5))
-			g_state.path = ft_split(env[i] + 5, ':');
-		if (!ft_strncmp("PWD=", env[i], 4))
-			g_state.pwd_idx = i;
 		if (!ft_strncmp("SHLVL=", env[i], 6))
 		{
 			level = ft_atoi(env[i] + 6) + 1;

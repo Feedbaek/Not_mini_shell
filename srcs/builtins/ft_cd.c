@@ -21,28 +21,62 @@ static void	print_cd_error(char *s, char *err)
 	g_state.exit_status = 1;
 }
 
+int	get_envp_idx(char **envp, char *s)
+{
+	int		i;
+	char	**temp;
+
+	i = 0;
+	while (envp[i])
+	{
+		temp = ft_split(envp[i], '=');
+		if (!temp)
+			malloc_error();
+		if (equals(temp[0], s))
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+static void	store_pwd(char *s)
+{
+	char	*val;
+
+	if (!s)
+	{
+		s = getcwd(s, BUFSIZ);
+		val = ft_strjoin("PWD=", s);
+		free(s);
+	}
+	else
+		val = ft_strjoin("PWD=", s);
+	do_export("PWD", val);
+	free(val);
+}
+
 void	ft_cd(char **s)
 {
-	char	*pwd;
+	int		home_idx;
 
-	pwd = NULL;
 	g_state.exit_status = 0;
+	home_idx = get_envp_idx(g_state.envp, "HOME");
 	if (s[1])
 	{
 		if (chdir(s[1]) == -1)
 			print_cd_error(s[1], strerror(errno));
 		else
-		{
-			pwd = getcwd(pwd, BUFSIZ);
-			free(g_state.envp[g_state.pwd_idx]);
-			g_state.envp[g_state.pwd_idx] = ft_strjoin("PWD=", pwd);
-			free(pwd);
-		}
+			store_pwd(NULL);
 	}
 	else
 	{
-		if (chdir(getenv("HOME")) == -1)
-			print_cd_error(s[1], strerror(errno));
-		g_state.envp[g_state.pwd_idx] = ft_strjoin("PWD=", getenv("HOME"));
+		if (home_idx < 0)
+			print_cd_error("HOME", "HOME not set");
+		else
+		{
+			if (chdir(g_state.envp[home_idx]) == -1)
+				print_cd_error("HOME", strerror(errno));
+			store_pwd(g_state.envp[home_idx]);
+		}
 	}
 }

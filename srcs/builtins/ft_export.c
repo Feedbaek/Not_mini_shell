@@ -12,19 +12,6 @@
 
 #include <minishell.h>
 
-static int	lprint(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '=')
-	{
-		ft_putchar_fd(s[i], 1);
-		i++;
-	}
-	return (i);
-}
-
 static void	print_env(void)
 {
 	int	i;
@@ -34,44 +21,88 @@ static void	print_env(void)
 	while (g_state.envp[++i])
 	{
 		ft_putstr_fd("declare -x ", 1);
-		len = lprint(g_state.envp[i]);
-		ft_putchar_fd('=', 1);
-		ft_putchar_fd('\"', 1);
-		ft_putstr_fd(g_state.envp[i] + len, 1);
-		ft_putstr_fd("\"\n", 1);
+		ft_putendl_fd(g_state.envp[i], 1);
 	}
 }
 
-static char	**cpy(char **env, int len)
+static void	add_envp(char *s)
 {
-	char	**res;
 	int		i;
+	int		len;
+	char	**tmp;
 
-	i = 0;
-	res = (char **)malloc(sizeof(char *) * (len + 2));
-	while (env[i])
+	i = -1;
+	len = two_ptr_counter(g_state.envp);
+	tmp = (char **)malloc(sizeof(char *) * (len + 2));
+	if (!tmp)
+		malloc_error();
+	while (g_state.envp[++i])
+		tmp[i] = g_state.envp[i];
+	tmp[i++] = ft_strdup(s);
+	tmp[i] = NULL;
+	free(g_state.envp);
+	g_state.envp = tmp;
+}
+
+void	do_export(char *k, char *s)
+{
+	int	idx;
+
+	idx = get_envp_idx(g_state.envp, k);
+	if (idx < 0)
+		add_envp(s);
+	else
 	{
-		res[i] = env[i];
-		i++;
+		free(g_state.envp[idx]);
+		g_state.envp[idx] = ft_strdup(s);
 	}
-	return (res);
+}
+
+static int	check_validity(char *s, char *export)
+{
+	if (*s != '_' && !ft_isalpha(*s))
+	{
+		ft_putstr_fd("bash: export: `", 2);
+		ft_putstr_fd(export, 2);
+		ft_putendl_fd("': not a valid identifier", 2);
+		return (0);
+	}
+	while (*(++s))
+	{
+		if (*s != '_' && !ft_isalnum(*s))
+		{
+			ft_putstr_fd("bash: export: `", 2);
+			ft_putstr_fd(export, 2);
+			ft_putendl_fd("': not a valid identifier", 2);
+			return (0);
+		}
+	}
+	return (1);
 }
 
 void	ft_export(char **s)
 {
-	char	**temp;
-	int		len;
+	char	**split;
+	int		i;
 
-	if (*(s + 1))
-	{
-		len = two_ptr_counter(g_state.envp);
-		temp = cpy(g_state.envp, len);
-		temp[len] = ft_strdup(s[1]);
-		temp[len + 1] = NULL;
-		free(g_state.envp);
-		g_state.envp = temp;
-	}
-	else
+	i = 1;
+	if (two_ptr_counter(s) == 1)
 		print_env();
+	else
+	{
+		while (s[i])
+		{
+			split = ft_split(s[i], '=');
+			if (!check_validity(split[0], s[i]) \
+				|| !check_validity(split[1], s[i]))
+				break ;
+			if (!split)
+				malloc_error();
+			if (split[1])
+				do_export(split[0], s[i]);
+			free_double_pointer(&split);
+			i++;
+		}
+	}
 	g_state.exit_status = 0;
 }

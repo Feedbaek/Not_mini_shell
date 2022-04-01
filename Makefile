@@ -23,7 +23,6 @@ SRCS = srcs/main.c \
 		srcs/prompts/prompt.c \
 		srcs/prompts/parser.c \
 		srcs/prompts/process_env_var.c \
-		srcs/prompts/tokenize.c \
 		srcs/prompts/parse_utils.c \
 		srcs/prompts/parse_utils2.c \
 		srcs/prompts/exec_function.c \
@@ -31,6 +30,7 @@ SRCS = srcs/main.c \
 		srcs/utils/free_double_pointer.c \
 		srcs/utils/malloc_error.c \
 		srcs/utils/termios.c \
+		srcs/utils/equals.c \
 		srcs/signal/signal.c \
 		srcs/pipex/gnl/get_next_line_utils.c \
 		srcs/pipex/gnl/get_next_line_utils2.c \
@@ -101,4 +101,4 @@ fclean: clean
 re: fclean all
 
 debug: $(FT_LIBFT)
-	$(CC) -g $(SRCS) -o $(NAME) $(RL_LINKING) $(RL_COMPILE) $(LIBFT_LIB) -I$(HEADER)
+	$(CC) -g -fsanitize=address $(SRCS) -o $(NAME) $(RL_LINKING) $(RL_COMPILE) $(LIBFT_LIB) -I$(HEADER)
