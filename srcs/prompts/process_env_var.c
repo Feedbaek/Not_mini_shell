@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-static char	*find_env_var(char *s)
+char	*find_env_var(char *s)
 {
 	int		i;
 	int		len;
@@ -21,6 +21,8 @@ static char	*find_env_var(char *s)
 
 	i = -1;
 	len = ft_strlen(s);
+	if (equals(s, "?"))
+		return (ft_itoa(g_state.exit_status));
 	while (g_state.envp[++i])
 	{
 		temp = ft_split(g_state.envp[i], '=');
@@ -64,8 +66,8 @@ static char	*split(char *s)
 
 	i = 0;
 	if (equals(s, ""))
-		return (ft_strdup(""));
-	while (s[i] && s[i] != ' ')
+		return (ft_strdup("$"));
+	while (s[i] && (ft_isalnum(s[i]) || s[i] == '_' || s[i] == '?'))
 		i++;
 	res = (char *)malloc(i);
 	if (!res)

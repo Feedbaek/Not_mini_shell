@@ -12,23 +12,27 @@
 
 #include <minishell.h>
 
-static void	del_env(char **env, int idx)
+static void	del_env(int idx)
 {
 	int		i;
+	int		j;
 	char	**temp;
 
 	i = 0;
-	temp = (char **)malloc(sizeof(char *) * two_ptr_counter(env));
-	while (*env)
+	j = 0;
+	temp = (char **)malloc(sizeof(char *) * two_ptr_counter(g_state.envp));
+	if (!temp)
+		malloc_error();
+	while (g_state.envp[i])
 	{
 		if (i != idx)
 		{
-			temp[i] = *env;
-			i++;
+			temp[j] = g_state.envp[i];
+			j++;
 		}
-		env++;
+		i++;
 	}
-	temp[i] = NULL;
+	temp[j] = NULL;
 	free(g_state.envp);
 	g_state.envp = temp;
 }
@@ -37,16 +41,12 @@ void	ft_unset(char **s)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	g_state.exit_status = 0;
-	ft_strlcat(s[1], "=", ft_strlen(s[1]) + 1);
-	while (g_state.envp[i])
+	while (s[i])
 	{
-		if (!ft_strncmp(g_state.envp[i], s[1], ft_strlen(s[1])))
-		{
-			del_env(g_state.envp, i);
-			break ;
-		}
+		if (get_envp_idx(g_state.envp, s[i]) > -1)
+			del_env(get_envp_idx(g_state.envp, s[i]));
 		i++;
 	}
 }

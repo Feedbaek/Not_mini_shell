@@ -27,45 +27,28 @@ static void	print_env(void)
 
 static void	add_envp(char *s)
 {
-	char	**temp;
-	int		len;
 	int		i;
+	int		len;
+	char	**tmp;
 
-	i = 0;
+	i = -1;
 	len = two_ptr_counter(g_state.envp);
-	temp = (char **)malloc(len + 2);
-	if (!temp)
+	tmp = (char **)malloc(sizeof(char *) * (len + 2));
+	if (!tmp)
 		malloc_error();
-	while (g_state.envp[i])
-	{
-		temp[i] = ft_strdup(g_state.envp[i]);
-		i++;
-	}
-	temp[i++] = ft_strdup(s);
-	temp[i] = NULL;
-	free_double_pointer(&g_state.envp);
-	g_state.envp = temp;
+	while (g_state.envp[++i])
+		tmp[i] = g_state.envp[i];
+	tmp[i++] = ft_strdup(s);
+	tmp[i] = NULL;
+	free(g_state.envp);
+	g_state.envp = tmp;
 }
 
-static int	find_env(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (g_state.envp[i])
-	{
-		if (ft_strncmp(g_state.envp[i], s, ft_strlen(s) + 1) == '=')
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-static void	do_export(char *k, char *s)
+void	do_export(char *k, char *s)
 {
 	int	idx;
 
-	idx = find_env(k);
+	idx = get_envp_idx(g_state.envp, k);
 	if (idx < 0)
 		add_envp(s);
 	else
@@ -73,6 +56,28 @@ static void	do_export(char *k, char *s)
 		free(g_state.envp[idx]);
 		g_state.envp[idx] = ft_strdup(s);
 	}
+}
+
+static int	check_validity(char *s, char *export)
+{
+	if (*s != '_' && !ft_isalpha(*s))
+	{
+		ft_putstr_fd("bash: export: `", 2);
+		ft_putstr_fd(export, 2);
+		ft_putendl_fd("': not a valid identifier", 2);
+		return (0);
+	}
+	while (*(++s))
+	{
+		if (*s != '_' && !ft_isalnum(*s))
+		{
+			ft_putstr_fd("bash: export: `", 2);
+			ft_putstr_fd(export, 2);
+			ft_putendl_fd("': not a valid identifier", 2);
+			return (0);
+		}
+	}
+	return (1);
 }
 
 void	ft_export(char **s)
@@ -88,6 +93,9 @@ void	ft_export(char **s)
 		while (s[i])
 		{
 			split = ft_split(s[i], '=');
+			if (!check_validity(split[0], s[i]) \
+				|| !check_validity(split[1], s[i]))
+				break ;
 			if (!split)
 				malloc_error();
 			if (split[1])

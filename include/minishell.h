@@ -54,6 +54,8 @@ void	ft_unset(char **s);
 void	ft_env(void);
 void	ft_exit(char **s);
 
+void	do_export(char *k, char *s);
+
 void	cpy_env(char **env);
 void	handle_signal(int signo);
 void	handle_heredoc(int signo);
@@ -64,6 +66,7 @@ char	*one_ret_null(char **s);
 char	**d_ret_null(char ***s);
 void	malloc_error(void);
 int		equals(char *s1, char *s2);
+char	*find_env_var(char *s);
 
 void	echoctl_on(void);
 void	echoctl_off(void);
@@ -76,5 +79,6 @@ void	add_arg(t_cmd *x, char **arg);
 void	process_str(char *s, char **res);
 int		set_fd(int mode, char **redir, char	*filename);
 void	execute_func(t_cmd	*head);
+int		get_envp_idx(char **envp, char *s);
 
 #endif
