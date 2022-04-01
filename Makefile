@@ -31,6 +31,7 @@ SRCS = srcs/main.c \
 		srcs/utils/malloc_error.c \
 		srcs/utils/termios.c \
 		srcs/utils/equals.c \
+		srcs/utils/do_export.c \
 		srcs/signal/signal.c \
 		srcs/pipex/gnl/get_next_line_utils.c \
 		srcs/pipex/gnl/get_next_line_utils2.c \

@@ -25,49 +25,20 @@ static void	print_env(void)
 	}
 }
 
-static void	add_envp(char *s)
+static int	check(char *s, char *export, int i)
 {
-	int		i;
-	int		len;
-	char	**tmp;
-
-	i = -1;
-	len = two_ptr_counter(g_state.envp);
-	tmp = (char **)malloc(sizeof(char *) * (len + 2));
-	if (!tmp)
-		malloc_error();
-	while (g_state.envp[++i])
-		tmp[i] = g_state.envp[i];
-	tmp[i++] = ft_strdup(s);
-	tmp[i] = NULL;
-	free(g_state.envp);
-	g_state.envp = tmp;
-}
-
-void	do_export(char *k, char *s)
-{
-	int	idx;
-
-	idx = get_envp_idx(g_state.envp, k);
-	if (idx < 0)
-		add_envp(s);
-	else
+	if (i)
 	{
-		free(g_state.envp[idx]);
-		g_state.envp[idx] = ft_strdup(s);
+		if (*s != '_' && !ft_isalpha(*s))
+		{
+			ft_putstr_fd("bash: export: `", 2);
+			ft_putstr_fd(export, 2);
+			ft_putendl_fd("': not a valid identifier", 2);
+			return (0);
+		}
+		s++;
 	}
-}
-
-static int	check_validity(char *s, char *export)
-{
-	if (*s != '_' && !ft_isalpha(*s))
-	{
-		ft_putstr_fd("bash: export: `", 2);
-		ft_putstr_fd(export, 2);
-		ft_putendl_fd("': not a valid identifier", 2);
-		return (0);
-	}
-	while (*(++s))
+	while (*(s++))
 	{
 		if (*s != '_' && !ft_isalnum(*s))
 		{
@@ -78,6 +49,20 @@ static int	check_validity(char *s, char *export)
 		}
 	}
 	return (1);
+}
+
+static int	validate(char **split, char *s)
+{
+	int	k;
+	int	v;
+
+	k = 0;
+	v = 1;
+	if (split[0])
+		k = check(split[0], s, 1);
+	if (split[1])
+		v = check(split[1], s, 0);
+	return (k && v);
 }
 
 void	ft_export(char **s)
@@ -92,15 +77,14 @@ void	ft_export(char **s)
 	{
 		while (s[++i])
 		{
-			split = ft_split(s[i], '=');
-			if (two_ptr_counter(split) > 1)
+			if (ft_strchr(s[i], '='))
 			{
-				if (!check_validity(split[0], s[i]) \
-					|| !check_validity(split[1], s[i]))
-					break ;
+				split = ft_split(s[i], '=');
 				if (!split)
 					malloc_error();
-				if (split[1])
+				if (!validate(split, s[i]))
+					break ;
+				else
 					do_export(split[0], s[i]);
 				free_double_pointer(&split);
 			}
