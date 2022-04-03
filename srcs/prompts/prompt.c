@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 17:12:09 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/30 17:12:19 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/03 16:17:53 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	print_prompt(void)
 			{
 				parser(str, &head);
 				execute_func(head);
-				// free_cmds(&head);
+				free_cmds(&head);
 			}
 			if (ft_strncmp(str, "\n", ft_strlen(str)))
 				add_history(str);

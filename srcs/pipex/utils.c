@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:47:05 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/30 20:30:24 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/03 16:09:53 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,28 @@ int	minskim2_strncmp(const char *s1, const char *s2, size_t n)
 
 void	run_execve(t_cmd *cmd_arg)
 {
-	if (execve(cmd_arg->cmd, cmd_arg->argv, g_state.envp) == -1)
+	if (equals(cmd_arg->cmd, "echo"))
+		ft_echo(cmd_arg->argv);
+	else if (equals(cmd_arg->cmd, "cd"))
+		ft_cd(cmd_arg->argv);
+	else if (equals(cmd_arg->cmd, "pwd"))
+		ft_pwd();
+	else if (equals(cmd_arg->cmd, "export"))
+		ft_export(cmd_arg->argv);
+	else if (equals(cmd_arg->cmd, "unset"))
+		ft_unset(cmd_arg->argv);
+	else if (equals(cmd_arg->cmd, "env"))
+		ft_env();
+	else if (equals(cmd_arg->cmd, "exit"))
+		ft_exit(cmd_arg->argv);
+	else
 	{
-		printf("bash: %s: %s\n", cmd_arg->cmd, "command not found");
-		exit(127);
+		echoctl_on();
+		if (execve(cmd_arg->cmd, cmd_arg->argv, g_state.envp) == -1)
+		{
+			printf("bash: %s: %s\n", cmd_arg->cmd, "command not found");
+			exit(127);
+		}
 	}
 }
 

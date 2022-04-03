@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 11:25:35 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/01 19:50:27 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/04/03 16:14:00 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,5 @@ void	ft_unset(char **s)
 			del_env(get_envp_idx(g_state.envp, s[i]));
 		i++;
 	}
+	exit(0);
 }
