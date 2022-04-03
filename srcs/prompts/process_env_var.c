@@ -85,6 +85,7 @@ void	process_env_var(char **s)
 	char	*temp2;
 
 	res = ft_strdup(*s);
+    free(*s);
 	while (1)
 	{
 		s_c_addr = ft_strchr(res, '$');
