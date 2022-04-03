@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_env_var.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 12:59:34 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/10 16:37:02 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/04/03 20:11:09 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	process_env_var(char **s)
 	char	*temp2;
 
 	res = ft_strdup(*s);
-    free(*s);
+	free(*s);
 	while (1)
 	{
 		s_c_addr = ft_strchr(res, '$');
