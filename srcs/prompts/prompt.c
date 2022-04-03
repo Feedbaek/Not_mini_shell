@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 17:12:09 by minskim2          #+#    #+#             */
-/*   Updated: 2022/04/03 16:17:53 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/03 16:57:28 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static void	free_cmds(t_cmd **head)
 			free(tab->redirect_out);
 		if (tab->redirect_out_add)
 			free(tab->redirect_out_add);
-		temp = tab;
+		temp = tab->next;
 		free(tab);
-		tab = temp->next;
+		tab = temp;
 	}
 }
 

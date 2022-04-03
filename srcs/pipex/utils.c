@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:47:05 by minskim2          #+#    #+#             */
-/*   Updated: 2022/04/03 16:09:53 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/03 16:54:55 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,19 @@ int	minskim2_strncmp(const char *s1, const char *s2, size_t n)
 
 void	run_execve(t_cmd *cmd_arg)
 {
-	if (equals(cmd_arg->cmd, "echo"))
+	if (equals(cmd_arg->argv[0], "echo"))
 		ft_echo(cmd_arg->argv);
-	else if (equals(cmd_arg->cmd, "cd"))
+	else if (equals(cmd_arg->argv[0], "cd"))
 		ft_cd(cmd_arg->argv);
-	else if (equals(cmd_arg->cmd, "pwd"))
+	else if (equals(cmd_arg->argv[0], "pwd"))
 		ft_pwd();
-	else if (equals(cmd_arg->cmd, "export"))
+	else if (equals(cmd_arg->argv[0], "export"))
 		ft_export(cmd_arg->argv);
-	else if (equals(cmd_arg->cmd, "unset"))
+	else if (equals(cmd_arg->argv[0], "unset"))
 		ft_unset(cmd_arg->argv);
-	else if (equals(cmd_arg->cmd, "env"))
+	else if (equals(cmd_arg->argv[0], "env"))
 		ft_env();
-	else if (equals(cmd_arg->cmd, "exit"))
+	else if (equals(cmd_arg->argv[0], "exit"))
 		ft_exit(cmd_arg->argv);
 	else
 	{
@@ -70,7 +70,10 @@ void	wait_pid(t_cmd *cmd_arg)
 	while (parser)
 	{
 		if (parser->limiter)
+		{
 			unlink(parser->tmp);
+			free(parser->tmp);
+		}
 		parser = parser->next;
 	}
 }

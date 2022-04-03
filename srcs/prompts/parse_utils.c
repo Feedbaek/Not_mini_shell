@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 12:00:37 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/24 16:09:45 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/03 17:32:09 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	join_free(char **src, char *s, char **b_p, bool quote)
 	char	*temp;
 	char	*temp2;
 
-	temp = (char *)malloc(s - *b_p);
+	temp = (char *)malloc(s - *b_p + 1);
 	if (!temp)
 		exit(EXIT_FAILURE);
 	ft_strlcpy(temp, *b_p, s - *b_p + 1);
@@ -77,17 +77,6 @@ void	process_str(char *s, char **res)
 		join_free(res, s, &b_p, quotes[0]);
 }
 
-static void	add_cmd(char **envp, t_cmd *x, char **s)
-{
-	if (equals(*s, "cd") || equals(*s, "echo") || \
-		equals(*s, "env") || equals(*s, "exit") || \
-		equals(*s, "export") || equals(*s, "pwd") || \
-		equals(*s, "unset"))
-		x->cmd = *s;
-	else
-		path_finder(g_state.envp, x, *s);
-}
-
 void	add_arg(t_cmd *x, char **arg)
 {
 	int		i;
@@ -113,6 +102,6 @@ void	add_arg(t_cmd *x, char **arg)
 		temp[++i] = NULL;
 	}
 	if (!len)
-		add_cmd(g_state.envp, x, arg);
+		path_finder(g_state.envp, x, *arg);
 	x->argv = temp;
 }
