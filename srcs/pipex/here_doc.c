@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:18:54 by minskim2          #+#    #+#             */
-/*   Updated: 2022/04/03 16:22:44 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/03 20:41:54 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ static void	run_here_doc(t_cmd *cmd_arg)
 		if (status < 0)
 			print_str_error("get_next_line");
 	}
+	free(buff);
 	close(fd);
 }
 
