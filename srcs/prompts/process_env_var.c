@@ -15,12 +15,10 @@
 char	*find_env_var(char *s)
 {
 	int		i;
-	int		len;
 	char	**temp;
 	char	*res;
 
 	i = -1;
-	len = ft_strlen(s);
 	if (equals(s, "?"))
 		return (ft_itoa(g_state.exit_status));
 	while (g_state.envp[++i])
@@ -30,7 +28,10 @@ char	*find_env_var(char *s)
 			malloc_error();
 		if (equals(temp[0], s))
 		{
-			res = ft_strdup(temp[1]);
+			if (temp[1])
+				res = ft_strdup(temp[1]);
+			else
+				res = ft_strdup("");
 			free_double_pointer(&temp);
 			return (res);
 		}
