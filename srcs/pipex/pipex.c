@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:53:38 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/30 22:12:14 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/03 16:09:38 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void	test_pipex(t_cmd *head)
 		parser->pid = fork();
 		if (!parser->pid)
 			child_process(parser, pipe_a, pipe_b);
+		echoctl_off();
 		parser = parser->next;
 	}
 	wait_pid(head);

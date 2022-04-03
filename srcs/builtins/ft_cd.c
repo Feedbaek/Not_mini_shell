@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 22:48:56 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/24 22:42:18 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/04/03 16:14:05 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,5 @@ void	ft_cd(char **s)
 			store_pwd(g_state.envp[home_idx]);
 		}
 	}
+	exit(0);
 }

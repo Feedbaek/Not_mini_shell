@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 01:57:54 by minskim2          #+#    #+#             */
-/*   Updated: 2022/02/24 17:30:08 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/03 16:17:21 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ static int	path_split(char **envp, t_cmd *x)
 
 int	path_finder(char **envp, t_cmd *x, char*split)
 {
-	int		mode;
-	char	**parser;
+	int			mode;
+	char		**parser;
+	struct stat	sta;
 
-	mode = F_OK | X_OK;
 	if (!path_split(envp, x))
 		return (0);
 	parser = x->path;
@@ -53,10 +53,11 @@ int	path_finder(char **envp, t_cmd *x, char*split)
 		x->cmd = minskim2_strjoin(*parser, split);
 		if (!x->cmd)
 			return (0);
-		if (!access(x->cmd, mode))
+		if (!stat(x->cmd, &sta))
 			return (1);
 		free(x->cmd);
 		parser++;
 	}
+	x->cmd = ft_strdup(split);
 	return (0);
 }

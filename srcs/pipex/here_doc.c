@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:18:54 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/30 22:30:16 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/03 16:17:07 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ static void	run_here_doc(t_cmd *cmd_arg)
 	status = get_next_line(0, &buff);
 	if (status < 0)
 		print_str_error("get_next_line");
-	while (!ft_strlen(buff) || ft_strncmp(buff, cmd_arg->limiter, ft_strlen(buff)) != 0)
+	while (!equals(buff, cmd_arg->limiter))
 	{
 		if (!status)
-			break;
+			break ;
 		if (write(fd, buff, ft_strlen(buff)) < 0 || write(fd, "\n", 1) < 0)
 			print_str_error("write");
 		write(1, "> ", 2);
@@ -88,11 +88,6 @@ static void	run_here_doc(t_cmd *cmd_arg)
 			print_str_error("get_next_line");
 	}
 	close(fd);
-}
-
-void	handle()
-{
-	g_state.heredoc_status = 1;
 }
 
 void	here_doc(t_cmd *cmd_arg)

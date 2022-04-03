@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:12:41 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/02/22 16:24:26 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/03 16:14:03 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,5 @@ void	ft_exit(char **s)
 	}
 	else
 		ft_putendl_fd("exit: too many arguments", 1);
+	exit(0);
 }
