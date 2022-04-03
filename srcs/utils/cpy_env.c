@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cpy_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 14:30:20 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/01 19:21:29 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/04/03 16:32:05 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	cpy_env(char **env)
 {
 	int		i;
 	int		level;
+	char	*temp;
 
 	i = 0;
 	g_state.envp = (char **)malloc(sizeof(char *) * (two_ptr_counter(env) + 1));
@@ -38,7 +39,9 @@ void	cpy_env(char **env)
 		if (!ft_strncmp("SHLVL=", env[i], 6))
 		{
 			level = ft_atoi(env[i] + 6) + 1;
-			g_state.envp[i] = ft_strjoin("SHLVL=", ft_itoa(level));
+			temp = ft_itoa(level);
+			g_state.envp[i] = ft_strjoin("SHLVL=", temp);
+			free(temp);
 		}
 		else
 			g_state.envp[i] = ft_strdup(env[i]);

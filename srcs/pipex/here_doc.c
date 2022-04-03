@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 19:18:54 by minskim2          #+#    #+#             */
-/*   Updated: 2022/04/03 16:17:07 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/03 16:22:44 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static void	run_here_doc(t_cmd *cmd_arg)
 			break ;
 		if (write(fd, buff, ft_strlen(buff)) < 0 || write(fd, "\n", 1) < 0)
 			print_str_error("write");
+		free(buff);
 		write(1, "> ", 2);
 		status = get_next_line(0, &buff);
 		if (status < 0)
