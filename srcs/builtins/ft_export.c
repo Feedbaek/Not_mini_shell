@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 14:01:03 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/04/05 18:59:42 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/05 22:36:30 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_export(char **s, int flag)
 				split = ft_split(s[i], '=');
 				if (!split)
 					malloc_error();
-				if (check(split, s[i]))
+				if (check(split[0], s[i]))
 					do_export(split[0], s[i]);
 				free_double_pointer(&split);
 			}
