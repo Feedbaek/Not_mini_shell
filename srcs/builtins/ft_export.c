@@ -52,16 +52,6 @@ static int	check(char *s, char *export)
 	return (1);
 }
 
-static int	validate(char **split, char *s)
-{
-	int	k;
-
-	k = 0;
-	if (split[0])
-		k = check(split[0], s);
-	return (k);
-}
-
 void	ft_export(char **s, int flag)
 {
 	char	**split;
@@ -79,7 +69,7 @@ void	ft_export(char **s, int flag)
 				split = ft_split(s[i], '=');
 				if (!split)
 					malloc_error();
-				if (validate(split, s[i]))
+				if (check(split, s[i]))
 					do_export(split[0], s[i]);
 				free_double_pointer(&split);
 			}
