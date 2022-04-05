@@ -40,24 +40,25 @@ char	*find_env_var(char *s)
 	return (ft_strdup(""));
 }
 
-static char	*join_env_value(char *s, char *env_k, char *s_c_addr)
+static void	join_env_value(char **s, char *env_k, char *s_c_addr)
 {
 	char	*res;
 	char	*env_v;
 
-	env_v = find_env_var(env_k);
+	if (equals("", env_k))
+		env_v = ft_strdup("$");
+	else
+		env_v = find_env_var(env_k);
 	if (!env_v)
-		return (NULL);
-	res = (char *)malloc(ft_strlen(s) + ft_strlen(env_v) - ft_strlen(env_k));
+		malloc_error();
+	res = (char *)malloc(ft_strlen(*s) + ft_strlen(env_v) + 1);
 	if (!res)
-		return (NULL);
-	ft_strlcpy(res, s, s_c_addr - s + 1);
+		malloc_error();
+	ft_strlcpy(res, *s, ft_strlen(*s) + 1);
 	ft_strlcat(res, env_v, ft_strlen(res) + ft_strlen(env_v) + 1);
-	ft_strlcat(res, s_c_addr + ft_strlen(env_k) + 1, \
-				ft_strlen(res) + ft_strlen(s_c_addr + ft_strlen(env_k) + 1) \
-				+ 1);
 	free(env_v);
-	return (res);
+	free(*s);
+	*s = res;
 }
 
 static char	*split(char *s)
@@ -67,7 +68,7 @@ static char	*split(char *s)
 
 	i = 0;
 	if (equals(s, ""))
-		return (ft_strdup("$"));
+		return (ft_strdup(""));
 	while (s[i] && (ft_isalnum(s[i]) || s[i] == '_' || s[i] == '?'))
 		i++;
 	res = (char *)malloc(i);
@@ -83,16 +84,22 @@ void	process_env_var(char **s)
 	char	*res;
 	char	*temp;
 
-	res = ft_strdup(*s);
+	res = NULL;
 	s_c_addr = ft_strchr(*s, '$');
-	while (s_c_addr)
+	if (s_c_addr)
 	{
-		temp = split(s_c_addr + 1);
-		res = join_env_value(res, temp, s_c_addr);
-		s_c_addr = ft_strchr(s_c_addr, '$');
-		free(temp);
-		free(res);
+		res = (char *)malloc(s_c_addr - *s + 1);
+		if (!res)
+			malloc_error();
+		ft_strlcpy(res, *s, s_c_addr - *s + 1);
+		while (s_c_addr)
+		{
+			temp = split(s_c_addr + 1);
+			join_env_value(&res, temp, s_c_addr + ft_strlen(temp) + 1);
+			s_c_addr = ft_strchr(s_c_addr + ft_strlen(temp) + 1, '$');
+			free(temp);
+		}
+		free(*s);
+		*s = res;
 	}
-	free(*s);
-	*s = res;
 }
