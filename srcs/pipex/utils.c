@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:47:05 by minskim2          #+#    #+#             */
-/*   Updated: 2022/04/05 17:58:45 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/05 19:44:13 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,12 @@ void	wait_pid(t_cmd *cmd_arg)
 	while (parser)
 	{
 		waitpid(parser->pid, &(parser->status), 0);
-		g_state.exit_status = parser->status / 256;
+		g_state.exit_status = parser->status % 255;
+		if (parser->status == SIGQUIT)
+		{
+			ft_putendl_fd("Quit: 3", 2);
+			g_state.exit_status = 131;
+		}
 		parser = parser->next;
 	}
 	parser = cmd_arg;

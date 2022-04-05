@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 11:35:26 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/30 22:29:08 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/05 19:40:34 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	handle_signal(int signo)
 	{
 		if (pid == -1)
 		{
+			g_state.exit_status = 1;
 			write(STDOUT_FILENO, "\n", 1);
 			if (rl_on_new_line() == -1)
 				exit(1);
