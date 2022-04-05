@@ -89,6 +89,7 @@ void	process_env_var(char **s)
 	{
 		temp = split(s_c_addr + 1);
 		res = join_env_value(res, temp, s_c_addr);
+		s_c_addr = ft_strchr(s_c_addr, '$');
 		free(temp);
 		free(res);
 	}

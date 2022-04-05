@@ -34,11 +34,11 @@ int	get_envp_idx(char **envp, char *s)
 			malloc_error();
 		if (equals(temp[0], s))
 		{
-			free(&temp);
+			free_double_pointer(&temp);
 			return (i);
 		}
+		free_double_pointer(&temp);
 		i++;
-		free(&temp);
 	}
 	return (-1);
 }
