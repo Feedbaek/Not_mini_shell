@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 12:00:37 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/04/03 17:32:09 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/05 21:11:03 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ int	set_fd(int mode, char **redir, char	*filename)
 {
 	int	fd;
 
+	if (!filename)
+	{
+		ft_putendl_fd("bash: syntax error near unexpected token 'newline'", 2);
+		return (-1);
+	}
 	if (mode == 2 || mode == 4)
 	{
 		fd = open(filename, O_CREAT, 0644);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sungmcho <sungmcho@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 18:10:14 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/03/15 15:14:06 by sungmcho         ###   ########.fr       */
+/*   Updated: 2022/04/05 21:12:53 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,20 @@ static void	init_struct(t_cmd **x)
 
 static int	check_redir(char *s1, char *s2, t_cmd *x)
 {
+	int	ret;
+
+	ret = 0;
 	if (equals(s1, "<"))
-		return (set_fd(1, &(x->redirect_in), s2));
+		ret = set_fd(1, &(x->redirect_in), s2);
 	else if (equals(s1, ">"))
-		return (set_fd(2, &(x->redirect_out), s2));
+		ret = set_fd(2, &(x->redirect_out), s2);
 	else if (equals(s1, "<<"))
-		return ((set_fd(3, &(x->limiter), s2)));
+		ret = (set_fd(3, &(x->limiter), s2));
 	else if (equals(s1, ">>"))
-		return ((set_fd(4, &(x->redirect_out_add), s2)));
+		ret = (set_fd(4, &(x->redirect_out_add), s2));
 	else
-		return (0);
+		ret = 0;
+	return (ret);
 }
 
 static void	cmd_init(char *s, t_cmd *x)
@@ -59,7 +63,9 @@ static void	cmd_init(char *s, t_cmd *x)
 	while (temp[++i])
 	{
 		fd_checker = check_redir(temp[i], temp[i + 1], x);
-		if (fd_checker)
+		if (fd_checker < 0)
+			break ;
+		else if (fd_checker == 1)
 			i += fd_checker;
 		else
 		{

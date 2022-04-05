@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 12:59:34 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/04/03 20:11:09 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/05 21:40:18 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static char	*join_env_value(char *s, char *env_k, char *s_c_addr)
 	char	*res;
 	char	*env_v;
 
+	if (equals("$", env_k))
+		return (ft_strdup("$"));
 	env_v = find_env_var(env_k);
 	if (!env_v)
 		return (NULL);
