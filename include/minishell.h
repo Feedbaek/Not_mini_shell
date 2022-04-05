@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:12:00 by minskim2          #+#    #+#             */
-/*   Updated: 2022/03/30 22:26:22 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/05 17:58:03 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ typedef struct s_parsed
 
 extern t_state	g_state;
 
-void	ft_echo(char **s);
-void	ft_cd(char **s);
-void	ft_pwd(void);
-void	ft_export(char **s);
-void	ft_unset(char **s);
-void	ft_env(void);
-void	ft_exit(char **s);
+void	ft_echo(char **s, int flag);
+void	ft_cd(char **s, int flag);
+void	ft_pwd(int flag);
+void	ft_export(char **s, int flag);
+void	ft_unset(char **s, int flag);
+void	ft_env(int flag);
+void	ft_exit(char **s, int flag);
 
 void	do_export(char *k, char *s);
 

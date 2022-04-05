@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 22:47:23 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/04/03 16:14:04 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/05 17:56:31 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	check_t_opt(char *s)
 		return (0);
 }
 
-void	ft_echo(char **s)
+void	ft_echo(char **s, int flag)
 {
 	int	t_opt;
 
@@ -44,5 +44,6 @@ void	ft_echo(char **s)
 			ft_putchar_fd('\n', 1);
 	}
 	g_state.exit_status = 0;
-	exit(0);
+	if (flag)
+		exit(0);
 }

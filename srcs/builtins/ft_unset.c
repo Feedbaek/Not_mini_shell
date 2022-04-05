@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 11:25:35 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/04/03 16:14:00 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/05 17:57:40 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	del_env(int idx)
 	g_state.envp = temp;
 }
 
-void	ft_unset(char **s)
+void	ft_unset(char **s, int flag)
 {
 	int	i;
 
@@ -49,5 +49,6 @@ void	ft_unset(char **s)
 			del_env(get_envp_idx(g_state.envp, s[i]));
 		i++;
 	}
-	exit(0);
+	if (flag)
+		exit(0);
 }

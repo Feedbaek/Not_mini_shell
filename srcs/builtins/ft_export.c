@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 14:01:03 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/04/03 16:14:02 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/05 18:24:07 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,24 @@ static int	check(char *s, char *export, int i)
 {
 	if (i)
 	{
-		if (*s != '_' && !ft_isalpha(*s))
+		if (s[0] != '_' && !ft_isalpha(s[0]))
 		{
 			ft_putstr_fd("bash: export: `", 2);
 			ft_putstr_fd(export, 2);
 			ft_putendl_fd("': not a valid identifier", 2);
 			return (0);
 		}
-		s++;
 	}
-	while (*(s++))
+	while (s[i])
 	{
-		if (*s != '_' && !ft_isalnum(*s))
+		if (s[i] != '_' && !ft_isalnum(s[i]) && s[i] != '=')
 		{
 			ft_putstr_fd("bash: export: `", 2);
 			ft_putstr_fd(export, 2);
 			ft_putendl_fd("': not a valid identifier", 2);
 			return (0);
 		}
+		i++;
 	}
 	return (1);
 }
@@ -65,7 +65,7 @@ static int	validate(char **split, char *s)
 	return (k && v);
 }
 
-void	ft_export(char **s)
+void	ft_export(char **s, int flag)
 {
 	char	**split;
 	int		i;
@@ -82,14 +82,13 @@ void	ft_export(char **s)
 				split = ft_split(s[i], '=');
 				if (!split)
 					malloc_error();
-				if (!validate(split, s[i]))
-					break ;
-				else
+				if (validate(split, s[i]))
 					do_export(split[0], s[i]);
 				free_double_pointer(&split);
 			}
 		}
 	}
 	g_state.exit_status = 0;
-	exit(0);
+	if (flag)
+		exit(0);
 }
