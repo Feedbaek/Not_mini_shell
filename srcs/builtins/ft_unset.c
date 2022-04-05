@@ -33,7 +33,7 @@ static void	del_env(int idx)
 		i++;
 	}
 	temp[j] = NULL;
-	free(g_state.envp[i]);
+	free(g_state.envp[idx]);
 	free(g_state.envp);
 	g_state.envp = temp;
 }
