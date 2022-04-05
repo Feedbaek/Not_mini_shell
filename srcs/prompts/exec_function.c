@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 17:12:31 by minskim2          #+#    #+#             */
-/*   Updated: 2022/04/05 18:06:15 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/05 18:55:17 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ void	execute_func(t_cmd	*head)
 			else
 				test_pipex(head);
 		}
+		echoctl_off();
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 14:01:03 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/04/05 18:24:07 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/05 18:59:42 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,22 @@ static void	print_env(void)
 	}
 }
 
-static int	check(char *s, char *export, int i)
+static int	check(char *s, char *export)
 {
-	if (i)
+	int	i;
+
+	i = 0;
+	if (s[i] != '_' && !ft_isalpha(s[i]))
 	{
-		if (s[0] != '_' && !ft_isalpha(s[0]))
-		{
-			ft_putstr_fd("bash: export: `", 2);
-			ft_putstr_fd(export, 2);
-			ft_putendl_fd("': not a valid identifier", 2);
-			return (0);
-		}
+		ft_putstr_fd("bash: export: `", 2);
+		ft_putstr_fd(export, 2);
+		ft_putendl_fd("': not a valid identifier", 2);
+		return (0);
 	}
+	i++;
 	while (s[i])
 	{
-		if (s[i] != '_' && !ft_isalnum(s[i]) && s[i] != '=')
+		if (s[i] != '_' && !ft_isalnum(s[i]))
 		{
 			ft_putstr_fd("bash: export: `", 2);
 			ft_putstr_fd(export, 2);
@@ -54,15 +55,11 @@ static int	check(char *s, char *export, int i)
 static int	validate(char **split, char *s)
 {
 	int	k;
-	int	v;
 
 	k = 0;
-	v = 1;
 	if (split[0])
-		k = check(split[0], s, 1);
-	if (split[1])
-		v = check(split[1], s, 0);
-	return (k && v);
+		k = check(split[0], s);
+	return (k);
 }
 
 void	ft_export(char **s, int flag)
