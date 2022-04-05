@@ -24,7 +24,7 @@ void	ft_echo(char **s, int flag)
 {
 	int	t_opt;
 
-	if (!*s[1])
+	if (two_ptr_counter(s) == 1)
 		ft_putchar_fd('\n', 1);
 	else
 	{
