@@ -82,23 +82,16 @@ void	process_env_var(char **s)
 	char	*s_c_addr;
 	char	*res;
 	char	*temp;
-	char	*temp2;
 
 	res = ft_strdup(*s);
-	free(*s);
-	while (1)
+	s_c_addr = ft_strchr(*s, '$');
+	while (s_c_addr)
 	{
-		s_c_addr = ft_strchr(res, '$');
-		if (s_c_addr)
-		{
-			temp = split(s_c_addr + 1);
-			temp2 = join_env_value(res, temp, s_c_addr);
-			free(temp);
-			free(res);
-			res = temp2;
-		}
-		else
-			break ;
+		temp = split(s_c_addr + 1);
+		res = join_env_value(res, temp, s_c_addr);
+		free(temp);
+		free(res);
 	}
+	free(*s);
 	*s = res;
 }
