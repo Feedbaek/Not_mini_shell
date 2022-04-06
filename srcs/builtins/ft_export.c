@@ -6,7 +6,7 @@
 /*   By: minskim2 <minskim2@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 14:01:03 by sungmcho          #+#    #+#             */
-/*   Updated: 2022/04/05 22:36:30 by minskim2         ###   ########.fr       */
+/*   Updated: 2022/04/06 19:20:45 by minskim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	check(char *s, char *export)
 	int	i;
 
 	i = 0;
-	if (s[i] != '_' && !ft_isalpha(s[i]))
+	if (!s || *export == '=' || (s[i] != '_' && !ft_isalpha(s[i])))
 	{
 		ft_putstr_fd("bash: export: `", 2);
 		ft_putstr_fd(export, 2);
@@ -64,15 +64,12 @@ void	ft_export(char **s, int flag)
 	{
 		while (s[++i])
 		{
-			if (ft_strchr(s[i], '='))
-			{
-				split = ft_split(s[i], '=');
-				if (!split)
-					malloc_error();
-				if (check(split[0], s[i]))
-					do_export(split[0], s[i]);
-				free_double_pointer(&split);
-			}
+			split = ft_split(s[i], '=');
+			if (!split)
+				malloc_error();
+			if (check(split[0], s[i]))
+				do_export(split[0], s[i]);
+			free_double_pointer(&split);
 		}
 	}
 	g_state.exit_status = 0;
